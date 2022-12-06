@@ -67,22 +67,22 @@
     
     
     <entry>
-      <title>关于</title>
-      <link href="/about/index.html"/>
-      <url>/about/index.html</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1.本站基于hexo进行搭建。感谢提供源码以及插件的github大佬们提供无私的技术支持。<br>2.联系方式 p772307283@outlook.com<br>3.转载文章请标明出处。<br>4.网站不盈利，纯粹的作为分享知识和技术和快乐的一个小家。<br>5.如果你觉得帮到了你，可以分享给需要的朋友，我会非常开心。<br>6.在使用过程中发现了问题，可以联系我。<br>7.如果你也想搭建自己的站点，可以联系我，无偿进行教学。<br>8.网站会不断的完善更新新内容，希望你使用愉快。</p>]]></content>
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       
     </entry>
     
     
     
     <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
+      <title>关于</title>
+      <link href="/about/index.html"/>
+      <url>/about/index.html</url>
       
-        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>1.本站基于hexo进行搭建。感谢提供源码以及插件的github大佬们提供无私的技术支持。<br>2.联系方式 p772307283@outlook.com<br>3.转载文章请标明出处。<br>4.网站不盈利，纯粹的作为分享知识和技术和快乐的一个小家。<br>5.如果你觉得帮到了你，可以分享给需要的朋友，我会非常开心。<br>6.在使用过程中发现了问题，可以联系我。<br>7.如果你也想搭建自己的站点，可以联系我，无偿进行教学。<br>8.网站会不断的完善更新新内容，希望你使用愉快。</p>]]></content>
       
     </entry>
     
@@ -100,9 +100,9 @@
     
     
     <entry>
-      <title>标签</title>
-      <link href="/tags/index.html"/>
-      <url>/tags/index.html</url>
+      <title>友链</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
         <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       
@@ -111,9 +111,9 @@
     
     
     <entry>
-      <title>友链</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script>]]></content>
       
