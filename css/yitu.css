@@ -178,32 +178,32 @@
 
 
   /* 一级菜单居中 */
-#nav .menus_items {
+/*#nav .menus_items {
   position: absolute !important;
   width: fit-content !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
 }
 /* 子菜单横向展示 */
-#nav .menus_items .menus_item:hover .menus_item_child {
+/*#nav .menus_items .menus_item:hover .menus_item_child {
   display: flex !important;
 }
 /* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 */
-.menus_items .menus_item:nth-child(2) .menus_item_child {
+/*.menus_items .menus_item:nth-child(2) .menus_item_child {
   left: -125px;
 }
+*/
 
-@import "//at.alicdn.com/t/c/font_3812295_9qn7ytta03p.css";
 
-.iconfont {
+/* .iconfont {
   font-family: "iconfont" !important;
-  font-size: 8em;
+  font-size: 8em; */
   /* 可以定义图标大小 */
-  font-style: normal;
+  /* font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   }
-
+ */
 
 
 
@@ -367,7 +367,7 @@
 
 
 
-#site-name::before{
+/* #site-name::before{
   opacity: 0;
   background-color: var(--lyx-theme)!important;
   border-radius: 8px;
@@ -391,8 +391,8 @@
   text-align: center;
   color:white;
   line-height:34px;/*如果有溢出或者垂直不居中的现象微调一下这个参数*/
-  font-size: 18px;/*根据个人喜好*/
-}
+  /* font-size: 18px;/*根据个人喜好*/
+/* }
 #site-name:hover::before{
   opacity: 1;
   scale:1.03;
@@ -400,10 +400,10 @@
 #site-name{
   position: relative;
   font-size: 24px; /*一定要把字体调大点，否则效果惨不忍睹！*/
-}
+/*}
 :root{
   --lyx-theme: yellow/*#ed709b*/ /*我的主题色*/
-}
+/*}
 
 
 .nav-fixed #nav{
@@ -421,4 +421,11 @@
   -o-transition: none!important;
 }
 
-
+ */
+ svg.icon {
+  width: 1em; height: 1em;
+  /* width和height定义图标的默认宽度和高度*/
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
