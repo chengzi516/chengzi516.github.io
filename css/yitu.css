@@ -406,7 +406,7 @@ img {
   max-width: 1200px;
   margin: 0 auto 12px;
   display: flex;
-  color: rgb(255 255 255 / 80%) !important;
+  color: rgba(11, 22, 228, 0.8) !important;
   text-align: left;
   flex-wrap: wrap;
 }
@@ -465,7 +465,7 @@ img {
 }
 
 .btn-xz-box:hover .btn-xz {
-  background-color: #6f42c1;
+  background-color: #1383ec;
 }
 
 .t-top .t-t-r {
