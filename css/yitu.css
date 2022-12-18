@@ -288,9 +288,7 @@
 
 
 
-#footer{
-  opacity: 50;
-}
+
 
 /* 滚动条 */
 ::-webkit-scrollbar {
@@ -406,7 +404,7 @@ img {
   max-width: 1200px;
   margin: 0 auto 12px;
   display: flex;
-  color: rgba(11, 22, 228, 0.8) !important;
+  color: rgba(245, 246, 251, 0.8) !important;
   text-align: left;
   flex-wrap: wrap;
 }
@@ -465,7 +463,7 @@ img {
 }
 
 .btn-xz-box:hover .btn-xz {
-  background-color: #1383ec;
+  background-color: #0b65e2;
 }
 
 .t-top .t-t-r {
@@ -488,7 +486,7 @@ img {
 
 .ft-links li a:hover {
   text-decoration: none !important;
-  color: #6f42c1 !important;
+  color: #0b82bd !important;
 }
 
 .ft-item-2 .ft-img-group {
@@ -558,3 +556,18 @@ img {
 /* 自定义底部  End */
 
 
+
+
+
+/* 页脚半透明 */
+#footer {
+  background: rgba(255, 255, 255, 0);
+  color: #000;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  backdrop-filter: saturate(100%) blur(5px)
+}
+
+#footer::before {
+  background: rgba(255,255,255,0)
+}
