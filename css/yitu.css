@@ -591,3 +591,36 @@ img {
   /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */
   z-index: -1;
 }
+
+
+/*宽屏*/
+
+
+.layout{
+  max-width:1400px;
+}
+
+.aside-content{
+  max-width:312px;
+  min-width:300px;
+}
+.recent-posts{
+width:auto!important;
+}
+
+@media screen and (max-width: 900px){
+  .card-widget:not(#card-toc){
+      display:none!important;
+  }
+  /*因为目录可以用侧边栏展开，所以不能隐藏*/
+}
+
+
+
+#archive,#page,#category,#tag{
+  width:100%;
+}
+.page:not(.page.home) .aside-content{
+  display: none;
+}
+
