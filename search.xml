@@ -279,33 +279,11 @@
     
     
     <entry>
-      <title>bangumis</title>
-      <link href="/bangumis/index.html"/>
-      <url>/bangumis/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>便携小空调 - 为你的夏日带去清凉!</title>
       <link href="/air-conditioner/index.html"/>
       <url>/air-conditioner/index.html</url>
       
         <content type="html"><![CDATA[<blockquote><p>终于为博客安装上了便携小空调</p></blockquote><style>.copyright-box a {  border-bottom: none !important;  padding: 0 !important;}</style><p><div id="air-conditioner-vue"></div></p><script defer data-pjax src='https://alist.anzhiy.cn/d/anzhiyu/air-conditioner-dev/index.2d8c3a3f.js'></script>]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>分类</title>
-      <link href="/categories/index.html"/>
-      <url>/categories/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -334,22 +312,33 @@
     
     
     <entry>
-      <title>统计</title>
-      <link href="/charts/index.html"/>
-      <url>/charts/index.html</url>
+      <title></title>
+      <link href="/css/yitu.css"/>
+      <url>/css/yitu.css</url>
       
-        <content type="html"><![CDATA[<div id="recent-posts"></div><!-- 文章发布时间统计图 --><div id="posts-chart" data-start="2021-01" style="border-radius: 8px; height: 300px; padding: 10px;"></div><!-- 文章标签统计图 --><div id="tags-chart" data-length="10" style="border-radius: 8px; height: 300px; padding: 10px;"></div><!-- 文章分类统计图 --><div id="categories-chart" data-parent="true" style="border-radius: 8px; height: 300px; padding: 10px;"></div>]]></content>
+        <content type="html"><![CDATA[ /* 页脚与头图透明 */#footer {  background: transparent !important;}#page-header {  background: transparent !important;}/* 白天模式遮罩透明 */#footer::before {  background: transparent !important;}#page-header::before {  background: transparent !important;}/* 夜间模式遮罩透明 */[data-theme="dark"] #footer::before {  background: transparent !important;}[data-theme="dark"] #page-header::before {  background: transparent !important;}   :root {    --trans-light: rgba(255, 255, 255, 0.88);    --trans-dark: rgba(25, 25, 25, 0.88);    --border-style: 1px solid rgb(169, 169, 169);    --backdrop-filter: blur(5px) saturate(150%);  }    /* 首页文章卡片 */  #recent-posts > .recent-post-item {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border-radius: 25px;    border: var(--border-style);  }    /* 首页侧栏卡片 */  #aside-content .card-widget {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border-radius: 18px;    border: var(--border-style);  }    /* 文章页、归档页、普通页面 */  div#post,  div#page,  div#archive {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border: var(--border-style);    border-radius: 20px;  }    /* 导航栏 */  #page-header.nav-fixed #nav {    background: rgba(255, 255, 255, 0.75);    backdrop-filter: var(--backdrop-filter);  }    [data-theme="dark"] #page-header.nav-fixed #nav {    background: rgba(0, 0, 0, 0.7) !important;  }    /* 夜间模式遮罩 */  [data-theme="dark"] #recent-posts > .recent-post-item,  [data-theme="dark"] #aside-content .card-widget,  [data-theme="dark"] div#post,  [data-theme="dark"] div#archive,  [data-theme="dark"] div#page {    background: var(--trans-dark);  }      /* 夜间模式页脚页头遮罩透明 */  [data-theme="dark"] #footer::before {    background: transparent !important;  }  [data-theme="dark"] #page-header::before {    background: transparent !important;  }    /* 阅读模式 */  .read-mode #aside-content .card-widget {    background: rgba(158, 204, 171, 0.5) !important;  }  .read-mode div#post {    background: rgba(158, 204, 171, 0.5) !important;  }    /* 夜间模式下的阅读模式 */  [data-theme="dark"] .read-mode #aside-content .card-widget {    background: rgba(25, 25, 25, 0.9) !important;    color: #ffffff;  }  [data-theme="dark"] .read-mode div#post {    background: rgba(25, 25, 25, 0.9) !important;    color: #ffffff;  }/* 翻页按钮居中 */#pagination {  width: 100%;  margin: auto;}  .pace {  -webkit-pointer-events: none;  pointer-events: none;  -webkit-user-select: none;  -moz-user-select: none;  user-select: none;  z-index: 2000;  position: fixed;  margin: auto;  top: 4px;  left: 0;  right: 0;  height: 8px;  border-radius: 8px;  width: 7rem;  background: #eaecf2;  border: 1px #e3e8f7;  overflow: hidden}.pace-inactive .pace-progress {  opacity: 0;  transition: .3s ease-in}.pace .pace-progress {  -webkit-box-sizing: border-box;  -moz-box-sizing: border-box;  -ms-box-sizing: border-box;  -o-box-sizing: border-box;  box-sizing: border-box;  -webkit-transform: translate3d(0, 0, 0);  -moz-transform: translate3d(0, 0, 0);  -ms-transform: translate3d(0, 0, 0);  -o-transform: translate3d(0, 0, 0);  transform: translate3d(0, 0, 0);  max-width: 200px;  position: absolute;  z-index: 2000;  display: block;  top: 0;  right: 100%;  height: 100%;  width: 100%;  /* linear-gradient(to right, #3494e6, #ec6ead) */  background: linear-gradient(to right, #43cea2, #3866ca);  animation: gradient 2s ease infinite;  background-size: 200%}.pace.pace-inactive {  opacity: 0;  transition: .3s;  top: -8px}.loading-img {  background: url(https://imgbed.link/file/11088) no-repeat center center;  background-size: cover;}  /* 一级菜单居中 *//*#nav .menus_items {  position: absolute !important;  width: fit-content !important;  left: 50% !important;  transform: translateX(-50%) !important;}/* 子菜单横向展示 *//*#nav .menus_items .menus_item:hover .menus_item_child {  display: flex !important;}/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 *//*.menus_items .menus_item:nth-child(2) .menus_item_child {  left: -125px;}*//* .iconfont {  font-family: "iconfont" !important;  font-size: 8em; */  /* 可以定义图标大小 */  /* font-style: normal;  -webkit-font-smoothing: antialiased;  -moz-osx-font-smoothing: grayscale;  } *//* 侧边栏个人信息卡片动态渐变色 */#aside-content > .card-widget.card-info {  background: linear-gradient(    -45deg,    #e8d8b9,    #eccec5,    #a3e9eb,    #bdbdf0,    #eec1ea  );  box-shadow: 0 0 5px rgb(66, 68, 68);  position: relative;  background-size: 400% 400%;  -webkit-animation: Gradient 10s ease infinite;  -moz-animation: Gradient 10s ease infinite;  animation: Gradient 10s ease infinite !important;}@-webkit-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@-moz-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}/* 黑夜模式适配 */[data-theme="dark"] #aside-content > .card-widget.card-info {  background: #191919ee;}/* 个人信息Follow me按钮 */#aside-content > .card-widget.card-info > #card-info-btn {  background-color: #3eb8be;  border-radius: 8px;}/* 夜间模式菜单栏发光字 */[data-theme="dark"] #nav .site-page,[data-theme="dark"] #nav .menus_items .menus_item .menus_item_child li a {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 手机端适配 */[data-theme="dark"] #sidebar #sidebar-menus .menus_items .site-page {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 滚动条 */::-webkit-scrollbar {  width: 8px;  height: 8px;}::-webkit-scrollbar-track {  background-color: rgba(73, 177, 245, 0.2);  border-radius: 2em;}::-webkit-scrollbar-thumb {  background-color: #49b1f5;  background-image: -webkit-linear-gradient(    45deg,    rgba(255, 255, 255, 0.4) 25%,    transparent 25%,    transparent 50%,    rgba(255, 255, 255, 0.4) 50%,    rgba(255, 255, 255, 0.4) 75%,    transparent 75%,    transparent  );  border-radius: 2em;}::-webkit-scrollbar-corner {  background-color: transparent;}::-moz-selection {  color: #fff;  background-color: #49b1f5;}/*10s为加载动画的时间，1为加载动画的次数，ease-in-out为动画效果*/#page-header,#web_bg {    -webkit-animation: imgblur 4s 1 ease-in-out;    animation: imgblur 4s 1 ease-in-out;}@keyframes imgblur {  0% {    filter: blur(5px);  }  100% {    filter: blur(0px);  }}/*适配使用-webkit内核的浏览器 */@-webkit-keyframes imgblur {  0% {    -webkit-filter: blur(5px);  }  100% {    -webkit-filter: blur(0px);  }}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {  left: -66px !important;  /* 默认情况下缩进左侧66px，只留一点箭头部分 */}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {  left: 0 !important;  /* 鼠标悬停是左侧缩进归零，完全显示按钮 */} svg.icon {  width: 1em; height: 1em;  /* width和height定义图标的默认宽度和高度*/  vertical-align: -0.15em;  fill: currentColor;  overflow: hidden;}/* 夜间模式菜单栏发光字 */[data-theme="dark"] #nav .site-page,[data-theme="dark"] #nav .menus_items .menus_item .menus_item_child li a {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 手机端适配 */[data-theme="dark"] #sidebar #sidebar-menus .menus_items .site-page {  text-shadow: 0 0 2px var(--theme-color) !important;}body {  cursor: url(https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/default.cur),      default;}a,img {  cursor: url(https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/pointer.cur),      default;}/* 自定义底部  start */#ft {  max-width: 1200px;  margin: 0 auto 12px;  display: flex;  color: rgba(245, 246, 251, 0.8) !important;  text-align: left;  flex-wrap: wrap;}.ft-item-1,.ft-item-2 {  display: flex;  height: 100%;  padding: 10px 14px;}.ft-item-1 {  flex-direction: column;  flex: 2;}.ft-item-2 {  flex: 1;  flex-direction: column;}.t-top {  display: flex;}.t-top .t-t-l {  display: flex;  flex-direction: column;  flex: 1.4;  margin-right: 10px;}.t-top .t-t-l .bg-ad {  width: 85%;  border-radius: 10px;  padding: 0 10px;}.btn-xz-box {  margin-top: 10px;}.btn-xz {  display: block;  background-color: var(--btn-bg);  color: var(--btn-color);  text-align: center;  line-height: 2.4;  margin: 8px 0;  cursor: pointer !important;}.btn-xz:hover {  text-decoration: none !important;}.btn-xz-box:hover .btn-xz {  background-color: #0b65e2;}.t-top .t-t-r {  display: flex;  flex-direction: column;  flex: 1;}.ft-links {  padding: 0 14px;  list-style: none;  margin-top: 0 !important;}.ft-links li a {  display: inline-block !important;  width: 50%;  cursor: pointer !important;}.ft-links li a:hover {  text-decoration: none !important;  color: #0b82bd !important;}.ft-item-2 .ft-img-group {  width: 100%;}.ft-t {  font-size: 0.8rem;  margin-bottom: 20px;  line-height: 1;  font-weight: 600;}.t-l-t {  padding-left: 14px;}.ft-item-2 .ft-img-group .img-group-item {  display: inline-block;  width: 18.4%;  margin-right: 14px;  margin-bottom: 6px;}.ft-item-2 .ft-img-group .img-group-item a {  display: inline-block;  width: 100%;  height: 100%;  cursor: pointer !important;}.ft-item-2 .ft-img-group .img-group-item a img {  width: 100%;  max-height: 80px;}@media screen and (max-width: 768px) {  .ft-item-1 {      flex-basis: 100% !important;  }  .ft-item-2 {      flex-basis: 100% !important;  }  .t-top .t-t-l .bg-ad {      width: 100%;  }}@media screen and (max-width: 576px) {  .t-top {      flex-wrap: wrap;  }  .t-top .t-t-l {      flex-basis: 100% !important;  }  .t-top .t-t-r {      margin-top: 16px;      flex-basis: 100% !important;  }}/* 自定义底部  End *//* 页脚半透明 */#footer {  background: rgba(255, 255, 255, 0);  color: #000;  border-top-right-radius: 20px;  border-top-left-radius: 20px;  backdrop-filter: saturate(100%) blur(5px)}#footer::before {  background: rgba(255,255,255,0)}/* 背景宇宙星光  */#universe{  display: block;  position: fixed;  margin: 0;  padding: 0;  border: 0;  outline: 0;  left: 0;  top: 0;  width: 100%;  height: 100%;  pointer-events: none;  /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */  z-index: -1;}/*宽屏*/.layout{  max-width:1400px;}.aside-content{  max-width:312px;  min-width:300px;}.recent-posts{width:auto!important;}@media screen and (max-width: 900px){  .card-widget:not(#card-toc){      display:none!important;  }  /*因为目录可以用侧边栏展开，所以不能隐藏*/}#archive,#page,#category,#tag{  width:100%;}.page:not(.page.home) .aside-content{  display: none;}]]></content>
       
     </entry>
     
     
     
     <entry>
-      <title></title>
-      <link href="/css/yitu.css"/>
-      <url>/css/yitu.css</url>
+      <title>分类</title>
+      <link href="/categories/index.html"/>
+      <url>/categories/index.html</url>
       
-        <content type="html"><![CDATA[ /* 页脚与头图透明 */#footer {  background: transparent !important;}#page-header {  background: transparent !important;}/* 白天模式遮罩透明 */#footer::before {  background: transparent !important;}#page-header::before {  background: transparent !important;}/* 夜间模式遮罩透明 */[data-theme="dark"] #footer::before {  background: transparent !important;}[data-theme="dark"] #page-header::before {  background: transparent !important;}   :root {    --trans-light: rgba(255, 255, 255, 0.88);    --trans-dark: rgba(25, 25, 25, 0.88);    --border-style: 1px solid rgb(169, 169, 169);    --backdrop-filter: blur(5px) saturate(150%);  }    /* 首页文章卡片 */  #recent-posts > .recent-post-item {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border-radius: 25px;    border: var(--border-style);  }    /* 首页侧栏卡片 */  #aside-content .card-widget {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border-radius: 18px;    border: var(--border-style);  }    /* 文章页、归档页、普通页面 */  div#post,  div#page,  div#archive {    background: var(--trans-light);    backdrop-filter: var(--backdrop-filter);    border: var(--border-style);    border-radius: 20px;  }    /* 导航栏 */  #page-header.nav-fixed #nav {    background: rgba(255, 255, 255, 0.75);    backdrop-filter: var(--backdrop-filter);  }    [data-theme="dark"] #page-header.nav-fixed #nav {    background: rgba(0, 0, 0, 0.7) !important;  }    /* 夜间模式遮罩 */  [data-theme="dark"] #recent-posts > .recent-post-item,  [data-theme="dark"] #aside-content .card-widget,  [data-theme="dark"] div#post,  [data-theme="dark"] div#archive,  [data-theme="dark"] div#page {    background: var(--trans-dark);  }      /* 夜间模式页脚页头遮罩透明 */  [data-theme="dark"] #footer::before {    background: transparent !important;  }  [data-theme="dark"] #page-header::before {    background: transparent !important;  }    /* 阅读模式 */  .read-mode #aside-content .card-widget {    background: rgba(158, 204, 171, 0.5) !important;  }  .read-mode div#post {    background: rgba(158, 204, 171, 0.5) !important;  }    /* 夜间模式下的阅读模式 */  [data-theme="dark"] .read-mode #aside-content .card-widget {    background: rgba(25, 25, 25, 0.9) !important;    color: #ffffff;  }  [data-theme="dark"] .read-mode div#post {    background: rgba(25, 25, 25, 0.9) !important;    color: #ffffff;  }/* 翻页按钮居中 */#pagination {  width: 100%;  margin: auto;}  .pace {  -webkit-pointer-events: none;  pointer-events: none;  -webkit-user-select: none;  -moz-user-select: none;  user-select: none;  z-index: 2000;  position: fixed;  margin: auto;  top: 4px;  left: 0;  right: 0;  height: 8px;  border-radius: 8px;  width: 7rem;  background: #eaecf2;  border: 1px #e3e8f7;  overflow: hidden}.pace-inactive .pace-progress {  opacity: 0;  transition: .3s ease-in}.pace .pace-progress {  -webkit-box-sizing: border-box;  -moz-box-sizing: border-box;  -ms-box-sizing: border-box;  -o-box-sizing: border-box;  box-sizing: border-box;  -webkit-transform: translate3d(0, 0, 0);  -moz-transform: translate3d(0, 0, 0);  -ms-transform: translate3d(0, 0, 0);  -o-transform: translate3d(0, 0, 0);  transform: translate3d(0, 0, 0);  max-width: 200px;  position: absolute;  z-index: 2000;  display: block;  top: 0;  right: 100%;  height: 100%;  width: 100%;  /* linear-gradient(to right, #3494e6, #ec6ead) */  background: linear-gradient(to right, #43cea2, #3866ca);  animation: gradient 2s ease infinite;  background-size: 200%}.pace.pace-inactive {  opacity: 0;  transition: .3s;  top: -8px}.loading-img {  background: url(https://imgbed.link/file/11088) no-repeat center center;  background-size: cover;}  /* 一级菜单居中 *//*#nav .menus_items {  position: absolute !important;  width: fit-content !important;  left: 50% !important;  transform: translateX(-50%) !important;}/* 子菜单横向展示 *//*#nav .menus_items .menus_item:hover .menus_item_child {  display: flex !important;}/* 这里的2是代表导航栏的第2个元素，即有子菜单的元素，可以按自己需求修改 *//*.menus_items .menus_item:nth-child(2) .menus_item_child {  left: -125px;}*//* .iconfont {  font-family: "iconfont" !important;  font-size: 8em; */  /* 可以定义图标大小 */  /* font-style: normal;  -webkit-font-smoothing: antialiased;  -moz-osx-font-smoothing: grayscale;  } *//* 侧边栏个人信息卡片动态渐变色 */#aside-content > .card-widget.card-info {  background: linear-gradient(    -45deg,    #e8d8b9,    #eccec5,    #a3e9eb,    #bdbdf0,    #eec1ea  );  box-shadow: 0 0 5px rgb(66, 68, 68);  position: relative;  background-size: 400% 400%;  -webkit-animation: Gradient 10s ease infinite;  -moz-animation: Gradient 10s ease infinite;  animation: Gradient 10s ease infinite !important;}@-webkit-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@-moz-keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}@keyframes Gradient {  0% {    background-position: 0% 50%;  }  50% {    background-position: 100% 50%;  }  100% {    background-position: 0% 50%;  }}/* 黑夜模式适配 */[data-theme="dark"] #aside-content > .card-widget.card-info {  background: #191919ee;}/* 个人信息Follow me按钮 */#aside-content > .card-widget.card-info > #card-info-btn {  background-color: #3eb8be;  border-radius: 8px;}/* 夜间模式菜单栏发光字 */[data-theme="dark"] #nav .site-page,[data-theme="dark"] #nav .menus_items .menus_item .menus_item_child li a {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 手机端适配 */[data-theme="dark"] #sidebar #sidebar-menus .menus_items .site-page {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 滚动条 */::-webkit-scrollbar {  width: 8px;  height: 8px;}::-webkit-scrollbar-track {  background-color: rgba(73, 177, 245, 0.2);  border-radius: 2em;}::-webkit-scrollbar-thumb {  background-color: #49b1f5;  background-image: -webkit-linear-gradient(    45deg,    rgba(255, 255, 255, 0.4) 25%,    transparent 25%,    transparent 50%,    rgba(255, 255, 255, 0.4) 50%,    rgba(255, 255, 255, 0.4) 75%,    transparent 75%,    transparent  );  border-radius: 2em;}::-webkit-scrollbar-corner {  background-color: transparent;}::-moz-selection {  color: #fff;  background-color: #49b1f5;}/*10s为加载动画的时间，1为加载动画的次数，ease-in-out为动画效果*/#page-header,#web_bg {    -webkit-animation: imgblur 4s 1 ease-in-out;    animation: imgblur 4s 1 ease-in-out;}@keyframes imgblur {  0% {    filter: blur(5px);  }  100% {    filter: blur(0px);  }}/*适配使用-webkit内核的浏览器 */@-webkit-keyframes imgblur {  0% {    -webkit-filter: blur(5px);  }  100% {    -webkit-filter: blur(0px);  }}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {  left: -66px !important;  /* 默认情况下缩进左侧66px，只留一点箭头部分 */}.aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {  left: 0 !important;  /* 鼠标悬停是左侧缩进归零，完全显示按钮 */} svg.icon {  width: 1em; height: 1em;  /* width和height定义图标的默认宽度和高度*/  vertical-align: -0.15em;  fill: currentColor;  overflow: hidden;}/* 夜间模式菜单栏发光字 */[data-theme="dark"] #nav .site-page,[data-theme="dark"] #nav .menus_items .menus_item .menus_item_child li a {  text-shadow: 0 0 2px var(--theme-color) !important;}/* 手机端适配 */[data-theme="dark"] #sidebar #sidebar-menus .menus_items .site-page {  text-shadow: 0 0 2px var(--theme-color) !important;}body {  cursor: url(https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/default.cur),      default;}a,img {  cursor: url(https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/Hexo/img/pointer.cur),      default;}/* 自定义底部  start */#ft {  max-width: 1200px;  margin: 0 auto 12px;  display: flex;  color: rgba(245, 246, 251, 0.8) !important;  text-align: left;  flex-wrap: wrap;}.ft-item-1,.ft-item-2 {  display: flex;  height: 100%;  padding: 10px 14px;}.ft-item-1 {  flex-direction: column;  flex: 2;}.ft-item-2 {  flex: 1;  flex-direction: column;}.t-top {  display: flex;}.t-top .t-t-l {  display: flex;  flex-direction: column;  flex: 1.4;  margin-right: 10px;}.t-top .t-t-l .bg-ad {  width: 85%;  border-radius: 10px;  padding: 0 10px;}.btn-xz-box {  margin-top: 10px;}.btn-xz {  display: block;  background-color: var(--btn-bg);  color: var(--btn-color);  text-align: center;  line-height: 2.4;  margin: 8px 0;  cursor: pointer !important;}.btn-xz:hover {  text-decoration: none !important;}.btn-xz-box:hover .btn-xz {  background-color: #0b65e2;}.t-top .t-t-r {  display: flex;  flex-direction: column;  flex: 1;}.ft-links {  padding: 0 14px;  list-style: none;  margin-top: 0 !important;}.ft-links li a {  display: inline-block !important;  width: 50%;  cursor: pointer !important;}.ft-links li a:hover {  text-decoration: none !important;  color: #0b82bd !important;}.ft-item-2 .ft-img-group {  width: 100%;}.ft-t {  font-size: 0.8rem;  margin-bottom: 20px;  line-height: 1;  font-weight: 600;}.t-l-t {  padding-left: 14px;}.ft-item-2 .ft-img-group .img-group-item {  display: inline-block;  width: 18.4%;  margin-right: 14px;  margin-bottom: 6px;}.ft-item-2 .ft-img-group .img-group-item a {  display: inline-block;  width: 100%;  height: 100%;  cursor: pointer !important;}.ft-item-2 .ft-img-group .img-group-item a img {  width: 100%;  max-height: 80px;}@media screen and (max-width: 768px) {  .ft-item-1 {      flex-basis: 100% !important;  }  .ft-item-2 {      flex-basis: 100% !important;  }  .t-top .t-t-l .bg-ad {      width: 100%;  }}@media screen and (max-width: 576px) {  .t-top {      flex-wrap: wrap;  }  .t-top .t-t-l {      flex-basis: 100% !important;  }  .t-top .t-t-r {      margin-top: 16px;      flex-basis: 100% !important;  }}/* 自定义底部  End *//* 页脚半透明 */#footer {  background: rgba(255, 255, 255, 0);  color: #000;  border-top-right-radius: 20px;  border-top-left-radius: 20px;  backdrop-filter: saturate(100%) blur(5px)}#footer::before {  background: rgba(255,255,255,0)}/* 背景宇宙星光  */#universe{  display: block;  position: fixed;  margin: 0;  padding: 0;  border: 0;  outline: 0;  left: 0;  top: 0;  width: 100%;  height: 100%;  pointer-events: none;  /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */  z-index: -1;}/*宽屏*/.layout{  max-width:1400px;}.aside-content{  max-width:312px;  min-width:300px;}.recent-posts{width:auto!important;}@media screen and (max-width: 900px){  .card-widget:not(#card-toc){      display:none!important;  }  /*因为目录可以用侧边栏展开，所以不能隐藏*/}#archive,#page,#category,#tag{  width:100%;}.page:not(.page.home) .aside-content{  display: none;}]]></content>
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>统计</title>
+      <link href="/charts/index.html"/>
+      <url>/charts/index.html</url>
+      
+        <content type="html"><![CDATA[<div id="recent-posts"></div><!-- 文章发布时间统计图 --><div id="posts-chart" data-start="2021-01" style="border-radius: 8px; height: 300px; padding: 10px;"></div><!-- 文章标签统计图 --><div id="tags-chart" data-length="10" style="border-radius: 8px; height: 300px; padding: 10px;"></div><!-- 文章分类统计图 --><div id="categories-chart" data-parent="true" style="border-radius: 8px; height: 300px; padding: 10px;"></div>]]></content>
       
     </entry>
     
@@ -368,17 +357,6 @@
     
     <entry>
       <title></title>
-      <link href="/js/light.js"/>
-      <url>/js/light.js</url>
-      
-        <content type="html"><![CDATA[// 霓虹灯效果// 颜色数组var arr = ["#39c5bb", "#f14747", "#f1a247", "#f1ee47", "#b347f1", "#1edbff", "#ed709b", "#5636ed"];// 颜色索引var idx = 0;// 切换颜色function changeColor() {    // 仅夜间模式才启用    if (document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'dark') {        if (document.getElementById("site-name"))            document.getElementById("site-name").style.textShadow = arr[idx] + " 0 0 15px";        if (document.getElementById("site-title"))            document.getElementById("site-title").style.textShadow = arr[idx] + " 0 0 15px";        if (document.getElementById("site-subtitle"))            document.getElementById("site-subtitle").style.textShadow = arr[idx] + " 0 0 10px";        if (document.getElementById("post-info"))            document.getElementById("post-info").style.textShadow = arr[idx] + " 0 0 5px";        try {            document.getElementsByClassName("author-info__name")[0].style.textShadow = arr[idx] + " 0 0 12px";            document.getElementsByClassName("author-info__description")[0].style.textShadow = arr[idx] + " 0 0 12px";        } catch {                    }        idx++;        if (idx == 8) {            idx = 0;        }    } else {        // 白天模式恢复默认        if (document.getElementById("site-name"))            document.getElementById("site-name").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("site-title"))            document.getElementById("site-title").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("site-subtitle"))            document.getElementById("site-subtitle").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("post-info"))            document.getElementById("post-info").style.textShadow = "#1e1e1ee0 1px 1px 1px";        try {            document.getElementsByClassName("author-info__name")[0].style.textShadow = "";            document.getElementsByClassName("author-info__description")[0].style.textShadow = "";        } catch {                    }    }}// 开启计时器window.onload = setInterval(changeColor, 1200);]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
       <link href="/js/countup.js"/>
       <url>/js/countup.js</url>
       
@@ -389,11 +367,11 @@
     
     
     <entry>
-      <title></title>
-      <link href="/js/nav.js"/>
-      <url>/js/nav.js</url>
+      <title>bangumis</title>
+      <link href="/bangumis/index.html"/>
+      <url>/bangumis/index.html</url>
       
-        <content type="html"><![CDATA[//鼠标控制横向滚动if (document.getElementsByClassName("menu-item")[0]){    var xscroll = document.getElementsByClassName("menu-item")[0];    xscroll.addEventListener("mousewheel", function (e) {    //计算鼠标滚轮滚动的距离    var v = -e.wheelDelta / 2;    xscroll.scrollLeft += v;    //阻止浏览器默认方法    e.preventDefault();    }, false);  }    // 获取当前时间    var box = document.getElementById('message-date-box')    //不足十位补零  var addZero = val => val < 10 ? '0' + val : val  //把阿拉伯数字的星期转化为中国汉字的星期 // 星期映射表  var trans = val => {      var obj = {          0: '日',          1: '一',          2: '二',          3: '三',          4: '四',          5: '五',          6: '六'      }      return obj[val]  }  setTime ()  //获取时间的方法  function setTime() {      var time = new Date();      // var year = time.getFullYear(); // 获取年      // var month = time.getMonth() + 1; // 获取月（是从0到11，所以我们要给他加1）      // var date = time.getDate(); // 获取日      var hour = time.getHours(); // 获取小时      var min = time.getMinutes(); // 获取分钟      var sec = time.getSeconds(); // 获取秒      var day = time.getDay(); // 获取星期几(0是星期日)          var value = addZero(hour) +          ':' + addZero(min) + ":" + addZero(sec) + ' 星期'+ trans(day)      // 把所有的时间拼接到一起      box.innerText = value      // console.log(value)      // 把拼接好的时间插入到页面    }  // 让定时器每间隔一秒就执行一次setTime这个方法（这是实现时钟的核心）  setInterval(setTime, 1000)      function Navvisible(){    var navbar = document.getElementById('menu-container')    if (navbar) {        // 首先判断是否存在active类        if (navbar.className.indexOf('active-menu-bar') > -1){          // 存在则移除          navbar.classList.remove('active-menu-bar');        }        else{          // 不存在则先添加          navbar.classList.add('active-menu-bar');        }    }  }]]></content>
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -412,21 +390,32 @@
     
     <entry>
       <title></title>
-      <link href="/js/shezhi.js"/>
-      <url>/js/shezhi.js</url>
+      <link href="/js/light.js"/>
+      <url>/js/light.js</url>
       
-        <content type="html"><![CDATA[// 分享本页function share() {    let url = window.location.origin + window.location.pathname    new ClipboardJS(".share", { text: function() { return '标题：' + document.title + '\n链接：' + url } });    btf.snackbarShow("本页链接已复制到剪切板，快去分享吧~")}]]></content>
+        <content type="html"><![CDATA[// 霓虹灯效果// 颜色数组var arr = ["#39c5bb", "#f14747", "#f1a247", "#f1ee47", "#b347f1", "#1edbff", "#ed709b", "#5636ed"];// 颜色索引var idx = 0;// 切换颜色function changeColor() {    // 仅夜间模式才启用    if (document.getElementsByTagName('html')[0].getAttribute('data-theme') == 'dark') {        if (document.getElementById("site-name"))            document.getElementById("site-name").style.textShadow = arr[idx] + " 0 0 15px";        if (document.getElementById("site-title"))            document.getElementById("site-title").style.textShadow = arr[idx] + " 0 0 15px";        if (document.getElementById("site-subtitle"))            document.getElementById("site-subtitle").style.textShadow = arr[idx] + " 0 0 10px";        if (document.getElementById("post-info"))            document.getElementById("post-info").style.textShadow = arr[idx] + " 0 0 5px";        try {            document.getElementsByClassName("author-info__name")[0].style.textShadow = arr[idx] + " 0 0 12px";            document.getElementsByClassName("author-info__description")[0].style.textShadow = arr[idx] + " 0 0 12px";        } catch {                    }        idx++;        if (idx == 8) {            idx = 0;        }    } else {        // 白天模式恢复默认        if (document.getElementById("site-name"))            document.getElementById("site-name").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("site-title"))            document.getElementById("site-title").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("site-subtitle"))            document.getElementById("site-subtitle").style.textShadow = "#1e1e1ee0 1px 1px 1px";        if (document.getElementById("post-info"))            document.getElementById("post-info").style.textShadow = "#1e1e1ee0 1px 1px 1px";        try {            document.getElementsByClassName("author-info__name")[0].style.textShadow = "";            document.getElementsByClassName("author-info__description")[0].style.textShadow = "";        } catch {                    }    }}// 开启计时器window.onload = setInterval(changeColor, 1200);]]></content>
       
     </entry>
     
     
     
     <entry>
-      <title>友链</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title></title>
+      <link href="/js/nav.js"/>
+      <url>/js/nav.js</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[//鼠标控制横向滚动if (document.getElementsByClassName("menu-item")[0]){    var xscroll = document.getElementsByClassName("menu-item")[0];    xscroll.addEventListener("mousewheel", function (e) {    //计算鼠标滚轮滚动的距离    var v = -e.wheelDelta / 2;    xscroll.scrollLeft += v;    //阻止浏览器默认方法    e.preventDefault();    }, false);  }    // 获取当前时间    var box = document.getElementById('message-date-box')    //不足十位补零  var addZero = val => val < 10 ? '0' + val : val  //把阿拉伯数字的星期转化为中国汉字的星期 // 星期映射表  var trans = val => {      var obj = {          0: '日',          1: '一',          2: '二',          3: '三',          4: '四',          5: '五',          6: '六'      }      return obj[val]  }  setTime ()  //获取时间的方法  function setTime() {      var time = new Date();      // var year = time.getFullYear(); // 获取年      // var month = time.getMonth() + 1; // 获取月（是从0到11，所以我们要给他加1）      // var date = time.getDate(); // 获取日      var hour = time.getHours(); // 获取小时      var min = time.getMinutes(); // 获取分钟      var sec = time.getSeconds(); // 获取秒      var day = time.getDay(); // 获取星期几(0是星期日)          var value = addZero(hour) +          ':' + addZero(min) + ":" + addZero(sec) + ' 星期'+ trans(day)      // 把所有的时间拼接到一起      box.innerText = value      // console.log(value)      // 把拼接好的时间插入到页面    }  // 让定时器每间隔一秒就执行一次setTime这个方法（这是实现时钟的核心）  setInterval(setTime, 1000)      function Navvisible(){    var navbar = document.getElementById('menu-container')    if (navbar) {        // 首先判断是否存在active类        if (navbar.className.indexOf('active-menu-bar') > -1){          // 存在则移除          navbar.classList.remove('active-menu-bar');        }        else{          // 不存在则先添加          navbar.classList.add('active-menu-bar');        }    }  }]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/js/shezhi.js"/>
+      <url>/js/shezhi.js</url>
+      
+        <content type="html"><![CDATA[// 分享本页function share() {    let url = window.location.origin + window.location.pathname    new ClipboardJS(".share", { text: function() { return '标题：' + document.title + '\n链接：' + url } });    btf.snackbarShow("本页链接已复制到剪切板，快去分享吧~")}]]></content>
       
     </entry>
     
@@ -444,17 +433,6 @@
     
     
     <entry>
-      <title>标签</title>
-      <link href="/tags/index.html"/>
-      <url>/tags/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title></title>
       <link href="/js/universe.js"/>
       <url>/js/universe.js</url>
@@ -466,11 +444,33 @@
     
     
     <entry>
+      <title>友链</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>追剧</title>
       <link href="/movies/index.html"/>
       <url>/movies/index.html</url>
       
         <content type="html"><![CDATA[<blockquote><p>提供大量免费追剧网址。<br>不断更新ing。<br>失效链接会及时更改或清理。</p></blockquote><h1 id="upfox茶杯狐"><a href="#upfox茶杯狐" class="headerlink" title="upfox茶杯狐"></a>upfox茶杯狐</h1><p>链接：<a href="https://cupfox.app/">link</a></p><h1 id="蛋蛋赞影院"><a href="#蛋蛋赞影院" class="headerlink" title="蛋蛋赞影院"></a>蛋蛋赞影院</h1><p>链接<a href="https://www.dandanzan.com/">link</a></p><h1 id="no视频"><a href="#no视频" class="headerlink" title="no视频"></a>no视频</h1><p>链接<a href="https://www.novipnoad.com/">link</a></p><h1 id="完美看看"><a href="#完美看看" class="headerlink" title="完美看看"></a>完美看看</h1><p>链接<a href="https://www.wanmeikk.film/">link</a></p><h1 id="鸭奈飞（推荐）"><a href="#鸭奈飞（推荐）" class="headerlink" title="鸭奈飞（推荐）"></a>鸭奈飞（推荐）</h1><p>链接<a href="https://yanetflix.com/">link</a></p><h1 id="人人影视筷子视频"><a href="#人人影视筷子视频" class="headerlink" title="人人影视筷子视频"></a>人人影视筷子视频</h1><p>链接<a href="https://kuaizi.tv/">link</a></p><h1 id="稀饭影视"><a href="#稀饭影视" class="headerlink" title="稀饭影视"></a>稀饭影视</h1><p>链接<a href="https://www.xifanys.com/">link</a></p><h1 id="可乐影视"><a href="#可乐影视" class="headerlink" title="可乐影视"></a>可乐影视</h1><p>链接<a href="https://klyingshi.com/">link</a></p><h1 id="大米星球"><a href="#大米星球" class="headerlink" title="大米星球"></a>大米星球</h1><p>链接<a href="https://dmxq17.com/">link</a></p>]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
+      
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
