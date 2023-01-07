@@ -1,0 +1,765 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【算法系列】前缀和与差分 | pionnier</title><meta name="author" content="pionnier"><meta name="copyright" content="pionnier"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="介绍前缀和差分的算法知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法系列】前缀和与差分">
+<meta property="og:url" content="http://example.com/qianzhuihechafen.html">
+<meta property="og:site_name" content="pionnier">
+<meta property="og:description" content="介绍前缀和差分的算法知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg">
+<meta property="article:published_time" content="2023-01-07T02:20:45.000Z">
+<meta property="article:modified_time" content="2023-01-07T04:45:06.850Z">
+<meta property="article:author" content="pionnier">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="安度因">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg"><link rel="shortcut icon" href="https://img.51miz.com/Element/00/84/61/94/a5bc49ec_E846194_41d9c19d.png"><link rel="canonical" href="http://example.com/qianzhuihechafen"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":50,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: pionnier","link":"链接: ","source":"来源: pionnier","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【算法系列】前缀和与差分',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-07 12:45:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/home_essay_bar.css"><link rel="stylesheet" href="https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0" media="defer" onload="this.media='all'"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jum5QuG7PRp6MvjY",ck:"Jum5QuG7PRp6MvjY"})</script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><span id="fps"></span><link rel="stylesheet" href="/css/yitu.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/about.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/welcom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15121" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg')"><div class="menu-container" id="menu-container"><div class="menu-item"><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></div></div><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div><div class="top-bar"><div class="message-container"><div class="message-item message-weather" onclick="btf.scrollToDest(0, 500)"><div class="message-weather-box" id="he-plugin-simple"></div></div><div class="message-item message-date" onclick="Navvisible()"><div class="message-date-box" id="message-date-box"></div><div class="message-title-box" id="message-title-box"><a id="site-name" title="介绍前缀和差分的算法知识。">【算法系列】前缀和与差分  </a></div></div><div class="message-item message-function"><div id="search-button"><a class="site-page social-icon search faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg><span> 搜索</span></a></div><a class="icon-V hidden faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换"><svg class="faa-tada" width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a class="site-page faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-multi-window-01"></use></svg></a></div></div></div></div><button class="active-button" onclick="Navvisible()"></button></div><div id="post-info"><h1 class="post-title">【算法系列】前缀和与差分</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-07T02:20:45.000Z" title="发表于 2023-01-07 10:20:45">2023-01-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-07T04:45:06.850Z" title="更新于 2023-01-07 12:45:06">2023-01-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tag link"><a class="link-card" title="安度因的csdn" target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67867172"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg"/></div><div class="right"><p class="text">安度因的csdn</p><p class="url">https://blog.csdn.net/m0_67867172</p></div></a></div>
+<pre><code>                                                                        一个只写干货，不写水货的硬核博主。
+</code></pre><h1 id="一维前缀和"><a href="#一维前缀和" class="headerlink" title="一维前缀和"></a>一维前缀和</h1><h2 id="算法推导"><a href="#算法推导" class="headerlink" title="算法推导"></a>算法推导</h2><p>前缀和，从名字上看，我们就大概能知道算法的作用。前缀，就是某位置之前的所有数，为该数的前缀，前缀和，就是对该位置前缀的元素进行求和。</p>
+<p>前缀和的模板其实非常简单，它更像是一种思想。</p>
+<p>前缀和思想可以快速地解决问题，看个例子：</p>
+<p><strong>假如给定一段序列，需要你求出 $[l, r]$ 区间的和，该如何求？</strong></p>
+<ol>
+<li>最简单的方式就是通过 <code>for</code> 循环遍历一遍，时间复杂度为 $O(N)$ </li>
+<li>而 <strong>前缀和算法</strong> ，能在 $O(1)$ 的时间复杂度完成</li>
+</ol>
+<p>接下来我们来看，前缀和算法是如何在 $O(1)$ 的时间复杂度求出和的：</p>
+<p>前缀和算法主要分为两步，<strong>预处理</strong> 和 <strong>查询</strong> ：假设 $a, S$ 分别为 原数组 和 前缀和数组。</p>
+<p><strong>预处理</strong> ：</p>
+<p>预处理就是求 <strong>前缀和数组</strong> 。对于前缀和数组 $s$ ，其中元素满足 $S[i] = a[1] + a[2] + a[3] … a[i]$</p>
+<p>求前缀和时，下标从 $1$ 开始。</p>
+<p>大体过程如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        s[i] = s[i - <span class="number">1</span>] + q[i];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>前缀和数组每项 $s[i]$ 是它的前一项 $s[i - 1]$ 加上原数组 $a[i]$ 。</p>
+<p>因为前缀和数组的前一项 $s[i - 1]$ ，是 $a$ 数组中前 $i - 1$ 中前 $i - 1$ 项的值嘛，所以求 $s[i]$ 时只要加上 $a[i]$ 就可以计算出来前 $i$ 项的前缀和了。 </p>
+<p><strong>查询</strong>：</p>
+<p>查询就是求给定区间 $[l, r]$ 的值。现在由于求出了前缀和数组，那么查询时只要一步 $S[r] -  S[l - 1]$ ，就可以求出结果。</p>
+<p>下面讲一下原理：</p>
+<p>$S$ 是前缀和数组，那么 $S$ 中每一个位置元素都是 $a$ 数组的前缀和，由此可得：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&S[r] \ \ \ \ \ \ = a[1] + a[2] + a[3] + ... + a[l - 1] + a[l] + ... + a[r]
+\newline
+\newline
+&S[l - 1] = \color{red}a[1] + a[2] + a[3] + ... + a[l - 1]
+\newline
+\newline
+&S[r] - S[l - 1] = (a[r] + ... +a[l] + {\color{red}a[l - 1] + ... +a[3] + a[2] + a[1]}) - ({\color{red}a[1] + a[2] + a[3] + .. + a[l - 1]})
+\newline
+\newline
+&S[r] - S[l - 1] = a[r] + ... +a[l]
+\end{align}</script><p>通过这一步骤，它们相同的元素被 <strong>抵消</strong> ，<strong>最终结果就是 区间 $[l, r]$ 的值</strong> 。</p>
+<p>所以，我们发现，前缀和多开了一个数组，以达到优化计算时间的效果，是典型的 <strong>以空间换时间</strong> 的算法。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>接下来做道前缀和例题练练手。</p>
+<p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/797/">795. 前缀和</a></p>
+<p><strong>描述</strong>：</p>
+<p>输入一个长度为 $n$ 的整数序列。</p>
+<p>接下来再输入 $m$ 个询问，每个询问输入一对 $l, r$。</p>
+<p>对于每个询问，输出原序列中从第 $l$ 个数到第 $r$ 个数的和。</p>
+<p><strong>输入格式</strong>：</p>
+<p>第一行包含两个整数 $n$ 和 $m$ 。</p>
+<p>第二行包含 $n$ 个整数，表示整数数列。</p>
+<p>接下来 $m$ 行，每行包含两个整数 $l$ 和 $r$ ，表示一个询问的区间范围。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共 $m$ 行，每行输出一个询问的结果。</p>
+<p><strong>数据范围</strong>：</p>
+<ul>
+<li>$1≤l≤r≤n$</li>
+<li>$1≤n,m≤100000$</li>
+<li>$−1000 ≤ 数列中元素的值 ≤ 1000$</li>
+</ul>
+<p>输入样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">5 3</span><br><span class="line">2 1 3 6 4</span><br><span class="line">1 2</span><br><span class="line">1 3</span><br><span class="line">2 4</span><br></pre></td></tr></table></figure>
+<p>输出样例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">6</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong> ：典型的前缀和例题，思路我们上面已经讲过一遍了，直接开始写代码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/963318a3634674f4f0b036d3238290b1.png" alt="image-20221223072816069"></p>
+<h1 id="二维前缀和"><a href="#二维前缀和" class="headerlink" title="二维前缀和"></a>二维前缀和</h1><p>二维前缀和是一维前缀和的加强。</p>
+<p>从前只能求一维序列的前缀和，现在能求二维，也就是矩阵的前缀和。</p>
+<h2 id="算法推导-1"><a href="#算法推导-1" class="headerlink" title="算法推导"></a>算法推导</h2><p>接下来看 <strong>二维前缀和数组</strong> 是如何构造的：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/947fc20962f5cbd1791317dbd70fabf4.png#pic_center" alt="image-20221223075655178"></p>
+<p>假设给定二维矩阵 $a 和 s$ ，$s$ 为前缀和矩阵，<strong>这里我们设定一个前提：竖直方向我们统一称为长，横平的边我们统一称为宽，以便我们描述图形。</strong> </p>
+<p>假如要求 <strong>点$(i, j)$</strong> 的前缀和，那么对于图中，以 $i, j$ 为长和宽的矩阵就是 点$(i, j)$ 的前缀和。</p>
+<p>观察上图，可以得到面积公式：</p>
+<script type="math/tex; mode=display">
+一整块矩形面积 = 紫色面积 + 绿色面积 + 蓝色面积 + 红色面积</script><p>但是，对于矩阵的面积，有些地方是无法单独计算的，比如绿色区域，只能算以 $i - 1$ 为长，$j$ 为高的面积。</p>
+<p>所以，我们实际计算时，<strong>真正的计算公式</strong> 为：</p>
+<script type="math/tex; mode=display">
+一整块矩形面积 = 以\ i - 1 \ 为长以 \ j \ 为高的矩形面积 + 以\ i \ 为长以 \ j - 1 \ 为高的矩形面积 - 紫色面积 \ + \ 红色面积</script><p>以图表示：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/93b999b45934999dd3736627cbb11019.png" alt="image-20221223083202107"></p>
+<p>至于为什么要加 <strong>紫色区域</strong> 呢？这是因为在加绿色矩阵和蓝色矩阵的时候，加了两次 <strong>紫色区域</strong> ，所以需要去掉重复的这一块。</p>
+<p>而这里的每一个与长和宽有直接关联的区域其实就是这一块区域的 <strong>前缀和</strong> ，在 $s$ 矩阵中都可以表示出来，而 <strong>红色小方格的面积</strong> 则是 $a$ 矩阵当前位置的元素，所以我们可以得到 <strong>二维矩阵前缀和预处理公式</strong> ：</p>
+<script type="math/tex; mode=display">
+s[i][j] = s[i - 1][j] + s[i][j - 1] - s[i - 1][j - 1] + a[i][j]</script><p>那么我们构造过程的代码也就可以写出来了：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= m; j++) &#123;</span><br><span class="line">            s[i][j] = s[i - <span class="number">1</span>][j] + s[i][j - <span class="number">1</span>] - s[i - <span class="number">1</span>][j - <span class="number">1</span>] + a[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>而对于二维前缀和，我们的题型通常是求 <strong>子矩阵的和</strong> ，比如：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/00f8c4bdd6723ef058c18a465fe84412.png" alt="image-20221223085415915"></p>
+<p>以我们平常的思维方式，就是  <strong>两层循环遍历一下</strong> ，时间复杂度为 $O(N \times M)$。</p>
+<p>但是如果我们使用 <strong>前缀和</strong> 呢？实际上只需要 $O(1)$ 的时间复杂度，是非常快的，但是前提得有公式，所以我们得先把公式推导出来。</p>
+<p><strong>推导过程</strong> ：</p>
+<p>我们再进行严格的区域划分，画一张较为详细的图：</p>
+<p><strong>同样的这里设定前提：竖直方向的边统一称为长，横平方向的边统一称为宽，以便我们描述图形。</strong> </p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/54a9e8ccf1baffb312d3be7147d764eb.png" alt="image-20221223090802848"></p>
+<p>根据上图，我们可以得出公式：</p>
+<script type="math/tex; mode=display">
+蓝色面积 = 以 \ x2 \ 为长，\ y2 \  为宽的区域面积 - 黄色面积  - 绿色面积 - 紫色面积</script><p>但是这里的区域面积也是不好算一小块的，区域的面积的长和宽要从 $(1, 1)$ 出发，所以我们 <strong>真正的公式</strong> 为：</p>
+<script type="math/tex; mode=display">
+蓝色面积 = 以 \ x2 \ 为长 \ y2 \  为宽的区域面积 - 以 \ x1 - 1 为长\ y2 \ 为宽的区域面积 - 以 \ x2 \ 为长 \ y1 - 1 \ 为宽的区域面积 + 紫色面积</script><p>加上 <strong>紫色面积</strong> 的原因是，我们减去了两块 <strong>紫色面积</strong> ，需要补上一个。</p>
+<p>同样的，这里每块区域的面积，实际上就是 <strong>前缀和</strong> ，比如 紫色面积就是 $a$ 矩阵中以 $x1- 1$ 为长，$y1 - 1$ 的区域面积，前缀和形式就直接为 $s[x1 -1][y1 - 1]$。</p>
+<p>所以这里写出我们的 <strong>查询公式</strong> ：</p>
+<script type="math/tex; mode=display">
+蓝色面积 = s[x2][y2] - s[x1 - 1][y2] - s[x2][y1 - 1] + s[x1 - 1][y1 - 1]</script><p>到这里，我们的前缀和的核心公式都已经推导出来了，在做题目是就很方便了，只需要：<strong>预处理 + 查询</strong> 。</p>
+<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/798/">796. 子矩阵的和</a></p>
+<p><strong>描述</strong>：</p>
+<p>输入一个 $n$ 行 $m$ 列的整数矩阵，再输入 $q$ 个询问，每个询问包含四个整数 $x1,y1,x2,y2$，表示一个子矩阵的左上角坐标和右下角坐标。</p>
+<p>对于每个询问输出子矩阵中所有数的和。</p>
+<p><strong>输入格式</strong>：</p>
+<p>第一行包含三个整数 $n$，$m$，$q$ 。</p>
+<p>接下来 $n$ 行，每行包含 $m$ 个整数，表示整数矩阵。</p>
+<p>接下来 $q$ 行，每行包含四个整数 $x1,y1,x2,y2$ ，表示一组询问。</p>
+<p><strong>输出格式</strong>:</p>
+<p>共 $q$ 行，每行输出一个询问的结果。</p>
+<p><strong>数据范围</strong>:</p>
+<ul>
+<li>$1≤n,m≤1000$</li>
+<li>$1≤q≤200000$</li>
+<li>$1≤x1≤x2≤n$</li>
+<li>$1≤y1≤y2≤m$</li>
+<li>$−1000≤矩阵内元素的值≤1000$</li>
+</ul>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">3 4 3</span><br><span class="line">1 7 2 4</span><br><span class="line">3 6 2 8</span><br><span class="line">2 1 2 3</span><br><span class="line">1 1 2 2</span><br><span class="line">2 1 3 4</span><br><span class="line">1 3 3 4</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">17</span><br><span class="line">27</span><br><span class="line">21</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong>：</p>
+<p>上面公式我们推导过了，直接预处理 + 查询即可：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e6469757ba37b8acfdb3728c7f41a8de.png" alt="image-20221223094216405"></p>
+<h1 id="一维差分"><a href="#一维差分" class="headerlink" title="一维差分"></a>一维差分</h1><blockquote>
+<p>其实博主觉得差分是一个很抽象的算法，我们可以构造差分数组算，同样的也可以通过另一种方式不构造数组求出结果。</p>
+<p>至于为什么我会这么觉得，别急，我们慢慢来，先讲差分的思想再说~</p>
+</blockquote>
+<h2 id="算法推导-2"><a href="#算法推导-2" class="headerlink" title="算法推导"></a>算法推导</h2><p>前面我们学了前缀和，现在又要学差分，它们之间有联系吗？</p>
+<p>实际上可以简单推测一下，一个是求 <strong>”和“</strong> ，一个是求 <strong>”差“</strong> ，那 <strong>差分是不是就是前缀和的逆运算</strong> ？答案是正确的，差分其实就是前缀和的一个反推。</p>
+<p>对于差分算法我们一般得先 <strong>构造差分数组</strong> ，假设现在有两个数组 $a 和\ b$ ：</p>
+<p>我们需要构造 $b$ 为差分数组，<strong>使得 $a$ 数组是 $b$ 的前缀和数组</strong> ，也就是说 $a$ 中每一个数据，都是 $b$ 中在包括这个位置之前所有的数据的和。这时 $b$ 被称为 $a$ 的差分。</p>
+<p><strong>所以 $b$ 数组每个元素无非就是 $a$ 数组的每一个元素与其前一个元素的差嘛！</strong></p>
+<p>为什么这么说？我们来算一下就知道了：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+& a[i] \ \ \ \ \ \ \ = b[1] + b[2] + ... + b[i]
+\newline
+\newline
+& a[i - 1] = b[1] + b[2] + ... + b[i - 1]
+\newline
+\newline
+& a[i] - a[i - 1] = ({\color{red}b[i]} + b[i - 1] + ... + b[2] + b[1]) - (b[i - 1] + ... + b[2] + b[1]) = {\color{red}b[i]}
+\end{align}</script><p>所以 <strong>差分数组 $b$ 的构造方式如下</strong> ：</p>
+<script type="math/tex; mode=display">
+一维差分数组构造方式：
+\begin{cases}
+b[1] = a[1]\\\\
+b[2] = a[2] - a[1]\\\\
+b[3] = a[3] - a[2]\\\\
+...\\\\
+b[n] = a[n] - a[n - 1]
+\end{cases}</script><p>那么这里的 <strong>构造过程</strong> 实际上就是遍历一遍 $a$ 数组，就可以构造出 $b$ ，<strong>时间复杂度为$O(N)$</strong> 。我们再看看代码怎么写：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        b[i] = a[i] - a[i - <span class="number">1</span>];</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><strong>讲完了构造，我们再看看差分这个算法为了解决什么问题</strong>：</p>
+<p>差分算法是为了解决让 <strong>序列中某段区间 $[l, r]$ 加上一个 常数 $c$</strong> 的问题。</p>
+<p>放到平时，那么我们肯定是遍历一遍，然后把数据 $c$ 加上，时间复杂度为 $O(N)$ ，但是如果使用差分呢？</p>
+<p><strong>假设现在 $a$ 是原数组，差分数组 $b$ 已经求好了，此时要让 $a$ 数组 $[l, r]$ 区间内 $+c$</strong>，<strong>只需要让 $\color{red}b[l] += c，让 b[r + 1] -=c$ 即可</strong>，<strong>时间复杂度为 $O(1)$</strong> 。</p>
+<p>如下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/17a63f00c480a5bd565b8dfb5a2f27ed.png" alt="image-20221223113822828"></p>
+<p><strong>但是为什么这样就可以了，它的原理是什么？我们还得继续探究</strong>：</p>
+<p>由于 $a$ 数组是 $b$ 数组的前缀和，所以让 $\color{red}b[l] += c$ ，就会造成如下结果：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&b \ 加上 \ c \ 后：b[l] = b[l]' + c
+\\\\
+ &a[l]' = b[1] + b[2] + ... + b[l]'
+\\
+&\downarrow
+\\
+ &a[l] = b[1] + b[2] + ... + \color{red}b[l]' + c
+\\
+&\downarrow
+\\
+&当前 a[l] 已经发生了改变：\color{red}a[l] = a[l]' + c
+\\
+&\downarrow
+\\
+&所以接下来的 a 数组中的元素都会加上 c ！
+\\
+&\downarrow
+\\
+&a[l + 1] = {\color{red}a[l]' + c} + b[l + 1]
+\\
+&\downarrow
+\\
+&...
+\\
+&\downarrow
+\\
+&a[n] = {\color{red}a[n - 1]' + c} + b[n]
+\end{align}</script><p>同理，对于 $\color{red}b[r + 1] -= c$ 也可以推导，下面我就简写一下了：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&b[r + 1] = b[r + 1]' -c
+\\\\
+&a[r + 1] = a[r] + b[r + 1]' - c
+\\
+&\downarrow
+\\
+&a[r + 1] = a[r + 1]' - c
+\\
+&\downarrow
+\\
+&a[r + 2] = a[r + 1]' -  c + b[r + 2]
+\\
+&\downarrow
+\\
+&...
+\\
+&\downarrow
+\\
+&a[n] = a[n - 1]' - c + b[n]
+\end{align}</script><p><strong>由此，得证只要让 $\color{red}b[l] += c，让 b[r + 1] -=c$，就可以使 $a$ 数组中 $[l. r]$ 区间内元素加上 常数 $c$ 。</strong></p>
+<h2 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h2><blockquote>
+<p><strong>高能预警，代码实现这块就是博主觉得比较抽象，但很神奇的地方。</strong></p>
+<p><strong>先上题目</strong> ~</p>
+</blockquote>
+<p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/799/">797.差分</a></p>
+<p><strong>描述</strong>：</p>
+<p>输入一个长度为 $n$ 的整数序列。</p>
+<p>接下来输入 $m$ 个操作，每个操作包含三个整数 $l,r,c$ 表示将序列中 $[l,r]$ 之间的每个数加上 $c$ 。</p>
+<p>请你输出进行完所有操作后的序列。</p>
+<p><strong>输入格式</strong>:</p>
+<p>第一行包含两个整数 $n$ 和 $m$ 。</p>
+<p>第二行包含 $n$ 个整数，表示整数序列。</p>
+<p>接下来 $m$ 行，每行包含三个整数 $l，r，c$ 表示一个操作。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共一行，包含 $n$ 个整数，表示最终序列。</p>
+<p><strong>数据范围</strong>：</p>
+<ul>
+<li>$1≤n,m≤100000$</li>
+<li>$1≤l≤r≤n$</li>
+<li>$−1000≤c≤1000$</li>
+<li>$−1000≤整数序列中元素的值≤1000$</li>
+</ul>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">6 3</span><br><span class="line">1 2 2 1 2 1</span><br><span class="line">1 3 1</span><br><span class="line">3 5 1</span><br><span class="line">1 6 1</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3 4 5 3 4 2</span><br></pre></td></tr></table></figure>
+<p><strong>代码1</strong>：</p>
+<p>这段代码就是我们上方 <strong>算法推导的完全复刻</strong> ，先构造差分矩阵 $b$ ，再根据方法对区间进行操作。</p>
+<p>对 $b$ 数组完成计算之后，对齐求一下 <strong>前缀和</strong> ，将数据存到 $a$ 数组中。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/435652b6594e95688c63150b181bcde5.png" alt="image-20221223115446138"></p>
+<p><strong>代码2</strong>：</p>
+<blockquote>
+<p>但是其实 y 老师讲的其实不是这种方法，他用了更加巧妙的一个方式。</p>
+</blockquote>
+<p>y 老师的思路，是将 $a$ 数组的所有元素全部假定为 <strong>0</strong> ，用了一个 <code>insert</code> 函数，不考虑构造，通过对小区间的插入，和对 $[l, r]$ 区间的处理，直接完成了对区间 $\color{red}[l, r]$ 的运算。</p>
+<p>它的思路是 <strong>单个小区间，也可以说是相同区间</strong> 进行数据之间的增加，比如：</p>
+<script type="math/tex; mode=display">
+a1 \ a2 \ a3 \ ... an
+\\
+\downarrow
+\\
+[1, 1] + a[1] \ \ \ \ [2, 2] + a[2] \ \ \ \ ... \ \ \ \ [n, n] + a[n]</script><p>每个数据一开始看做 <strong>0</strong> ，这样子就像对每个值进行 <code>+c</code> ，再进行之后 $[l, r]$ 区间的操作，直接求出结果。</p>
+<p>这样就忽略了 <strong>构建差分数组</strong> ，直接从结果上求解，运用了 <strong>差分的特性：对差分数组求前缀和就算得原数组</strong> ，从而直接求得结果。</p>
+<p>先来看一眼代码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/f6fd67d30f0ffe94b5ef73efd6666f17.png" alt="image-20221223120915355"></p>
+<p><strong>我第一眼看到这个代码我就觉得很惊艳，这是一个很巧妙的做法，但是过一会我就十分疑惑</strong> ：</p>
+<p>如果我不从最终结果上来看，我就是要看 <strong>过程</strong> 呢？差分之前说过，第一步就要构建 <strong>差分数组</strong> ，之后才能进行求解，但是这里没有构建是怎么算的？</p>
+<p><strong>可能是博主比较无聊，就想了好一会，看着代码没想明白，后来把这个过程推了一遍，发现，这一过程真的十分妙！</strong></p>
+<p><strong>在上图中，我给出 <code>红色</code> 方框的部分既可以看做对小区间进行数据插入，又可以看做是在构建差分数组。</strong> </p>
+<p>为什么这么说？下面我们进行一下推导证明：</p>
+<p>之间我们推导过如何构造 $差分矩阵 b$ ，这里再提一下，这里是 <strong>关键</strong> ：</p>
+<script type="math/tex; mode=display">
+一维差分数组构造方式：
+\begin{cases}
+b[1] = a[1]\\\\
+b[2] = a[2] - a[1]\\\\
+b[3] = a[3] - a[2]\\\\
+...\\\\
+b[n] = a[n] - a[n - 1]
+\end{cases}</script><p>由于 $b$ 是全局数组，所以一开始元素都是为 <strong>0</strong> 的。</p>
+<p>所以 $\color{red}b$ 初始状态为：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+&\ 0 \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0
+\\
+\\
+&    \ 1 \ \ \ \ 2 \ \ \ \ 3 \ \ \ \ 4 \ \ \ \ 5 \ \ \ \ 6
+\end{align}</script><p><strong>注：这里第一行为 $b$ 数组，第二行为 <code>下标</code> ，由于 <code>LaTeX</code> 我用的还不是很熟练，所以还不能很好的控制对齐和缩进，加上标识这个就不对齐了，效果不太好，所以就省略了~大家看到这条之后委屈一下hh，我会尽量说明白的。</strong></p>
+<p>现在开始模拟这一过程：</p>
+<ol>
+<li>第一次循环，<code>insert(1, 1, a[1])</code> ，对 $[1, 1]$ 进行 $a[1]$ 元素的插入，插入之后结果：</li>
+</ol>
+<script type="math/tex; mode=display">
+\begin{align}
+& \ {\color{red}a[1]}  {\color{blue}-a[1]} \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0
+\\
+\\
+& \ 1 \ \ \ \ 2 \ \ \ \ 3 \ \ \ \ 4 \ \ \ \ 5 \ \ \ \ 6
+\end{align}</script><p>由于插入过程为：<code>b[l] += c</code> ，<code>b[r + 1] -= c</code>。而我们 $l = r = a[1]$ ，所以这边就相当于对 $b[1] += a[1]$，对 $b[2] -= a[1]$ ，这里还不能看出什么，继续模拟：</p>
+<ol>
+<li>第二次循环，<code>insert(2, 2, a[2])</code> ，对 $[2, 2]$ 进行 $a[2]$ 元素的插入，插入之后结果：</li>
+</ol>
+<script type="math/tex; mode=display">
+\begin{align}
+& \ a[1] \ \ {\color{red}a[2]-a[1]} \ \  {\color{blue}-a[2]} \ \ \ \ 0 \ \ \ \ 0 \ \ \ \ 0
+\\
+\\
+& \ 1 \ \ \ \ 2 \ \ \ \ 3 \ \ \ \ 4 \ \ \ \ 5 \ \ \ \ 6
+\end{align}</script><p>进行第二次插入后，对 $b[2] += a[2]$ ，对 $b[3] -= a[2]$，我们再回顾一下刚刚提到的 <strong>如何构造差分数组 $b$</strong> 有些不可思议的发现？先别急，我们把这一过程推完再下结论。</p>
+<ol>
+<li>博主之前已经推过一遍了，这次我们直接跳到最后一次：</li>
+</ol>
+<script type="math/tex; mode=display">
+\begin{align}
+& {\color{green}\ a[1] \ \ a[2]-a[1] \ \  a[3] - a[2] \ \  a[4] - a[3]  \ \ a[5] - a[4] \ \ a[6] - a[5]}
+\\
+\\
+& \ 1 \ \ \ \ 2 \ \ \ \ 3 \ \ \ \ 4 \ \ \ \ 5 \ \ \ \ 6
+\end{align}</script><p>最后这一循环结束的时候的结果是这样的，<strong>实际上，这就已经完成了对差分数组的构建</strong> 。</p>
+<p>再回头看看我们上方画出的重点：<em>如何构造差分矩阵 $b$</em>，现在其实就都可以想通了，<strong>实际上这一过程就是变相的构造出来了 <code>差分数组</code></strong>。</p>
+<p>虽然从表面上是对 <strong>小区间插入数据</strong> ，但实际上就是在 <strong>构建</strong> ，hhh。</p>
+<p>其实就单单从结果上来看还是很简单的，但是往里看点，可能就会陷进去，博主就是其中之一，但是博主比较轴，还是给它推了一下，满足一下自己的好奇心，也是为了下面讲二维做一下铺垫。</p>
+<blockquote>
+<p>到这里，我只能说 y 老师 nb !</p>
+</blockquote>
+<h1 id="二维差分"><a href="#二维差分" class="headerlink" title="二维差分"></a>二维差分</h1><h2 id="算法推导-3"><a href="#算法推导-3" class="headerlink" title="算法推导"></a>算法推导</h2><p>二维差分是一维差分的一个升级，二维差分，可以对二维数组中某块区域进行 $+-$ 变换。</p>
+<p>假定 $a$ 为原二维数组，$b$ 为二维差分数组，此时 $b$ 为 $a$ 的差分数组，$a$ 为 $b$ 的前缀和数组。</p>
+<p>这里其实对于 <strong>二维差分数组的构建也是十分有意思的，我们待会再讲，先看如何让二维数组的子矩阵中每个元素的值 $+c$</strong> ：</p>
+<p>下图为 <strong>二维差分数组 $b$</strong> ：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/0ab34fba3f1ee41e22fa364e8726de2e.png" alt="image-20221223151225569"></p>
+<p>为了更好的理解这个过程，在讲之间，我再把 <strong>$a$ 数组</strong>对应分块画出来：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/0ea5bf4f57ef17affb4d7085bef4913c.png" alt="image-20221223153934483"></p>
+<p>为了使得 $a$ 数组中 <strong>黄色区域</strong> <code>+c</code> ，一共需要对 差分数组 $b$ 做如下操作：</p>
+<ul>
+<li>$b[x1][y1] += c$：由于$a$ 是 $b$ 的前缀和数组，所以只要对 $b[x1][y1] += c$ 就会使得图 $(1)$ 蓝色面积的元素 $+c$，大概的推导我们在一维差分那边推导过，这边就不多赘述了。</li>
+<li>$b[x2 + 1][y1] -= c$：使图 $(2)$ 紫色面积的元素 $-c$</li>
+<li>$b[x1][y2 + 1] -= c$：使图 $(3)$ 红色面积的元素 $-c$：</li>
+<li>$b[x2 + 1][y2 + 1] += c$ ：使图 $(4)$ 绿色面积的元素 $+c$</li>
+</ul>
+<p><strong>至于为什么要让绿色面积加上 $c$ 是因为，紫色面积和红色面积重叠部分为绿色面积，绿色面积被减了两次，得补上一次 $c$</strong>。</p>
+<p>这里的思想其实和一维差分是很相似的，我们可以把一维差分的这些操作看做长度，即区间上的数据改变；</p>
+<p>而这里则是通过面积，想要让子矩阵 $+c$ 那么就让整体减去部分，得到子矩阵的区域，而上方我们减去的紫色和红色区域其实就是和一维差分中的多余部分是相似的。只不过原来在一维的操作扩展到了二维。</p>
+<blockquote>
+<p>到这我们就把具体操作讲完了，接下来就该讲 <strong>如何构造二维差分数组</strong> 了：</p>
+</blockquote>
+<p>其实讲一维差分的时候，把 y 老师的做法特意抽出来推导一遍就是为了这里。</p>
+<p>上方我们证明了，其实在对小区间进行插入的过程中，就完成了对差分数组的构造，那么在这边我们对于二维差分数据的构建是比较麻烦的，这时使用y 老师的办法就显得 <strong>非常简单</strong> ：</p>
+<p>同样的，我们把上方 <strong>操作</strong> 的代码 <strong>封装成 <code>insert</code> 函数</strong> ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">insert</span><span class="params">(<span class="type">int</span> x1, <span class="type">int</span> y1, <span class="type">int</span> x2, <span class="type">int</span> y2, <span class="type">int</span> c)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    b[x1][y1] += c;</span><br><span class="line">    b[x1][y2 + <span class="number">1</span>] -= c;</span><br><span class="line">    b[x2 + <span class="number">1</span>][y1] -= c;</span><br><span class="line">    b[x2 + <span class="number">1</span>][y2 + <span class="number">1</span>] += c;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将 原始数组 $a$ 的元素都假想为 <strong>0</strong> ，然后把原始数组 $a$ 的每个元素想象成一个一个的 <strong>小矩阵</strong> ，然后对每个小矩阵进行插入操作，这一过程其实就已经构建出 <strong>二维差分数组</strong> ：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3c7e11f6badbd75de03799652e00a67f.png#pic_center" alt="image-20221223161024581"></p>
+<p>最后再对需要求的 <strong>子矩阵</strong> 进行操作就可以求得结果。</p>
+<p><strong>那么能不能用构造的方式，把差分数组构建一下</strong>，答案是可以的。</p>
+<p>其实对于二维差分数组的构建我觉得还是挺麻烦的，所以博主用的是一个 <strong>反推</strong> 的方式：</p>
+<p>之前讲过，$a$ 数组是 $b$ 数组的前缀和，对 $b$ 数组求前缀和就可以得到 $a$ 数组的值，公式如下：</p>
+<script type="math/tex; mode=display">
+a[i][j] = a[i - 1][j] + a[i][j - 1] - a[i - 1][j - 1] + b[i][j]</script><p>这是我们按照前缀和公式的角度去看的，现在 $b[i][j]$ 实际上就是求前缀和时，加上的小方块的面积，那么算出这个就只要交换一下等式两边的数据就可以：</p>
+<script type="math/tex; mode=display">
+b[i][j] = a[i][j] - a[i - 1][j] - a[i][j - 1] + a[i - 1][j - 1];</script><p>这就非常简单地得到了 <strong>构建差分数组</strong> 的公式，比干巴巴地去想如何构建清晰很多。</p>
+<h2 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/800/">798. 差分矩阵</a></p>
+<p><strong>描述</strong>：</p>
+<p>输入一个 $n$ 行 $m$ 列的整数矩阵，再输入 $q$ 个操作，每个操作包含五个整数 $x1,y1,x2,y2,c$ 其中 $(x1,y1)$ 和 $(x2,y2)$表示一个子矩阵的左上角坐标和右下角坐标。</p>
+<p>每个操作都要将选中的子矩阵中的每个元素的值加上 $c$ 。</p>
+<p>请你将进行完所有操作后的矩阵输出。</p>
+<p><strong>输入格式</strong>：</p>
+<p>第一行包含整数 $n,m,q$。</p>
+<p>接下来 $n$ 行，每行包含 $m$ 个整数，表示整数矩阵。</p>
+<p>接下来 $q$ 行，每行包含 $5$ 个整数 $x1,y1,x2,y2,c$ 表示一个操作。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共 $n$ 行，每行 $m$ 个整数，表示所有操作进行完毕后的最终矩阵。</p>
+<p><strong>数据范围</strong>：</p>
+<ul>
+<li>$1≤n,m≤1000$</li>
+<li>$1≤q≤100000$</li>
+<li>$1≤x1≤x2≤n$</li>
+<li>$1≤y1≤y2≤m$</li>
+<li>$−1000≤c≤1000$</li>
+<li>$−1000≤矩阵内元素的值≤1000$</li>
+</ul>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">3 4 3</span><br><span class="line">1 2 2 1</span><br><span class="line">3 2 2 1</span><br><span class="line">1 1 1 1</span><br><span class="line">1 1 2 2 1</span><br><span class="line">1 3 2 3 2</span><br><span class="line">3 1 3 4 1</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2 3 4 1</span><br><span class="line">4 3 4 1</span><br><span class="line">2 2 2 2</span><br></pre></td></tr></table></figure>
+<p><strong>代码1</strong>：</p>
+<p>常规构造，最终结果将求得结果放入 $a$ 中。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3149a172f49110cf09e54a20ada7204f.png" alt="image-20221223162801122"></p>
+<p><strong>代码2</strong>：</p>
+<p>y 老师用的插入的方式，结果直接放在 $b$ 中。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/869c40270c34d0c2f128b7fb18b2e617.png" alt="image-20221223163026776"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">pionnier</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/qianzhuihechafen.html">http://example.com/qianzhuihechafen.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">pionnier</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/">安度因</a><a class="post-meta__tags" href="/tags/c/">c++</a></div><div class="post_share"><div class="social-share" data-image="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/gaojingdu.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【算法系列】高精度算法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/gaojingdu.html" title="【算法系列】高精度算法"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-06</div><div class="title">【算法系列】高精度算法</div></div></a></div><div><a href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-30</div><div class="title">(数据结构)长文带你玩转二叉树，期末考试必看篇</div></div></a></div><div><a href="/lianbiao.html" title="(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/9403" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了</div></div></a></div><div><a href="/shunxubiao.html" title="顺序表从0到1"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/10968" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">顺序表从0到1</div></div></a></div><div><a href="/shuati1.html" title="leetcode~纵享丝滑~快乐刷题篇（1）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15127" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-03</div><div class="title">leetcode~纵享丝滑~快乐刷题篇（1）</div></div></a></div><div><a href="/zhanheduilie.html" title="期末预警~长文通关栈和队列~附带经典leetcode题目"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11223" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">期末预警~长文通关栈和队列~附带经典leetcode题目</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15121" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">pionnier</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn"><i class="iconfont icon-csdn"></i><span>暂时没想好传送到哪里啦</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:Akilarlxh@gmail.com" target="_blank" title="Email"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://steamcommunity.com/profiles/76561199139554396/" target="_blank" title="steam"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-steam"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到这里，今天也要打起精神哦。</div></div><div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E5%89%8D%E7%BC%80%E5%92%8C"><span class="toc-number">1.</span> <span class="toc-text">一维前缀和</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC"><span class="toc-number">1.1.</span> <span class="toc-text">算法推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E5%89%8D%E7%BC%80%E5%92%8C"><span class="toc-number">2.</span> <span class="toc-text">二维前缀和</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-1"><span class="toc-number">2.1.</span> <span class="toc-text">算法推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">2.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E7%BB%B4%E5%B7%AE%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">一维差分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-2"><span class="toc-number">3.1.</span> <span class="toc-text">算法推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="toc-number">3.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E7%BB%B4%E5%B7%AE%E5%88%86"><span class="toc-number">4.</span> <span class="toc-text">二维差分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E6%8E%A8%E5%AF%BC-3"><span class="toc-number">4.1.</span> <span class="toc-text">算法推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><span class="toc-number">4.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【算法系列】前缀和与差分"/></a><div class="content"><a class="title" href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分">【算法系列】前缀和与差分</a><time datetime="2023-01-07T02:20:45.000Z" title="发表于 2023-01-07 10:20:45">2023-01-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/gaojingdu.html" title="【算法系列】高精度算法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【算法系列】高精度算法"/></a><div class="content"><a class="title" href="/gaojingdu.html" title="【算法系列】高精度算法">【算法系列】高精度算法</a><time datetime="2023-01-06T02:55:36.000Z" title="发表于 2023-01-06 10:55:36">2023-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/neicunfenxi.html" title="【c】探讨数据如何在内存中进行存储"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15193" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【c】探讨数据如何在内存中进行存储"/></a><div class="content"><a class="title" href="/neicunfenxi.html" title="【c】探讨数据如何在内存中进行存储">【c】探讨数据如何在内存中进行存储</a><time datetime="2023-01-03T12:07:42.000Z" title="发表于 2023-01-03 20:07:42">2023-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="(数据结构)长文带你玩转二叉树，期末考试必看篇"/></a><div class="content"><a class="title" href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇">(数据结构)长文带你玩转二叉树，期末考试必看篇</a><time datetime="2022-12-30T02:27:59.138Z" title="发表于 2022-12-30 10:27:59">2022-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/postcaozuofu.html" title="c语言~操作符讲解"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15129" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="c语言~操作符讲解"/></a><div class="content"><a class="title" href="/postcaozuofu.html" title="c语言~操作符讲解">c语言~操作符讲解</a><time datetime="2022-12-28T00:40:14.000Z" title="发表于 2022-12-28 08:40:14">2022-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">公益推广</p><div class="bg-ad"><div>一本好书,就是一所好的学校；一本好书，就是一扇面向世界的窗口；一本好书，就是一条通往成功的大道；孩童时代起，爸爸妈妈一定都给你们许多的课外读物，或许在书架上，它们都蒙上了灰尘。你是否想过，这些闲置的、被遗忘的书籍却仍是一笔笔珍贵的财富？</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://yangfanbook.sina.com.cn/YFProject/DonateBook">扬帆计划官网</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">实用工具</p><ul class="ft-links"><li><a target="_blank" rel="noopener" href="https://dycharts.com/channel-inviteu/index.html?channelCode=33OSVUTJ&amp;hmsr=kol-lmj&amp;hmpl=mgwdm">图表设计</a><a target="_blank" rel="noopener" href="https://gitmind.cn/?apptype=chn-hucpa">思维导图</a></li><li><a target="_blank" rel="noopener" href="https://convertio.co/zh/">格式转换器</a><a target="_blank" rel="noopener" href="https://wordart.com/">云文字</a></li><li><a target="_blank" rel="noopener" href="https://www.videvo.net/">video</a><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a></li><li><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">创客贴</a><a target="_blank" rel="noopener" href="http://www.hippter.com/">hippter</a></li><li><a target="_blank" rel="noopener" href="https://www.toolfk.com/">toolfk工具箱</a><a target="_blank" rel="noopener" href="https://www.qijishow.com/">奇迹秀</a></li><li><a target="_blank" rel="noopener" href="https://bilibili.iiilab.com/">bilibili视频下载</a><a target="_blank" rel="noopener" href="https://www.onlineimagetool.com/zh/">图片压缩</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐阅读</p><div class="ft-img-group"><div class="img-group-item"><a href=" https://www.csdn.net/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://appimg.dbankcdn.com/hwmarket/files/application/icon144/b55cdddbf45e4ded902615bb9895533e.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://github.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.1591954549cb4f45870949c4de53cdaf?rik=RcEP3rK4%2bsT4TA&amp;riu=http%3a%2f%2fumaar.github.io%2fexperiments%2fgithub-3d-logo%2frender-2.jpg&amp;ehk=VpOrW33N7blW8q7XMTSvR8krYhTyJ7ruH%2f%2fmUKlWXYM%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" alt=""/></a></div><div class="img-group-item"><a href=" https://www.runoob.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.c9709a2ac731f2356c57bc2a8d77926c?rik=g0pK4BJ7EArg5A&amp;riu=http%3a%2f%2fimg.itmop.com%2fupload%2f2018-2%2f2018226116238561.png&amp;ehk=izv6PJyHEk8e%2f7PZ5ybntdO6aC3AJJ1%2fIoQIia3HBZs%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0&amp;sres=1&amp;sresct=1" alt=""/></a></div><div class="img-group-item"><a href=" https://www.w3school.com.cn/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://p1.ssl.qhimg.com/dr/270_500_/t01397b45c56f335dde.jpg?size=203x203" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.icourse163.org/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://src.onlinedown.net/new_img/apk_logo/2015/0430/257251_1430364529_3288.png" alt=""/></a></div><div class="img-group-item"><a href=" https://study.163.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.dfcf24d09ec725f0a93a109779d096ce?rik=FjF27%2b6oIrGVwA&amp;riu=http%3a%2f%2fwww.lgstatic.com%2fthumbnail_300x300%2fimage2%2fM00%2f14%2f7D%2fCgpzWlZAKjOAIGgyAAAZmYovt28160.png%3fcc%3d0.9594603911973536&amp;ehk=zq%2bP%2bh8%2fNt9VSHvvwYshHXfXA%2fZll3%2btp4%2bo4FfNdCk%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.oschina.net/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://avatar.gitee.com/uploads/1/1_oschina-org.png!avatar200?1524465517" alt=""/></a></div><div class="img-group-item"><a href=" https://leetcode-cn.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic3.zhimg.com/50/v2-e75b5383a665819f29220b1df311998e_xs.jpg" alt=""/></a></div></div></div></div><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> pionnier</div><div class="footer_custom_text">累了就好好休息鸭，安心交给明天的自己吧  <div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">         </use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"> </i></button></div></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="2239349364" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="/js/custom/nav.js"></script><script>WIDGET = {"CONFIG":{"modules":"012","background":"5","tmpColor":"FFFFFF","tmpSize":"16","cityColor":"FFFFFF","citySize":"16","aqiColor":"FFFFFF","aqiSize":"16","weatherIconSize":"24","alertIconSize":"18","padding":"10px 10px 10px 10px","shadow":"0","language":"auto","fixed":"false","vertical":"top","horizontal":"left","key":"3da94e567f5e4e88baf90f066f0893c2"}}</script><script defer data-pjax src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script async src="/js/title.js"></script><script async src="/js/fps.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="//at.alicdn.com/t/c/font_3812295_db2mptl0ld.js"></script><script defer src="/js/light.js"></script><link rel="stylesheet" href="/css/aplayer.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/Meting2.min.js"></script><script async data-pjax src="/js/aplayer.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer src="/js/shezhi.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><canvas id="snow"></canvas><script async src="/js/snow.js"></script><script async data-pjax src="/js/nav.js"></script><script async data-pjax src="/js/custom.js"></script><script async data-pjax src="/js/waterfall.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/p6Xmf8GtnUBgivV.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/c语言/&quot;);" href="javascript:void(0);">c语言</a><span class="categoryBar-list-count">8</span><span class="categoryBar-list-descr">又是摸鱼的一天</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/cSN74m18oYAqaBt.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/数据结构期末备考/&quot;);" href="javascript:void(0);">数据结构期末备考</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr">还是摸鱼</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/XzKFA4MRr9Eu2Yw.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/算法/&quot;);" href="javascript:void(0);">算法</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">不想更新^-^</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/07/WtlLQ18sGCkr3MU.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/leetcode刷题集/&quot;);" href="javascript:void(0);">leetcode刷题集</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">进来看看</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v3.8.2" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用双线部署，默认线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用双线部署，联通线路托管于Coding" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&amp;logo=Codio" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">【算法系列】前缀和与差分</a><div class="blog-slider__text">介绍前缀和差分的算法知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">【算法系列】高精度算法</a><div class="blog-slider__text">介绍了高精度算法的一些知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/9403" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt="">(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了</a><div class="blog-slider__text">关于链表，你了解多少？</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15127" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt="">leetcode~纵享丝滑~快乐刷题篇（1）</a><div class="blog-slider__text">leetcode刷题系列第一集</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-30</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt="">(数据结构)长文带你玩转二叉树，期末考试必看篇</a><div class="blog-slider__text">还不来看看二叉树的题怎么做</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":263},"mobile":{"show":false},"log":false});</script></body></html>

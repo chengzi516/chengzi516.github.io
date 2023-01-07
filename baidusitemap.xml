@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://example.com/neicunfenxi.html</loc>
-    <lastmod>2023-01-04</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/erchashu.html</loc>
-    <lastmod>2022-12-30</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/lianbiao.html</loc>
-    <lastmod>2022-12-30</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/shunxubiao.html</loc>
-    <lastmod>2022-12-30</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/zhanheduilie.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/hanshu.html</loc>
-    <lastmod>2022-12-30</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/xunhuanyuju.html</loc>
-    <lastmod>2022-12-30</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/zhizhenjiegouti.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <loc>http://example.com/gaojingdu.html</loc>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
     <loc>http://example.com/tiaoshi.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/postcaozuofu.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <loc>http://example.com/shunxubiao.html</loc>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/postshuzupian.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <loc>http://example.com/qianzhuihechafen.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/zhizhenjiegouti.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/xunhuanyuju.html</loc>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
     <loc>http://example.com/shuati1.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/postshuzupian.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/postcaozuofu.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/neicunfenxi.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/lianbiao.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/hanshu.html</loc>
+    <lastmod>2023-01-07</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/erchashu.html</loc>
+    <lastmod>2023-01-07</lastmod>
   </url>
   <url>
     <loc>http://example.com/chushicyuyan.html</loc>
-    <lastmod>2022-12-30</lastmod>
+    <lastmod>2023-01-07</lastmod>
   </url>
 </urlset> 

@@ -1,0 +1,544 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【算法系列】高精度算法 | pionnier</title><meta name="author" content="pionnier"><meta name="copyright" content="pionnier"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="介绍了高精度算法的一些知识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法系列】高精度算法">
+<meta property="og:url" content="http://example.com/gaojingdu.html">
+<meta property="og:site_name" content="pionnier">
+<meta property="og:description" content="介绍了高精度算法的一些知识。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgbed.link/file/11875">
+<meta property="article:published_time" content="2023-01-06T02:55:36.000Z">
+<meta property="article:modified_time" content="2023-01-07T04:46:18.473Z">
+<meta property="article:author" content="pionnier">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="安度因">
+<meta property="article:tag" content="c++">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgbed.link/file/11875"><link rel="shortcut icon" href="https://img.51miz.com/Element/00/84/61/94/a5bc49ec_E846194_41d9c19d.png"><link rel="canonical" href="http://example.com/gaojingdu"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":50,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: pionnier","link":"链接: ","source":"来源: pionnier","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【算法系列】高精度算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-07 12:46:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/home_essay_bar.css"><link rel="stylesheet" href="https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0" media="defer" onload="this.media='all'"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jum5QuG7PRp6MvjY",ck:"Jum5QuG7PRp6MvjY"})</script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><span id="fps"></span><link rel="stylesheet" href="/css/yitu.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/about.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/welcom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15121" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://imgbed.link/file/11875')"><div class="menu-container" id="menu-container"><div class="menu-item"><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></div></div><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div><div class="top-bar"><div class="message-container"><div class="message-item message-weather" onclick="btf.scrollToDest(0, 500)"><div class="message-weather-box" id="he-plugin-simple"></div></div><div class="message-item message-date" onclick="Navvisible()"><div class="message-date-box" id="message-date-box"></div><div class="message-title-box" id="message-title-box"><a id="site-name" title="介绍了高精度算法的一些知识。">【算法系列】高精度算法  </a></div></div><div class="message-item message-function"><div id="search-button"><a class="site-page social-icon search faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg><span> 搜索</span></a></div><a class="icon-V hidden faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换"><svg class="faa-tada" width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a class="site-page faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-multi-window-01"></use></svg></a></div></div></div></div><button class="active-button" onclick="Navvisible()"></button></div><div id="post-info"><h1 class="post-title">【算法系列】高精度算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-06T02:55:36.000Z" title="发表于 2023-01-06 10:55:36">2023-01-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-07T04:46:18.473Z" title="更新于 2023-01-07 12:46:18">2023-01-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tag link"><a class="link-card" title="安度因的csdn" target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67867172"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg"/></div><div class="right"><p class="text">安度因的csdn</p><p class="url">https://blog.csdn.net/m0_67867172</p></div></a></div>
+<pre><code>                                                                        一个只写干货，不写水货的硬核博主。
+</code></pre><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>时隔多日，算法笔记终于又开始恢复更新了。今天anduin 为大家带来的是 <strong>高精度算法</strong> 。</p>
+<p>高精度算法是解决大数运算的一把利器。虽然这个名字听起来挺高大上的，但是高精度算法的原理其实并不难，就和我们平时算计算题一样。所以学习起来还是十分愉快的。</p>
+<p>高精度算法分为四大类，高精度加法，高精度减法，高精度乘法，高精度除法。它们各自有各自的优点。而今天，我们就来学习这四种算法。</p>
+<h1 id="高精度加法"><a href="#高精度加法" class="headerlink" title="高精度加法"></a>高精度加法</h1><h2 id="思想及模板"><a href="#思想及模板" class="headerlink" title="思想及模板"></a>思想及模板</h2><p><strong>高精度加法说白了就是两个大数之间相加，数字长度不超过 $ 10^{6} $ 。注意这里是长度，而不是数据大小哦！</strong></p>
+<p>但是这种数字如果放到变量中肯定是存不下的，所以我们一般用数组来存储，在 C++ 中一般用 <code>vector</code> 容器。</p>
+<p>如果存入数组中，就需要考虑存储顺序，究竟应该正着存还是倒着存。</p>
+<p>实际上，我们这边 <strong>倒着存</strong> 是很合适的，因为对于数组来说，给一个数的后面一个数加 $1$ 很简单，但是在一个数的前面加上 $1$ 就很麻烦。</p>
+<p>就比如这张图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/78476dad42527d2c6f0f60de49b836a5.png" alt="image-20230106201927548"></p>
+<p>如果我们 <strong>倒着存</strong> 那么 <code>a[0] + b[0] = 11</code> ，是需要进位的。如果倒着存就可以 <strong>很快的进行进位</strong> ，直接在下标 $1$ 处进行自增即可；但是如果正着存，那么进位就需要到 $-1$ 下标了，这样就不麻烦，我们算法就是为了更快解决问题，<strong>所以自然选择最合适的方式：倒着存</strong> 。</p>
+<p>而高精度加法运算其实就像我们小学列 <strong>竖式</strong> 一样：</p>
+<p>从最低位开始计算，如果两个数相加超过 $10$ ，就需要进位。竖式我就不带着大家列了，相信以小伙伴的脑袋瓜很容易想明白。</p>
+<p><strong>我这边就讲一下思想：</strong></p>
+<p>假如数组 $a$ 和 $b$ 分别用来存数据，$c$ 用来存储答案。</p>
+<p>通过循环同时遍历 $a$ 、$b$ 数组，在遍历的同时，使用 $t$ 来判断是否进位。将 <code>a[i] + b[i]</code> 的数据累加到 $t$ 中。</p>
+<p>数据相加有两种结果：</p>
+<ul>
+<li>如果 <code>a[i] + b[i] &lt; 10</code> ，直接将 <code>t</code> 放入 $c$ ，让 <code>t /= 10</code> ，以便下一次计算。</li>
+<li>如果 <code>a[i] + b[i] = 10</code> ，将 <code>t % 10 = 0</code> 放入 $c$ ，让 <code>t /= 10</code> 。</li>
+<li>如果 <code>a[i] + b[i] &gt; 10</code> ，将 <code>t % 10</code> 放入 $c$ 数组，将 <code>t /= 10</code> 作为 <strong>进位</strong> ，下一次 $t$ 初始就是 $1$ 。</li>
+</ul>
+<p>就拿这张图理解：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/2b20400140845a1be002f4fb35553d85.png" alt="image-20230106204019234"></p>
+<p>这里就是对最后一位进行运算时，所做的进位操作。</p>
+<p><strong>而 $t \% 10$ 最终的结果肯定在 $0 \sim  9$ 之间，如果 $t &lt; 10$ 小，那么 $\%10$ 不会对运算结果产生影响；对于 $t &gt; 10$的情况，则会将结果控制到 $0 \sim 9$ 之间。</strong></p>
+<p>这种做法就像是计算机在模拟我们日常的操作，所以高精度加法在力扣上有一题被归为 <strong>模拟算法</strong> 的范畴：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/add-strings/">415. 字符串相加</a> 。就比如这道题目，就是经典的高精度加法。</p>
+<p><strong>模板</strong> ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">Add</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;A, vector&lt;<span class="type">int</span>&gt; &amp;B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; C;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> t = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; A.<span class="built_in">size</span>() || i &lt; B.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; A.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            t += A[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; B.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            t += B[i];</span><br><span class="line">        &#125;</span><br><span class="line">        C.<span class="built_in">push_back</span>(t % <span class="number">10</span>);</span><br><span class="line">        t /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (t) &#123;</span><br><span class="line">        C.<span class="built_in">push_back</span>(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简单讲一下模板在干什么：</p>
+<p>$a$ 和 $b$ 是倒着存的，并同步遍历，由于数据大小不确定，所以只要 $a$ 和 $b$ 有一个符合条件，则就可以被 $t$ 累加。</p>
+<p>每次将 $t % 10$ 尾插到结果数组 $c$ 中，然后将 $t / 10$ ，以便下次运算，如果有进位，那么下次 $t$ 的初值就为 $1$ 。</p>
+<p>最后循环结束后，再判断一下是否还有进位没进，如果有进位，则将 $1$ 尾插到 $c$ 中。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/793/">791. 高精度加法</a></p>
+<p><strong>描述</strong>：</p>
+<p>给定两个正整数（不含前导 $0$），计算它们的和。</p>
+<p><strong>输入格式</strong>：</p>
+<p>共两行，每行包含一个整数。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共一行，包含所求的和。</p>
+<p><strong>数据范围</strong>：</p>
+<p>$1 ≤$ 整数长度 $≤100000$</p>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">12</span><br><span class="line">23</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">35</span><br></pre></td></tr></table></figure>
+<p><strong>思路</strong> ：</p>
+<p>思路我们基本已经讲完了，在经过模板中的处理后，将数据倒着打印出来即可。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/71ffbd0a2b843b253af289b65cd1ae10.png" alt="image-20230106210238040"></p>
+<h1 id="高精度减法"><a href="#高精度减法" class="headerlink" title="高精度减法"></a>高精度减法</h1><h2 id="思路及模板"><a href="#思路及模板" class="headerlink" title="思路及模板"></a>思路及模板</h2><p><strong>高精度减法是对大整数的减法，数据长度不超过 $10^{6}$ 。</strong></p>
+<p>我们讲解的 <strong>高精度减法是基于对正整数的算法</strong> ，如果计算的是负数，那么需要微调。</p>
+<p>高精度减法使用的存储方式为 <strong>倒序存储</strong> 。还是和我们的竖式计算十分相似。</p>
+<p>假设我们现在还是两个数组：$a, b$ ，当 $a[i] - b[i] &lt; 0$ 时，则需要 <strong>借位</strong> ；如果 $a[i] - b[i] &gt;= 0$ ，则无需处理。</p>
+<p>就比如这幅图就是 $a[i] - b[i] &lt; 0$ 的一个经典样例：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/b5237462a1c53ca9aeeef7e55668b9b3.png" alt="image-20230106213647422"></p>
+<p>如果 $a[i] - b[i] &lt; 0$ ，则说明需要借位，就是 $+10$ ，为了防止 $+10$ 后超过 $10$ 而放不进数组，所以需要 $\% 10$ 。然后判断 $t$本身是否小于 $0$ ，将借位更新一下：$t = -1$ ，方便下一次计算。</p>
+<p>如果 $a[i] - b[i] \ge 0$ ，上面的方式也能完全适应，因为对于 $0 \sim 9$ 的正数来说先 $+10$ 再 $\% 10$ 是不变的，所以方法完全适配。在这种情况下 $t  \ge 0$ ，所以无需进位 $t = 0$ 。</p>
+<p><strong>但是在进行高精度减法之前，我们需要知道两个数的大小</strong>：</p>
+<ul>
+<li>若 $a &lt; b$ ，则 $a - b$ 结果为负数</li>
+<li>若 $a \ge b$ ，则 $a - b$ 结果为整数或 $0$ </li>
+</ul>
+<p>所以我们需要预处理比较两个数的大小，如果 $a &lt; b$ 的话，就需要交换它们的值，因为它俩原结果就相当于 $-(b - a)$ 。</p>
+<p>再来看看模板：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比较 a 和 b 的大小</span></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">cmp</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;A, vector&lt;<span class="type">int</span>&gt; &amp;B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// 如果 A 的位数小于或等于 B 的位数</span></span><br><span class="line">    <span class="keyword">if</span> (A.<span class="built_in">size</span>() != B.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        <span class="keyword">return</span> A.<span class="built_in">size</span>() &gt; B.<span class="built_in">size</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// A 的位数大于 B 的位数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="keyword">if</span> (A[i] != B[i]) &#123;</span><br><span class="line">            <span class="keyword">return</span> A[i] &gt; B[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 此时 A == B</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">Sub</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;A, vector&lt;<span class="type">int</span>&gt; &amp;B)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; C;</span><br><span class="line">    <span class="type">int</span> t = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; A.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        t += A[i];</span><br><span class="line">        <span class="keyword">if</span> (i &lt; B.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            t -= B[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 相减结果可能为负数 % 10 可以得到 0~9 的位数</span></span><br><span class="line">        <span class="comment">// 此时是需要借位的</span></span><br><span class="line">        C.<span class="built_in">push_back</span>((t + <span class="number">10</span>) % <span class="number">10</span>);</span><br><span class="line">        <span class="comment">// 如果 t &lt; 0 说明要借位</span></span><br><span class="line">        <span class="keyword">if</span> (t &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            t = <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            t = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        C.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段模板里的大部分我们都讲过了，下面讲一下这块是什么意思：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        C.<span class="built_in">pop_back</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于我们的数据时是倒着存放的，而两个数相减结果为 $0$ ，就会在该位填上 $0$ 。</p>
+<p>比如 $666 \sim 665$ 在经过上方的高精度运算后，$c$  中结果为 $100$ ，所以这种情况就需要去前导0 。</p>
+<p>上面的操作就是检查长度是否至少为 $1$ ，且 $c$ 尾部是否为 $0$ 。</p>
+<h2 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong> ：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/794/">792. 高精度减法</a></p>
+<p>给定两个正整数（不含前导 $0$ ），计算它们的差，计算结果可能为负数。</p>
+<p><strong>输入格式</strong>：</p>
+<p>共两行，每行包含一个整数。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共一行，包含所求的差。</p>
+<p><strong>数据范围</strong>：</p>
+<p>$1≤整数长度≤10_{5}$</p>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">32</span><br><span class="line">11</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">21</span><br></pre></td></tr></table></figure>
+<p>思路我们都讲过了，接下来就直接上代码，注意点都在注释里：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/2f7647169ca02811245d4cd02a0fd683.png" alt="image-20230106224056630"></p>
+<h1 id="高精度乘法"><a href="#高精度乘法" class="headerlink" title="高精度乘法"></a>高精度乘法</h1><h2 id="思路及模板-1"><a href="#思路及模板-1" class="headerlink" title="思路及模板"></a>思路及模板</h2><p><strong>我们这里讲的高精度乘法为大整数 $\times$ 小整数，大整数长度不超过 $10^{6}$，小整数数据范围不超过$10^{9}$。</strong>  </p>
+<p>高精度乘法，就不只是单单的数学计算了，这里有些不同。</p>
+<p>首先大数 $a$ 倒序存储到 <code>vector</code> 中，这样也是为了方便进位，首先设定进位 $t$ 。</p>
+<p>再看一个例子，了解一下进位规则：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/182f8bbd5ae09b6a277b01cecc8d1caf.png" alt="image-20230106232025869"></p>
+<p>就比如这个例子，<strong>大数 $a$ 的单独位数直接和 $b$ 相乘，将结果累加到 $t$ 中，将乘得的结果 $\% 10$ 存放到 $c$ 数组中，然后 $t /= 10$ ，将进位去掉一位</strong> 。其实这里的进位也很好理解，无非就是要让 $t$ 到下一位，而下一位是当前位次 $\times 10$ ，所以 $t$ 要前进一位就要 $/ 10$ 。</p>
+<p> 这就是高精度乘法的运算规则，也不需要分类讨论啥的，就记住这个规律就好。虽然运算方法和我们从前计算方式有些不同，但是最终计算结果是相同的。</p>
+<p>由于这个过程不太好模拟，所以不懂的小伙伴们可以下去自己模拟一下，操作很简单，但是不好表示。</p>
+<p><strong>模板</strong> ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">Mul</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;A, <span class="type">int</span> b)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; C;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> t = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; A.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        t += A[i] * b;</span><br><span class="line">        C.<span class="built_in">push_back</span>(t % <span class="number">10</span>);</span><br><span class="line">        t /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (t) &#123;</span><br><span class="line">        C.<span class="built_in">push_back</span>(t % <span class="number">10</span>);</span><br><span class="line">        t /= <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 去除前导 0 </span></span><br><span class="line">    <span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        C.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们再来讲讲模板里面的部分内容：</p>
+<p><strong>第一部分：</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (t) &#123;</span><br><span class="line">    C.<span class="built_in">push_back</span>(t % <span class="number">10</span>);</span><br><span class="line">    t /= <span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这一部分就是在处理进位，因为运算结束之后，很可能还有进位没有处理。所以循环结束需要额外处理一下。</p>
+<p><strong>第二部分</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 去除前导 0 </span></span><br><span class="line"><span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">    C.<span class="built_in">pop_back</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>乘法也是会出现前导 $0$ 的，比如任何一个数和 $0$ 相乘结果都会是 $0$，所以这里也需要去一下前导 $0$ 。</p>
+<h2 id="代码实现-2"><a href="#代码实现-2" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/795/">793. 高精度乘法</a></p>
+<p><strong>描述</strong>：</p>
+<p>给定两个非负整数（不含前导 $0$ ） $A$ 和  $B$ ，请你计算 $A×B$ 的值。</p>
+<p><strong>输入格式</strong>：</p>
+<p>共两行，第一行包含整数 $A$ ，第二行包含整数 $B$ 。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共一行，包含 $A×B$ 的值。</p>
+<p><strong>数据范围</strong>：</p>
+<p>$1≤A的长度≤100000$<br>$0≤B≤10000$</p>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">6</span><br></pre></td></tr></table></figure>
+<p>由于上面我们基本上已经把代码讲过了，所以直接上代码，高精度乘法其实思路十分简单：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/82e9ada4c14b13c7dfb2214098bfd092.png" alt="image-20230107003801278"></p>
+<h1 id="高精度除法"><a href="#高精度除法" class="headerlink" title="高精度除法"></a>高精度除法</h1><h2 id="思路及模板-2"><a href="#思路及模板-2" class="headerlink" title="思路及模板"></a>思路及模板</h2><p><strong>我们这里讲的高精度除法为大整数 $/$ 小整数，大整数长度不超过 $10^{6}$，小整数数据范围不超过$10^{9}$。</strong>  </p>
+<p>我们人在做除法时，会先看第一位，如果第一位大于除数，则在结果相应位置写下除以除数之后的数据，否则看下一位，这样以此类推。所以人算除法第一位都是有效数据位。</p>
+<p>但是对于计算机不是这样，计算机则会默认从第一位算起，举个例子，比如 $1234 / 11$ ：如果以人的角度，第一位肯定为 $1$ ，但是计算机会从第一位开始看，第一位为 $0$ 。</p>
+<p>而 <strong>除法可能产生余数</strong> ，所以还需要一个变量来记录余数。</p>
+<p>有了这个概念，我们先看模板：</p>
+<p>我们的模板是倒着存数据的，但是高精度除法是可以正着存的，因为除法需要从第一位开始除，所以正着存完全没有问题，但是之后可能会有高精度的混合运算，所以我们这边保持标准，也是倒着存。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">div</span><span class="params">(vector&lt;<span class="type">int</span>&gt; &amp;A, <span class="type">int</span> b, <span class="type">int</span> &amp;r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; C;</span><br><span class="line">    </span><br><span class="line">    r = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        r = r * <span class="number">10</span> + A[i];</span><br><span class="line">        C.<span class="built_in">push_back</span>(r / b);</span><br><span class="line">        r %= b;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">reverse</span>(C.<span class="built_in">begin</span>(), C.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">        C.<span class="built_in">pop_back</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> C;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>看完模板之后，我们对立面的一些代码进行讲解</strong> ：</p>
+<p><strong>第一块</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = A.<span class="built_in">size</span>() - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    r = r * <span class="number">10</span> + A[i];</span><br><span class="line">    C.<span class="built_in">push_back</span>(r / b);</span><br><span class="line">    r %= b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先看着一步，高精度除法比另外三个算法难的原因就是出在这一步上，因为运算规则可能不太好理解。</p>
+<p>我们知道，如果要做除法运算，那么后面就需要一定的 <strong>补位</strong> ，<code>r * 10 + A[i]</code> 就是在补位，因为下一次的需要被除的数据，就是第一次相除后的余数 $\times 10$ ，然后加上当前元素 <code>A[i]</code> 。</p>
+<p>而除之后的结果就是 $r / b$ ，每次除完都有相应的余数，所以 <code>r %= b</code> 。下面我们就用一张图演示一下：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/7bd54127f0304a6bb43c2fd3c598b089.png" alt="在这里插入图片描述"></p>
+<p>通过这张图，我们就可以完美的解释代码究竟在干什么，实际上这就是一个计算的过程，过程设计补位，相除，得余数等操作…</p>
+<p>而最后，在进行完所有的操作之后 $r$ 其实就是最终的余数。</p>
+<p><strong>第二块</strong>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">reverse</span>(C.<span class="built_in">begin</span>(), C.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line"><span class="keyword">while</span> (C.<span class="built_in">size</span>() &gt; <span class="number">1</span> &amp;&amp; C.<span class="built_in">back</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">    C.<span class="built_in">pop_back</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两步就是在去前导 $0$ ，上面的图中我们也可以发现，高精度除法也是有前导 $0$ 的，但是对于顺序表来说，前导 $0$不太好去，所以就逆置一下再去前导 $0$ 。</p>
+<p>最后倒着输出 $c$ 即可。</p>
+<h2 id="代码实现-3"><a href="#代码实现-3" class="headerlink" title="代码实现"></a>代码实现</h2><p><strong>链接</strong>：<a target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/description/796/">794. 高精度除法</a></p>
+<p><strong>描述</strong>：</p>
+<p>给定两个非负整数（不含前导 $0$ ） $A，B$ 请你计算 $A/B$ 的商和余数。</p>
+<p><strong>输入格式</strong>：</p>
+<p>共两行，第一行包含整数 $A$ ，第二行包含整数 $B$ 。</p>
+<p><strong>输出格式</strong>：</p>
+<p>共两行，第一行输出所求的商，第二行输出所求余数。</p>
+<p><strong>数据范围</strong>：</p>
+<p>$1≤A的长度≤100000$<br>$1≤B≤10000$<br>$B$ 一定不为 $0$ </p>
+<p><strong>输入样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">7</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<p><strong>输出样例</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">3</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+<p>思路我们说过了，接下来我把 <strong>倒着存</strong> 和 <strong>正着存</strong> 的两个版本都贴上来。</p>
+<p><strong>倒着存</strong> ：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/4a893f7ed2bb4d6da69cb982cbac3aa4.jpeg" alt=""></p>
+<p><strong>正着存</strong>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e6e4e471e68f280f8a94b4f2c9217934.png" alt="image-20230107012614935"></p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>到这里，本篇文章就到此结束了，实际上高精度算法这一块还是很容易理解的，因为我们可以模拟他们计算的过程，所以对于一些细节不太了解的小伙伴们可以下去模拟一下。</p>
+<p>一般来说，只要背过模板做这类问题就信手拈来了。所以不必担心嘿嘿。</p>
+<p>当然，小伙伴们最好也找两道高精度问题练练手。我们不仅要看懂，还要会写。</p>
+<p>如果觉得 $anduin$ 写的还不错的话，可以点赞 + 评论 + 收藏支持一下，我们下期见~</p>
+<center><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src=" https://img-blog.csdnimg.cn/img_convert/026adcf9f0f7e97897abc2a8619f7e51.gif " width="30%"></center></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">pionnier</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/gaojingdu.html">http://example.com/gaojingdu.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">pionnier</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/">安度因</a><a class="post-meta__tags" href="/tags/c/">c++</a></div><div class="post_share"><div class="social-share" data-image="https://imgbed.link/file/11875" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/qianzhuihechafen.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【算法系列】前缀和与差分</div></div></a></div><div class="next-post pull-right"><a href="/neicunfenxi.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15193" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【c】探讨数据如何在内存中进行存储</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-07</div><div class="title">【算法系列】前缀和与差分</div></div></a></div><div><a href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-30</div><div class="title">(数据结构)长文带你玩转二叉树，期末考试必看篇</div></div></a></div><div><a href="/lianbiao.html" title="(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/9403" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了</div></div></a></div><div><a href="/shunxubiao.html" title="顺序表从0到1"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/10968" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">顺序表从0到1</div></div></a></div><div><a href="/shuati1.html" title="leetcode~纵享丝滑~快乐刷题篇（1）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15127" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-03</div><div class="title">leetcode~纵享丝滑~快乐刷题篇（1）</div></div></a></div><div><a href="/zhanheduilie.html" title="期末预警~长文通关栈和队列~附带经典leetcode题目"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11223" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-10</div><div class="title">期末预警~长文通关栈和队列~附带经典leetcode题目</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15121" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">pionnier</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">21</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn"><i class="iconfont icon-csdn"></i><span>暂时没想好传送到哪里啦</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:Akilarlxh@gmail.com" target="_blank" title="Email"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://steamcommunity.com/profiles/76561199139554396/" target="_blank" title="steam"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-steam"></use></svg></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到这里，今天也要打起精神哦。</div></div><div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%8A%A0%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">高精度加法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E6%83%B3%E5%8F%8A%E6%A8%A1%E6%9D%BF"><span class="toc-number">2.1.</span> <span class="toc-text">思想及模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E5%87%8F%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">高精度减法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8A%E6%A8%A1%E6%9D%BF"><span class="toc-number">3.1.</span> <span class="toc-text">思路及模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">3.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E4%B9%98%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">高精度乘法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8A%E6%A8%A1%E6%9D%BF-1"><span class="toc-number">4.1.</span> <span class="toc-text">思路及模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-2"><span class="toc-number">4.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%AB%98%E7%B2%BE%E5%BA%A6%E9%99%A4%E6%B3%95"><span class="toc-number">5.</span> <span class="toc-text">高精度除法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E5%8F%8A%E6%A8%A1%E6%9D%BF-2"><span class="toc-number">5.1.</span> <span class="toc-text">思路及模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0-3"><span class="toc-number">5.2.</span> <span class="toc-text">代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-number">6.</span> <span class="toc-text">结语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【算法系列】前缀和与差分"/></a><div class="content"><a class="title" href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分">【算法系列】前缀和与差分</a><time datetime="2023-01-07T02:20:45.000Z" title="发表于 2023-01-07 10:20:45">2023-01-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/gaojingdu.html" title="【算法系列】高精度算法"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【算法系列】高精度算法"/></a><div class="content"><a class="title" href="/gaojingdu.html" title="【算法系列】高精度算法">【算法系列】高精度算法</a><time datetime="2023-01-06T02:55:36.000Z" title="发表于 2023-01-06 10:55:36">2023-01-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/neicunfenxi.html" title="【c】探讨数据如何在内存中进行存储"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15193" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【c】探讨数据如何在内存中进行存储"/></a><div class="content"><a class="title" href="/neicunfenxi.html" title="【c】探讨数据如何在内存中进行存储">【c】探讨数据如何在内存中进行存储</a><time datetime="2023-01-03T12:07:42.000Z" title="发表于 2023-01-03 20:07:42">2023-01-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="(数据结构)长文带你玩转二叉树，期末考试必看篇"/></a><div class="content"><a class="title" href="/erchashu.html" title="(数据结构)长文带你玩转二叉树，期末考试必看篇">(数据结构)长文带你玩转二叉树，期末考试必看篇</a><time datetime="2022-12-30T02:27:59.138Z" title="发表于 2022-12-30 10:27:59">2022-12-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/postcaozuofu.html" title="c语言~操作符讲解"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15129" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="c语言~操作符讲解"/></a><div class="content"><a class="title" href="/postcaozuofu.html" title="c语言~操作符讲解">c语言~操作符讲解</a><time datetime="2022-12-28T00:40:14.000Z" title="发表于 2022-12-28 08:40:14">2022-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">公益推广</p><div class="bg-ad"><div>一本好书,就是一所好的学校；一本好书，就是一扇面向世界的窗口；一本好书，就是一条通往成功的大道；孩童时代起，爸爸妈妈一定都给你们许多的课外读物，或许在书架上，它们都蒙上了灰尘。你是否想过，这些闲置的、被遗忘的书籍却仍是一笔笔珍贵的财富？</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://yangfanbook.sina.com.cn/YFProject/DonateBook">扬帆计划官网</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">实用工具</p><ul class="ft-links"><li><a target="_blank" rel="noopener" href="https://dycharts.com/channel-inviteu/index.html?channelCode=33OSVUTJ&amp;hmsr=kol-lmj&amp;hmpl=mgwdm">图表设计</a><a target="_blank" rel="noopener" href="https://gitmind.cn/?apptype=chn-hucpa">思维导图</a></li><li><a target="_blank" rel="noopener" href="https://convertio.co/zh/">格式转换器</a><a target="_blank" rel="noopener" href="https://wordart.com/">云文字</a></li><li><a target="_blank" rel="noopener" href="https://www.videvo.net/">video</a><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a></li><li><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">创客贴</a><a target="_blank" rel="noopener" href="http://www.hippter.com/">hippter</a></li><li><a target="_blank" rel="noopener" href="https://www.toolfk.com/">toolfk工具箱</a><a target="_blank" rel="noopener" href="https://www.qijishow.com/">奇迹秀</a></li><li><a target="_blank" rel="noopener" href="https://bilibili.iiilab.com/">bilibili视频下载</a><a target="_blank" rel="noopener" href="https://www.onlineimagetool.com/zh/">图片压缩</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐阅读</p><div class="ft-img-group"><div class="img-group-item"><a href=" https://www.csdn.net/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://appimg.dbankcdn.com/hwmarket/files/application/icon144/b55cdddbf45e4ded902615bb9895533e.png" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://github.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.1591954549cb4f45870949c4de53cdaf?rik=RcEP3rK4%2bsT4TA&amp;riu=http%3a%2f%2fumaar.github.io%2fexperiments%2fgithub-3d-logo%2frender-2.jpg&amp;ehk=VpOrW33N7blW8q7XMTSvR8krYhTyJ7ruH%2f%2fmUKlWXYM%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" alt=""/></a></div><div class="img-group-item"><a href=" https://www.runoob.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.c9709a2ac731f2356c57bc2a8d77926c?rik=g0pK4BJ7EArg5A&amp;riu=http%3a%2f%2fimg.itmop.com%2fupload%2f2018-2%2f2018226116238561.png&amp;ehk=izv6PJyHEk8e%2f7PZ5ybntdO6aC3AJJ1%2fIoQIia3HBZs%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0&amp;sres=1&amp;sresct=1" alt=""/></a></div><div class="img-group-item"><a href=" https://www.w3school.com.cn/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://p1.ssl.qhimg.com/dr/270_500_/t01397b45c56f335dde.jpg?size=203x203" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.icourse163.org/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://src.onlinedown.net/new_img/apk_logo/2015/0430/257251_1430364529_3288.png" alt=""/></a></div><div class="img-group-item"><a href=" https://study.163.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://ts1.cn.mm.bing.net/th/id/R-C.dfcf24d09ec725f0a93a109779d096ce?rik=FjF27%2b6oIrGVwA&amp;riu=http%3a%2f%2fwww.lgstatic.com%2fthumbnail_300x300%2fimage2%2fM00%2f14%2f7D%2fCgpzWlZAKjOAIGgyAAAZmYovt28160.png%3fcc%3d0.9594603911973536&amp;ehk=zq%2bP%2bh8%2fNt9VSHvvwYshHXfXA%2fZll3%2btp4%2bo4FfNdCk%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.oschina.net/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://avatar.gitee.com/uploads/1/1_oschina-org.png!avatar200?1524465517" alt=""/></a></div><div class="img-group-item"><a href=" https://leetcode-cn.com/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://pic3.zhimg.com/50/v2-e75b5383a665819f29220b1df311998e_xs.jpg" alt=""/></a></div></div></div></div><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> pionnier</div><div class="footer_custom_text">累了就好好休息鸭，安心交给明天的自己吧  <div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">         </use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"> </i></button></div></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="2239349364" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="/js/custom/nav.js"></script><script>WIDGET = {"CONFIG":{"modules":"012","background":"5","tmpColor":"FFFFFF","tmpSize":"16","cityColor":"FFFFFF","citySize":"16","aqiColor":"FFFFFF","aqiSize":"16","weatherIconSize":"24","alertIconSize":"18","padding":"10px 10px 10px 10px","shadow":"0","language":"auto","fixed":"false","vertical":"top","horizontal":"left","key":"3da94e567f5e4e88baf90f066f0893c2"}}</script><script defer data-pjax src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script async src="/js/title.js"></script><script async src="/js/fps.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="//at.alicdn.com/t/c/font_3812295_db2mptl0ld.js"></script><script defer src="/js/light.js"></script><link rel="stylesheet" href="/css/aplayer.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/Meting2.min.js"></script><script async data-pjax src="/js/aplayer.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer src="/js/shezhi.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><canvas id="snow"></canvas><script async src="/js/snow.js"></script><script async data-pjax src="/js/nav.js"></script><script async data-pjax src="/js/custom.js"></script><script async data-pjax src="/js/waterfall.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/p6Xmf8GtnUBgivV.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/c语言/&quot;);" href="javascript:void(0);">c语言</a><span class="categoryBar-list-count">8</span><span class="categoryBar-list-descr">又是摸鱼的一天</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/cSN74m18oYAqaBt.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/数据结构期末备考/&quot;);" href="javascript:void(0);">数据结构期末备考</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr">还是摸鱼</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/03/XzKFA4MRr9Eu2Yw.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/算法/&quot;);" href="javascript:void(0);">算法</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">不想更新^-^</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/07/WtlLQ18sGCkr3MU.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/leetcode刷题集/&quot;);" href="javascript:void(0);">leetcode刷题集</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">进来看看</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v3.8.2" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用双线部署，默认线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用双线部署，联通线路托管于Coding" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Coding-0cedbe?style=flat&amp;logo=Codio" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">【算法系列】前缀和与差分</a><div class="blog-slider__text">介绍前缀和差分的算法知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">【算法系列】高精度算法</a><div class="blog-slider__text">介绍了高精度算法的一些知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/9403" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt="">(数据结构)图解链表，附带leetcode刷题，妈妈再也不担心我不懂链表了</a><div class="blog-slider__text">关于链表，你了解多少？</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;lianbiao.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15127" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-03</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt="">leetcode~纵享丝滑~快乐刷题篇（1）</a><div class="blog-slider__text">leetcode刷题系列第一集</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;shuati1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15134" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-12-30</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt="">(数据结构)长文带你玩转二叉树，期末考试必看篇</a><div class="blog-slider__text">还不来看看二叉树的题怎么做</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;erchashu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":263},"mobile":{"show":false},"log":false});</script></body></html>
