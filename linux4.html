@@ -1,0 +1,774 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【Linux】权限管理 | StackFrame</title><meta name="author" content="stackframe"><meta name="copyright" content="stackframe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="深剖shell运行原理、Linux上用户权限、权限管理、更改文件访问权限、目录权限、默认权限和粘滞位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】权限管理">
+<meta property="og:url" content="http://example.com/linux4.html">
+<meta property="og:site_name" content="StackFrame">
+<meta property="og:description" content="深剖shell运行原理、Linux上用户权限、权限管理、更改文件访问权限、目录权限、默认权限和粘滞位">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png">
+<meta property="article:published_time" content="2023-01-10T05:53:45.000Z">
+<meta property="article:modified_time" content="2023-01-10T05:53:04.186Z">
+<meta property="article:author" content="stackframe">
+<meta property="article:tag" content="安度因">
+<meta property="article:tag" content="Linux shell">
+<meta property="article:tag" content="权限">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png"><link rel="shortcut icon" href="https://img.51miz.com/Element/00/84/61/94/a5bc49ec_E846194_41d9c19d.png"><link rel="canonical" href="http://example.com/linux4"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":50,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: stackframe","link":"链接: ","source":"来源: StackFrame","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Linux】权限管理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-10 13:53:04'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jw6FnR7tEN7m8iI1",ck:"Jw6FnR7tEN7m8iI1"})</script><link rel="stylesheet" href="/css/home_essay_bar.css"><link rel="stylesheet" href="https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0" media="defer" onload="this.media='all'"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jum5QuG7PRp6MvjY",ck:"Jum5QuG7PRp6MvjY"})</script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><span id="fps"></span><link rel="stylesheet" href="/css/yitu.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/about.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/welcom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://f.pz.al/pzal/2023/01/10/89558900e1dec.png')"><div class="menu-container" id="menu-container"><div class="menu-item"><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></div></div><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div><div class="top-bar"><div class="message-container"><div class="message-item message-weather" onclick="btf.scrollToDest(0, 500)"><div class="message-weather-box" id="he-plugin-simple"></div></div><div class="message-item message-date" onclick="Navvisible()"><div class="message-date-box" id="message-date-box"></div><div class="message-title-box" id="message-title-box"><a id="site-name" title="深剖shell运行原理、Linux上用户权限、权限管理、更改文件访问权限、目录权限、默认权限和粘滞位">【Linux】权限管理  </a></div></div><div class="message-item message-function"><div id="search-button"><a class="site-page social-icon search faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg><span> 搜索</span></a></div><a class="icon-V hidden faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换"><svg class="faa-tada" width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a class="site-page faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-multi-window-01"></use></svg></a></div></div></div></div><button class="active-button" onclick="Navvisible()"></button></div><div id="post-info"><h1 class="post-title">【Linux】权限管理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-10T05:53:45.000Z" title="发表于 2023-01-10 13:53:45">2023-01-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-10T05:53:04.186Z" title="更新于 2023-01-10 13:53:04">2023-01-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>19分钟</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tag link"><a class="link-card" title="安度因的csdn" target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67867172"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg"/></div><div class="right"><p class="text">安度因的csdn</p><p class="url">https://blog.csdn.net/m0_67867172</p></div></a></div>
+<pre><code>                                                                        一个只写干货，不写水货的硬核博主。
+</code></pre><p>@[TOC]</p>
+<h1 id="一、shell-命令以及运行原理"><a href="#一、shell-命令以及运行原理" class="headerlink" title="一、shell 命令以及运行原理"></a>一、shell 命令以及运行原理</h1><p>Linux严格意义上说的是一个操作系统，我们称之为“核心（kernel）“ ，但我们一般用户，不能直接使用kernel。</p>
+<p>而是通过kernel的 <strong>外壳程序</strong>，也就是所谓的 <code>shell</code>，来与kernel沟通。</p>
+<blockquote>
+<p>shell 是什么？</p>
+</blockquote>
+<p><strong>shell 是包裹在操作系统外部的软件层，所以形象的称之为 <em>外壳程序</em></strong>。</p>
+<p>而从技术角度，Shell的最简单定义是：<strong>命令行解释器</strong>（command Interpreter）主要包含：</p>
+<ul>
+<li>将使用者的命令翻译给核心（kernel）处理。</li>
+<li>同时，将核心（kernel）的处理结果翻译给使用者。</li>
+</ul>
+<p><em>以上说明，我们可以用这幅图来理解</em>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/0693e5bd3a3c7771ccc66cb7ffc685de.png#pic_center" alt="image-20221129112318290"></p>
+<blockquote>
+<p>那么我们如何理解 shell ?</p>
+</blockquote>
+<p>我们理解 <code>shell</code> 分为两个层面，<em>理性理解</em> 和 <em>感性理解</em>。</p>
+<p><strong><em>理性理解</em></strong>：</p>
+<p><strong>对比windows GUI</strong>，我们操作windows 不是直接操作windows内核，而是通过图形接口，点击，从而完成我们的操作（比如进入D盘的操作，我们通常是双击D盘盘符.或者运行起来一个应用程序）。</p>
+<p><strong>shell 对于Linux</strong>，有相同的作用，主要是对我们的指令进行解析，解析指令给Linux内核。反馈结果在通过内核运行出结果，通过shell解析给用户。</p>
+<p>如果shell 接受到非法指令，可能会直接拦截，不会让操作系统执行指令，从而达到保护操作系统的目的。</p>
+<p>为了防止用户的非法指令导致 shell 自身崩溃，shell 一般都不会去执行对应的指令，而是让子进程去执行。</p>
+<p><strong><em>感性理解</em></strong>：</p>
+<p>可能，理性理解比较生涩，我们就用一个小故事来感性讲解它们之间的关系：</p>
+<p>人物简介：</p>
+<ul>
+<li>张三：地主家的傻儿子，情窦初开的羞涩码农，年薪30万+，有房有车有存款，不会和女生交流，从小暗恋如花。</li>
+<li>如花：张三的暗恋对象，心系李四，觉得张三是个二愣子，没有一点好感。</li>
+<li>李四：如花的男朋友，两人经常一起看电视。</li>
+<li>王婆：张家村知名红娘，说媒无一败绩，人称张家村小月老。</li>
+<li>村长：又名张老三，是张三和蔼可亲的村长父亲，全村首富，在张家村一手遮天。</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/0e9ff4bcb94fd70f00c03099ebcf79c8.png#pic_center" alt="image-20221129121333842"></p>
+<blockquote>
+<p>故事开始：</p>
+<p>从前有个人叫张三，张三从小就沉迷于编程，在大学毕业后，他也拿到了一份不错的 offer 30w+。但是张三到现在还没有谈过恋爱，于是想起了在家乡的如花，感觉自己十分想念家乡。由于强烈的思乡之情，张三回到了张家村。</p>
+<p>张三的父亲是全村首富，是村长，权势很大。张三找了村东头的王婆帮自己和如花说一下媒。张三告诉王婆自己的需求：让如花接受自己，和如花谈恋爱。王婆知道了张三的需求，跑去找如花。</p>
+<p>王婆来到了如花的家，和如花说：“如花呀，我们那个村长的儿子张三对你有些意思，人家年薪30w，有房有车有存款，你考虑考虑？”如花想起小时候有个暗恋他的二傻子张三，立马起了鸡皮疙瘩，和王婆说，我对张三没感觉，我们不合适。</p>
+<p>王婆接收到信息后，回去和张三说，如花呢觉得你挺好，但是你俩不合适，要不你换个。张三坚持说我就要如花，王婆拗不过你，更拗不过你的村长父亲。于是，王婆就又去如花家门口，还没到呢，就远远的看到李四和如花在看电视，李四和如花的家长也在聊天，到了谈婚论嫁的地步了。于是王婆就折返回张三家，直接和张三说，你和如花真的不适合，如花不可能和你有交际了，你还是打消这个念头吧！</p>
+<p>但是张三没有放弃，王婆不想给他说媒，但是害怕张三的村长父亲。自己不想给张三说媒，但是没办法。我知道这个媒事说不成还要给他办，一两次失败没有影响，但是说媒次数多了就不好了。那王婆的月老会所就受到影响了。说不成媒，还会影响自己的口碑，划不来。</p>
+<p>王婆决定招聘实习生。有一天，村长又叫王婆去给张三说媒，王婆没去，她派了一个实习生A去。这时成功不成功已经不重要了，反正王婆自己没去。这样的原因是因为说砸了不是王婆干的，自己不会收到影响，就算失败了，王婆还可以换一个实习生B过去。这样不会影响到自己，王婆在这样的方法之下，以后别人都找王婆说媒的时候，都会排实习生过去做王婆做的工作。</p>
+</blockquote>
+<p>听完这个故事，我们也可以大致猜出它们扮演的角色：张三是 <strong>用户</strong>，王婆是 <strong>shell</strong>，如花是 <strong>操作系统</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/5b31e88bb12bb576a4c030f284c0a0bc.png#pic_center" alt="image-20221129184017458"></p>
+<p><em>案例重讲解</em>：</p>
+<ol>
+<li><p><code>张三(用户)</code>把自己的需求给 <code>王婆(shell)</code> ，王婆(shell) 问 <code>如花(操作系统)</code> ，考虑是否和张三谈恋爱就是在 <strong>执行用户的指令</strong>。如花不考虑张三，就是类似于禁止访问或程序运行失败，最后王婆将结果反馈给张三，就是把 <strong>shell 把结果返回给用户</strong> 。</p>
+</li>
+<li><p>第二次，王婆看到如花心有所属后没有再去找如花，就是 <strong>shell指令为了保护操作系统而拦截了非法请求</strong>。</p>
+</li>
+<li><p>王婆聘请实习生，让实习生去说媒，就是 <strong>shell在执行命令的时候会创建子进程来执行</strong>。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>通过两种理解后，我们总结一下：shell 是外壳程序，包裹在操作系统外层的软件层，为命令行解释/操作解释，将用户的操作解释交给操作系统，让操作系统执行，执行完毕，将结果经过shell再传递给用户。</strong></p>
+</blockquote>
+<p>补充：</p>
+<p>如果我们在终端输入 <code>ls /usr/bin/bash -a</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lx@VM-4-3-centos ~]$ ls /usr/bin/bash -a</span><br><span class="line">/usr/bin/bash</span><br></pre></td></tr></table></figure>
+<p>之前使用<code>ls /usr/bin/bash -a</code>是，显示的并不是shell而是bash，bash也是一种外壳程序。对于它们两个我们可以把它理解为 <strong><code>bash</code> 是王婆，但是 <code>shell</code> 是媒婆</strong>。bash是 <code>centos</code> 上的外壳程序，而 <code>shell</code> 是 外壳程序 的统称。</p>
+<h1 id="二、Linux的用户权限"><a href="#二、Linux的用户权限" class="headerlink" title="二、Linux的用户权限"></a>二、Linux的用户权限</h1><h2 id="1、权限概念引入"><a href="#1、权限概念引入" class="headerlink" title="1、权限概念引入"></a>1、权限概念引入</h2><p>生活中， 权限处处存在。比如爱奇艺，有些视频是vip才能看的；打游戏的时候，有些皮肤是需要钱买的，<strong>这些都是对人的约束和限制</strong>。</p>
+<p>有时访问的对象天然可能没有这种“属性”。比如我想在看小说的时候，在番茄小说上和 <code>visual studio 2022</code>上一样写代码，这是不可能的。因为没有这种功能，应用上没有这一层属性。</p>
+<p>所以我们基本可以得出 <strong>权限 = 人 + 事物属性</strong>，这一结论。</p>
+<p>了解了基本概念，我们开始讲解 Linux 上的权限。</p>
+<h2 id="2、用户分类"><a href="#2、用户分类" class="headerlink" title="2、用户分类"></a>2、用户分类</h2><p><strong>Linux上，有两种用户：root(超级用户) 和 普通用户</strong>。</p>
+<blockquote>
+<ul>
+<li>root(超级用户)：可以在linux下做任何事情，不受权限约束，且一台机器上只有一个root用户。</li>
+<li>普通用户：在Linux下做有限的事情，可以有多个普通用户。</li>
+<li>超级用户的命令提示符是“<code>#</code>”，普通用户的命令提示符是“<code>$</code>”。</li>
+</ul>
+</blockquote>
+<h2 id="3、用户切换"><a href="#3、用户切换" class="headerlink" title="3、用户切换"></a>3、用户切换</h2><p>命令：su 用户名</p>
+<p>功能：切换用户</p>
+<blockquote>
+<p>对于 root用户来说，使用 <code>su 普通用户</code> 可以直接切换到普通用户：</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/49282b093afa93677d58af6be3aa12cd.png" alt="image-20221129225248829"></p>
+<blockquote>
+<p>但是对于普通用户来说，使用 <code>su</code> 指令时，会要求输入 <strong>root 用户的密码</strong>：</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/88d1f97269ff6dbd12660ee829235c71.png" alt="image-20221129225425631"></p>
+<p>而对于 普通用户 切换到 超级用户 还有两种方式：</p>
+<ol>
+<li><code>su</code>：从普通用户切换到超级用户，<strong>所处工作目录不变化，只单纯地进行身份变化</strong>。</li>
+<li><code>su -</code>：从普通用户切换到超级用户，<strong>会改变工作目录</strong></li>
+</ol>
+<p>对于 su：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/502dd111891554be2c7d952740f6125e.png" alt="image-20221129231111348"></p>
+<p>对于 su -：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/2b02419a5f37dae114d2b2f40f970b07.png" alt="image-20221129230719415"></p>
+<p>注：如果切换用户后想要退出，可以按 <code>ctrl + d</code> 退出，回到之前的用户。</p>
+<h2 id="4、用户提权"><a href="#4、用户提权" class="headerlink" title="4、用户提权"></a>4、用户提权</h2><p>使用普通用户时，有时会因为权限不够，而导致某条指令无法执行。</p>
+<blockquote>
+<p>假如我用 lx 用户创建一个文件，然后切换到 root 用户后，写入内容并减权，切回 lx 用户发现无法查看文件：</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/39bc139ca98afb8e5433cc471f43be6a.png" alt="image-20221129235558865"></p>
+<p><strong>直接就出现了报错：<code>Permission denied</code>，意思是权限被拒绝。</strong></p>
+<p>面对这种情况可以 <strong>单条指令进行暂时提权</strong>：</p>
+<p>对于提权就要用到 <code>sudo</code> 指令，但是这个需要配置一下，不会配置的同学可以跳转到<a target="_blank" rel="noopener" href="http://t.csdn.cn/bFvtQ">这篇博客</a>。</p>
+<p><code>sudo</code> 指令是 <strong>让普通用户使用单条指令时暂时拥有 root 用户的权限</strong>，使用 sudo 命令后需要输入 <strong>当前普通用户的密码</strong>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/655c06a91c135fe7d645eb065ea236f9.png" alt="image-20221129235804526"></p>
+<p>注：sudo 的存活期一般为五分钟，五分钟内再次使用 sudo 指令无需输入密码。</p>
+<p>埋下伏笔：sudo输的是普通用户的密码，那么我想要加权只要输自己的密码就好了，那么root是不是形同虚设？这个问题在以后的文章中会提及，大家可以思考一下。</p>
+<h1 id="三、Linux-权限管理"><a href="#三、Linux-权限管理" class="headerlink" title="三、Linux 权限管理"></a>三、Linux 权限管理</h1><p>对于 Linux 的权限管理，我们主要围绕一张图进行讲解：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/8888afcee08658c26461ee4a14aa5ae6.png" alt="image-20221130005735203"></p>
+<p>图里部分的内容会在下面详细讲解。</p>
+<h2 id="1、文件访问者的角色划分"><a href="#1、文件访问者的角色划分" class="headerlink" title="1、文件访问者的角色划分"></a>1、文件访问者的角色划分</h2><p>对于 Linux 文件的访问者可以分成三类：</p>
+<blockquote>
+<ul>
+<li>文件拥有者：文件和文件目录的所有者，u —— user</li>
+<li>文件所属组：文件和文件目录的所有者所在组的用户，g —— group</li>
+<li>文件的 other：其它用户，除了拥有者和所属组之外的用户，o —— others</li>
+</ul>
+</blockquote>
+<p>Linux 任何一个文件都一定有文件的 拥有者 和 other，拥有这个文件的就是拥有者，除了拥有者之外的其他用户就是 other。</p>
+<blockquote>
+<p><strong>但是所属组是什么？为什么要存在所属组？</strong></p>
+</blockquote>
+<p>我们再次通过故事理解！</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221130002243221.png#pic_center" alt="image-20221130002243221" style="zoom: 80%;" /></p>
+<blockquote>
+<p>假如某公司只有一台机器，公司允许不同的小组来完成一项工作，组间为竞争关系。组A和组B，赢的小组的产品会被重金打造推出。  </p>
+<p>张三被分到了a组，李四被分到了b组。a组组长叫做小a，b组小b。</p>
+<p>他们用的是不同的目录，公司的技术总监，创建了两个目录：A_code,b_code，存放他们的产品。a组代码放A_code，b组代码放b_code。</p>
+<p>张三写完了代码，组长小a要看，但是这里Linux不考虑所属组的概念，只有拥有者和other，张三是拥有者，那么小a属于other。给小a开放权限也就是给other开权限，小a可以看了，但是李四也是other就也能看到了，这里也就涉及到了权限安全问题。</p>
+</blockquote>
+<p>所以 Linux 引入了 <strong>所属组</strong> 的概念，让拥有者为组内成员开放权限，给组里的人看，其他人还是other，其他人看不了。这样子权限安全问题就减少了。</p>
+<blockquote>
+<p>说到这里，我们再梳理一下 用户 和 文件访问者的关系：</p>
+</blockquote>
+<p>用户就是 root 和 普通用户，是人。而 拥有者、所属组、other 是角色。</p>
+<p>人可以扮演不同的角色，但是角色可以一直变化。用户可以是拥有者、所属组、other 中的任意一个，但是角色不可能称为人。</p>
+<h2 id="2、文件类型和访问权限"><a href="#2、文件类型和访问权限" class="headerlink" title="2、文件类型和访问权限"></a>2、文件类型和访问权限</h2><p>我们之前学习的第一个指令就是 <code>ls</code> 指令，<code>ll</code> 可以列出文件详细信息：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/f0b37e55a7fdb465a0d7d5606d7f5157.png" alt="image-20221130010115889"></p>
+<p>那么先开始的一长串10个字符是什么意思呢？就比如：<code>-rw-rw-r--</code>？</p>
+<p>这10个字符可以分为两组：<em>第一个字符</em> 和 <em>后九个字符</em>。分别对应着 <em>文件类型</em> 和 <em>文件访问权限</em> 。</p>
+<h3 id="a、文件类型-后缀理解-file-指令讲解"><a href="#a、文件类型-后缀理解-file-指令讲解" class="headerlink" title="a、文件类型(后缀理解 + file 指令讲解)"></a>a、文件类型(后缀理解 + file 指令讲解)</h3><p><strong>第一个字符为<code>文件类型</code></strong>。可能大家会有些疑惑，文件类型不是由文件后缀来区别的吗？</p>
+<blockquote>
+<p>我们通过样例求证一下，Linux 中文件类型是否是由文件后缀来区别的：</p>
+</blockquote>
+<p>首先，nano 一个 test.c，向其中输入代码，编译运行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/03002c5fb1be765a11944dcf1e71f4fe.png" alt="image-20221130011209533"></p>
+<p>程序可以跑过，<strong>那么我修改一下 <code>a.out</code> 的文件后缀呢</strong>？</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/b12bd131b12115811ee57176589e75af.png" alt="image-20221130011342453"></p>
+<p><strong>程序依然可以跑过</strong>，这就<strong>证明Linux上文件类型和后缀无关</strong>。</p>
+<blockquote>
+<p>但是再修改 <code>test.c</code> 的后缀呢，<code>test.c</code> 还能编译过吗？</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/dc77bba553af7aa8b31c762a1192ecb1.png" alt="image-20221130011801133"></p>
+<p>这里却报错了，是因为我们证明结果错误吗？其实并不是，这是因为<strong>在Linux下文件后缀不用来标识文件类型，不代表gcc这个软件不需要后缀</strong>。系统不管，但不代表操作文件的软件不关心。</p>
+<p><strong>那么说到这，我们可以怎么理解 <code>Linux</code> 中的 <em>文件后缀</em> 呢？</strong></p>
+<ol>
+<li>文件后缀是给用户看的，让用户确定文件是什么类型。</li>
+<li>将后缀看做文件名的一部分。</li>
+</ol>
+<blockquote>
+<p>讲到这里，我们再回到正题，继续讲解文件类型。</p>
+</blockquote>
+<p>文件类型大约被分为如下几类：</p>
+<blockquote>
+<ul>
+<li>-：普通文件，文本，可执行程序，归档文件(压缩包)等平常带后缀的文件，在Linux下统一被称为普通文件</li>
+<li>d：文件夹，目录</li>
+<li>l：软链接（类似Windows的快捷方式）</li>
+<li>b：块设备文件（例如磁盘、光驱等）</li>
+<li>p：管道文件</li>
+<li>c：字符设备文件（例如键盘或显示器）</li>
+<li>s：网络套接字<code>socket</code>文件</li>
+</ul>
+</blockquote>
+<p>举个样例：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3562f55f457aeaea58af2384200321ff.png" alt="image-20221130012717584"></p>
+<p><strong><em>file</em></strong> 指令：</p>
+<p>在 Linux 中，<code>file</code> 指令能 <strong>辨识文件类型</strong>。</p>
+<p>语法：file [选项] 文件或目录…</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-c 详细显示指令执行过程，便于排错或分析程序执行的情形。</li>
+<li>-z 尝试去解读压缩文件的内容。</li>
+</ul>
+</blockquote>
+<p>演示：</p>
+<p>可执行程序：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/8f10139bdf8250e39fd200e2cc140f5a.png" alt="image-20221130162053737"></p>
+<p>空文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e641bbe9475ef35adcbbb7d760238e4c.png" alt="image-20221130162121825"></p>
+<h3 id="b、文件访问权限"><a href="#b、文件访问权限" class="headerlink" title="b、文件访问权限"></a>b、文件访问权限</h3><p><strong><em>后9个字符为 <code>文件访问权限</code></em></strong>。9个字符，每三个一组，分别代表着 <strong>拥有者、所属组、other</strong>的权限。</p>
+<blockquote>
+<ul>
+<li><code>r</code> —— 读：Read对文件而言，具有读取文件内容的权限；对目录来说，具有浏览该目录信息的权限，权值为4.</li>
+<li><code>w</code> —— 写：Write对文件而言，具有修改文件内容的权限；对目录来说具有删除移动目录内文件的权限，权值为2.</li>
+<li><code>x</code> —— 可执行：execute对文件而言，具有执行文件的权限；对目录来说，具有进入目录的权限，权值为1。</li>
+<li><code>-</code>：表示不具有该项权限</li>
+</ul>
+</blockquote>
+<p>问题回顾：</p>
+<p><code>-rw-rw-r--</code>：后九个字符就代表着，拥有者具有读、写权限，不具有执行权限；所属组具有读、写权限，不具有执行权限；other具有读权限，不具有写、执行权限。</p>
+<h1 id="四、文件访问权限的更改"><a href="#四、文件访问权限的更改" class="headerlink" title="四、文件访问权限的更改"></a>四、文件访问权限的更改</h1><p>文件访问权限的修改主要分为对 <em>拥有者、所属组、other权限的更改</em> 和 <em>对文件拥有者的更改</em> 和 <em>对文件所属组的用户的更改</em>。</p>
+<p><strong>一般来说更改一个文件的权限，必须是文件的拥有者或者是 root 用户。</strong></p>
+<h2 id="1、chmod-指令-对拥有者、所属组、other权限的更改"><a href="#1、chmod-指令-对拥有者、所属组、other权限的更改" class="headerlink" title="1、chmod 指令(对拥有者、所属组、other权限的更改)"></a>1、chmod 指令(对拥有者、所属组、other权限的更改)</h2><p>功能：设置文件的访问权限</p>
+<p>格式：chmod [参数] 权限 文件名</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>R -&gt; 递归修改目录文件的权限</li>
+</ul>
+</blockquote>
+<p><em>chmod 命令设置权限的格式</em>：</p>
+<p>1) <strong>chmod u/g/o/a +-= rwx filename</strong></p>
+<blockquote>
+<ul>
+<li><p>+：向权限范围增加权限代号所表示的权限</p>
+</li>
+<li><p>-：向权限范围取消权限代号所表示的权限</p>
+</li>
+<li><p>=：向权限范围赋予权限代号所表示的权限</p>
+</li>
+</ul>
+<p>用户符号：</p>
+<ul>
+<li><p>u：拥有者</p>
+</li>
+<li><p>g：所属组</p>
+</li>
+<li><p>o：其它用户</p>
+</li>
+<li><p>a：所有用户</p>
+</li>
+</ul>
+</blockquote>
+<p>字符表示法表：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/026fd34d7d091c3f26e8759aabb1a12e.png" alt="image-20221130014939053"></p>
+<p>演示：</p>
+<p><em>对单个用户的权限进行更改：<strong>chmod 用户 +-权限 文件名</strong></em></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/ba9c2c898861adb226460b34448fe191.png" alt="image-20221130162835640"></p>
+<p><em>对多个用户的权限进行修改：<strong>chmod 用户 +-权限,用户 +-权限,…(上限三个，拥有者、所属组、other) 文件名</strong></em></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/1c4ddb9de5352fea1f363a5191a197c6.png" alt="image-20221130163230644"></p>
+<p><em>对全部用户进行权限修改：<strong>chmod a +- 用户权限 文件名</strong></em></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/ecda2a5906f2e36545a072dcb5baa609.png" alt="image-20221130164145787"></p>
+<p>对用户进行 <code>=</code> 方式权限修改：例如 <code>u = g</code>，就是让 <strong>拥有者获得所属组对等的权限</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/253a73cad7d295c615c910a1ed37ffd3.png" alt="image-20221130164514144"></p>
+<ol>
+<li><strong>chmod 三位八进制 filename</strong></li>
+</ol>
+<p>通常写作 chmod 三位八进制 用户名的形式，每个八进制按顺序分别表示 <strong>拥有者、所属组、other</strong>，三个八进制组成的序列就可以表示各角色的权限。</p>
+<p><code>r</code> 权限权值为4，<code>w</code> 权值为2，<code>x</code> 权值为1。</p>
+<p>八进制数值表示法表：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/45d729c94aa4b54c0395fdfe4dd27093.png" alt="image-20221130015041526"></p>
+<p>举个例子：614</p>
+<blockquote>
+<p>拥有者：6 = 4 + 2 + 0，设置拥有者有读权限，有写权限，无执行权限。</p>
+<p>所属组：1 = 0 + 0 + 1，设置所属组无读权限，无写权限，有执行权限。</p>
+<p>other：4 = 0 + 4 + 0，设置other无读权限，有写权限，无执行权限。</p>
+</blockquote>
+<p>演示：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/1794608b31c23d0eb38902503d034971.png" alt="image-20221130170027141"></p>
+<h2 id="2、chown-修改文件的拥有者"><a href="#2、chown-修改文件的拥有者" class="headerlink" title="2、chown(修改文件的拥有者)"></a>2、chown(修改文件的拥有者)</h2><p>功能：修改文件的拥有者</p>
+<p>格式：chown [参数] 用户名 文件名</p>
+<p>演示：</p>
+<p>当前我的家目录有如下用户：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3d109b05892864197a6d5b0a70c20118.png" alt="image-20221130170731839"></p>
+<p>lx 用户当前文件夹：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/4e11e024a5be5b2a1b5f1350e19d0094.png" alt="image-20221130170711403"></p>
+<p>如果我想要把 file.txt 的 拥有者 从 <code>lx</code> 改为 <code>Guldan</code>，能否修改成功？</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/10ed3f98773af430dec5b88d541cb43a.png" alt="image-20221130171051770"></p>
+<p><strong>表示权限不被允许，我 <code>lx</code> 即时拥有者又是所属组，为什么不让我更改呢？</strong></p>
+<blockquote>
+<p>举个例子吧，如果有一天一个人和你不认识，就要送你一辆车，你要还是不要？万一这是口黑锅呢，让你做背锅侠。如果那个人告诉你这是你买彩票中的，你才有可能接受。</p>
+</blockquote>
+<p>对于权限来说也是一样的。但是在 Linux 上，总不可能在你给权限的时候给别人留个言，说我给你个权限吧，所以 <strong>普通用户是无法直接修改文件拥有者的！！！</strong></p>
+<p>但是我们可以用 <strong><code>root</code> 强制把文件拥有者改掉</strong>，谁让 root 是超级管理员呢，就比如我使用 <code>sudo</code> 提权一下，然后强制改掉：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/579921d9cd5ae012263f0321e0d6af71.png" alt="image-20221130171706108"></p>
+<h2 id="3、-chgrp-修改文件的所属组"><a href="#3、-chgrp-修改文件的所属组" class="headerlink" title="3、 chgrp(修改文件的所属组)"></a>3、 chgrp(修改文件的所属组)</h2><p>功能：修改文件或目录的所属组</p>
+<p>格式：chgrp [参数] 用户组名 文件名</p>
+<p>常用选项：-R 递归修改文件或目录的所属组</p>
+<p>演示：</p>
+<p>同样的，通过 <code>sudo</code> 提权修改：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/856f848cb1daed31c3b66eb0c1c1278e.png" alt="image-20221130172050508"></p>
+<p>补充：<code>chown</code> 和 <code>chgrp</code> 可以同时使用，格式为：<code>sudo chown 用户名 : 用户名 filename</code></p>
+<p>比如将拥有者和所属组都改回 <code>lx</code> ：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/a784d71711f749a2692d7add5b9f6102.png" alt="image-20221130172408210"></p>
+<h2 id="4、有无权限的区别"><a href="#4、有无权限的区别" class="headerlink" title="4、有无权限的区别"></a>4、有无权限的区别</h2><p>首先，我将 <code>file.txt</code> 的权限全部去掉：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/b3e825fe8e14cb1f8f4b70032af5c8cf.png" alt="image-20221130182301821"></p>
+<p>如果我现在读 file.txt：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/d4cab9f694fd28fa8d2397c3552ba4ae.png" alt="image-20221130182704205"></p>
+<p>被权限拒绝了，再也用 <code>echo &quot;hello&quot; &gt; file.txt</code> 写入试试：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/454523ef132d42415ca0b97a560ac236.png" alt="image-20221130182642133"></p>
+<p><strong>我当前是文件的拥有者 <code>lx</code> ，但是我在没有权限的情况下依然不能访问！！！</strong></p>
+<p>那么 <code>root</code> 呢？我们用 root 试试：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3b48a42f1b2232914198c7d7d22da171.png" alt="image-20221130182946919"></p>
+<p>我们发现，权限并不能约束 <code>root</code> ！<strong>因为我 <code>root</code> 是超级管理员，权限是约束普通人的。</strong></p>
+<p><strong>总结一下：Linux 上权限是约束普通用户的，<code>root</code> 不会被约束！！！对于普通用户，被权限约束了什么都干不了；对于 <code>root</code>即使没有权限还是能畅通无阻</strong>。</p>
+<h1 id="五、目录的权限"><a href="#五、目录的权限" class="headerlink" title="五、目录的权限"></a>五、目录的权限</h1><p>目录权限的功能：</p>
+<blockquote>
+<ul>
+<li>可执行权限 - <code>x</code> : 如果目录没有可执行权限, 则无法cd到目录中.</li>
+<li>可读权限 - <code>r</code> : 如果目录没有可读权限, 则无法用ls等命令查看目录中的文件内容.</li>
+<li>可写权限 - <code>w</code> : 如果目录没有可写权限, 则无法在目录中创建文件, 也无法在目录中删除文件.</li>
+</ul>
+</blockquote>
+<p>演示：</p>
+<p>如果进入一个目录，只需要一种权限，就是可执行权限 <code>x</code>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/99f63d073a74fa7501c5b056ed55c9c8.png" alt="image-20221130184004531"></p>
+<p>如果进入一个目录，没有 <code>w</code> 权限，则不能在目录中创建文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e4545c0ef6f4bcbb5eb441a5ca026315.png" alt="image-20221130184304849"></p>
+<p>对于目录来讲，在没有r权限的目录下，无法查看当前目录下的文件名和文件属性：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/eba90e7a2b3dd53ae863e4bfcffd48b0.png" alt="image-20221130184943438"></p>
+<h1 id="六、默认权限"><a href="#六、默认权限" class="headerlink" title="六、默认权限"></a>六、默认权限</h1><p>权限起始分为三部分：</p>
+<blockquote>
+<ul>
+<li>默认权限：也就是我们看到的文件和目录一创建就有的权限。</li>
+<li>起始权限：系统设定的权限</li>
+<li>最终权限：系统为了更好的控制文件权限，系统会有默认的 <strong>权限掩码</strong> 的概念(umask)，起始文件和权限掩码进行计算后得到最终权限。</li>
+</ul>
+</blockquote>
+<p>补充说明：</p>
+<ol>
+<li><p>普通文件起始权限：666开始，目录文件的起始权限：777。它们默认都是八进制表示的。</p>
+</li>
+<li><p>Linux 上权限掩码可以用 <code>umask</code> 指令查看：</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[lx@VM-4-3-centos mydir]$ umask</span><br><span class="line">0002</span><br></pre></td></tr></table></figure>
+<p>我们看待权限掩码 <code>0002</code> 时，看后三位002，这三位是八进制序列，一个八进制位是3个二进制位，翻译成二进制序列：000 000 010。第一位暂时不用管，咱们现在用不着。</p>
+<ol>
+<li>权限掩码特性：在起始权限中，去掉在权限掩码 umask 中出现的权限，不能影响其他任何权限。意思就是说，只要在 <code>umask</code> 中出现的权限，在 <strong>最终权限</strong> 里就不能出现！</li>
+</ol>
+<blockquote>
+<p>那么 <strong>最终权限</strong> 是怎么计算出来的呢？</p>
+</blockquote>
+<p>其实这时有一个计算公式的：<code>最终权限 = 起始权限 &amp; (~umask)</code> (起始权限的值，按位与 取反后的权限掩码)</p>
+<p>举个例子，比如我新建一个文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/6a26a00e997f56d7285a321a352ee7ee.png" alt="image-20221130192955016"></p>
+<p>它的权限<code>rw-rw-r--</code>翻译成八进制就是 <code>664</code>，而翻译成二进制序列就是 <code>110 110 100</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">			  起始权限：110 110 110</span><br><span class="line">			  权限掩码：000 000 010</span><br><span class="line">		   权限掩码取反：111 111 101</span><br><span class="line">起始权限 &amp; 权限掩码取反 = 110 110 110</span><br><span class="line">					   111 111 101 &amp;</span><br><span class="line">					   -----------</span><br><span class="line">					   110 110 100 = 创建文件的最终权限</span><br></pre></td></tr></table></figure>
+<p>拓展：</p>
+<p>我们再修改一下 <code>umask</code> 的值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[lx@VM-4-3-centos lesson5]$ umask 0007</span><br></pre></td></tr></table></figure>
+<p>这种情况下，我们创建的文件的最终权限是什么？(自己算算看，算出来再继续看(<em> ^▽^ </em>))</p>
+<p>答案揭晓：<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/7f3ecbd9635835f5761d45e13974fed7.png" alt="image-20221130195156928"></p>
+<p><code>rw-rw-r--</code>翻译成八进制是 <code>660</code>，你算对了吗？</p>
+<h1 id="七、粘滞位"><a href="#七、粘滞位" class="headerlink" title="七、粘滞位"></a>七、粘滞位</h1><blockquote>
+<p><strong>粘滞位出现的背景</strong>：在使用 Linux 的时候，未来可能会有一些共享目录，被所有的用户共享，用来保存普通用户产生的临时数据，使用户之间的安全更有保障。</p>
+</blockquote>
+<p>在一台机器上，可能会有多个用户：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/f510b2085f634c63d5095bfa0c37b515.png" alt="image-20221130210717926"></p>
+<p>而在 Linux 下，作为一个普通用户，它的家目录是只对自己开放的，从<code>lx</code> 用户的权限只对 <strong>拥有者</strong> 有 <code>rwx</code> 权限就可以看出，且 所属组 和 other 没有任何权限。</p>
+<p>而对于 <strong>共享目录</strong> ，一般是由 <code>root</code> 用户创建，由<code>root</code>将权限放开后，供这台机器上的用户使用，从而满足不同的用户在公共的目录下进行文件的增删查改。</p>
+<p>我们这里直接 <strong>提权</strong> 创建一个 <code>public</code> 目录，并开放权限<code>chmod 777 public</code>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e3bee00a26637e9b2ec22a596a86dffe.png" alt="image-20221130211937581"></p>
+<p>然后我们再做些准备工作，分别使用 <code>root</code> ，<code>lx</code> ，<code>Guldan</code> 在 public 下创建若干文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/71da9b09e2996f61edb1c7220403c2ce.png" alt="image-20221130212531285"></p>
+<p>假设本来 Guldan 和 lx 关系很好，之前总是一起互相看文件，这个行为由于在 <strong>共享目录</strong> 的前提下也都可以进行，但是他们有一天闹了矛盾，Guldan 把原先对 other 放开的 <code>r</code> 权限给全封掉了，导致 lx 无法查看了：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/dbebee24268ee0e8bb972c71568559f0.png" alt="image-20221130213823499"></p>
+<p>这就导致 lx 看么看不了，想写些东西声讨 Guldan 又写不进去，于是 lx 想着你不让我看也不让我写，那么我就删你的目录！</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/571ffeb6de28d09686a9e3c5e538ed59.png" alt="image-20221130214106879"></p>
+<p>而我们就可以看出<strong>文件被所有人共享的时候，受权限约束，但是拦不住别人删我的文件！！！</strong></p>
+<p><strong>为了让大家共享文件，且不让其他人随便删除别人的文件，于是就有了 <code>粘滞位</code></strong>。</p>
+<p>所以 Guldan 找到了 root 告状， root 就设置了粘滞位：</p>
+<p>粘滞位只能给目录添加，所以 root 就使用 <code>chmod +t public</code> 给 <code>public</code> 添加了粘滞位：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/cd0ae72679ffdbe20672d28763c0bfd4.png" alt="image-20221130214836668"></p>
+<p>(使用指令时为 <code>a+t</code> ，意思是给三个角色都 +t，但是只会把原先 other 的 x 的位置改为 t)</p>
+<p>这就说明我们的 <code>粘滞位</code> 已经添加成功。</p>
+<p>我们再试试能不能删除，假设 lx 要删 Guldan 的 Guldan2 了：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e66c6cc24f167a1edf6d2ebe063d1570.png" alt="image-20221130215155709"></p>
+<blockquote>
+<p>听到这里，我们可能会有两个疑惑：</p>
+<ol>
+<li><strong>其他用户没有权限为什么能删我的文件？为什么拦不住？这是权限的bug吗？</strong></li>
+<li><strong>为什么粘滞位只能给目录添加？</strong></li>
+</ol>
+</blockquote>
+<p>这两个实际上是一个问题，<strong>能否在特定目录下，创建或者删除文件由该目录的 <code>w</code> 权限决定</strong>。</p>
+<p>那么既然这样，还要什么 <code>粘滞位</code> ？我不是只要把 <code>w</code> 权限去掉 别人就不能删我的文件了吗？</p>
+<p>请注意，这是共享目录，是多人合用的，如果把 <code>w</code> 权限去掉了，这也就把普通用户在该目录下创建文件的权限也去掉了！只有加上 <code>w</code> 权限，才能让其他用户正常地使用。</p>
+<p>而被删的问题是由目录导致的，所以只能给目录添加 <code>粘滞位</code> ！！！</p>
+<p><strong>那么谈到这里，当一个目录被设置为”粘滞位”(用chmod +t),则该目录下的文件能被谁删除呢？</strong></p>
+<blockquote>
+<ol>
+<li>超级管理员删除</li>
+<li>该目录的所有者删除</li>
+<li>该文件的所有者删除</li>
+</ol>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">stackframe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/linux4.html">http://example.com/linux4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">StackFrame</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/">安度因</a><a class="post-meta__tags" href="/tags/Linux-shell/">Linux shell</a><a class="post-meta__tags" href="/tags/%E6%9D%83%E9%99%90/">权限</a></div><div class="post_share"><div class="social-share" data-image="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/linux3.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【Linux】基础指令(下)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/gaojingdu.html" title="【算法系列】高精度算法"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-06</div><div class="title">【算法系列】高精度算法</div></div></a></div><div><a href="/gccyudongjingtai.html" title="gcc与动静态链接库"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-09</div><div class="title">gcc与动静态链接库</div></div></a></div><div><a href="/linux1.html" title="【Linux】基础指令(上)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(上)</div></div></a></div><div><a href="/linux2.html" title="【Linux】基础指令(中)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(中)</div></div></a></div><div><a href="/linux3.html" title="【Linux】基础指令(下)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(下)</div></div></a></div><div><a href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-07</div><div class="title">【算法系列】前缀和与差分</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-author"><div class="item-headline"><i class="fa-solid fa-circle-user"></i><span>加入我们</span></div><div class="author-main-content"><div class="author-check-content"><label class="author-info" for="author-info">     <input id="author-info" type="checkbox" name="author-info"/><div class="author-avatar"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-name">stackframe</div></label></div><div class="author-switch-content"><input class="switch-content" type="radio" name="switch-content" value="description"/><label class="author-description-box">      <div class="author-description"></div></label><input class="switch-content" type="radio" name="switch-content" value="social" checked="checked"/><label class="author-social-box"><a class="card-author-button"><i class="iconfont icon-csdn"></i><span>暂时没想好传送到哪里啦</span></a><div class="social-icons"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:Akilarlxh@gmail.com" target="_blank" title="Email"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://steamcommunity.com/profiles/76561199139554396/" target="_blank" title="steam"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-steam"></use></svg></a></div></label><input class="switch-content" type="radio" name="switch-content" value="site-data"/><label class="author-data-box"><div class="site-data"><a class="data-item" href="/archives/"><div class="data-name">文章</div><div class="data-length">22</div></a><a class="data-item" href="/tags/"><div class="data-name">标签</div><div class="data-length">28</div></a><a class="data-item" href="/categories/"><div class="data-name">分类</div><div class="data-length">5</div></a></div></label></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到这里，今天也要打起精神哦。</div></div><div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81shell-%E5%91%BD%E4%BB%A4%E4%BB%A5%E5%8F%8A%E8%BF%90%E8%A1%8C%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">一、shell 命令以及运行原理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Linux%E7%9A%84%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90"><span class="toc-number">2.</span> <span class="toc-text">二、Linux的用户权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%9D%83%E9%99%90%E6%A6%82%E5%BF%B5%E5%BC%95%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">1、权限概念引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E7%94%A8%E6%88%B7%E5%88%86%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">2、用户分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E7%94%A8%E6%88%B7%E5%88%87%E6%8D%A2"><span class="toc-number">2.3.</span> <span class="toc-text">3、用户切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E7%94%A8%E6%88%B7%E6%8F%90%E6%9D%83"><span class="toc-number">2.4.</span> <span class="toc-text">4、用户提权</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81Linux-%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、Linux 权限管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE%E8%80%85%E7%9A%84%E8%A7%92%E8%89%B2%E5%88%92%E5%88%86"><span class="toc-number">3.1.</span> <span class="toc-text">1、文件访问者的角色划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E5%92%8C%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="toc-number">3.2.</span> <span class="toc-text">2、文件类型和访问权限</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a%E3%80%81%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B-%E5%90%8E%E7%BC%80%E7%90%86%E8%A7%A3-file-%E6%8C%87%E4%BB%A4%E8%AE%B2%E8%A7%A3"><span class="toc-number">3.2.1.</span> <span class="toc-text">a、文件类型(后缀理解 + file 指令讲解)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b%E3%80%81%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="toc-number">3.2.2.</span> <span class="toc-text">b、文件访问权限</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E4%BB%B6%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90%E7%9A%84%E6%9B%B4%E6%94%B9"><span class="toc-number">4.</span> <span class="toc-text">四、文件访问权限的更改</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81chmod-%E6%8C%87%E4%BB%A4-%E5%AF%B9%E6%8B%A5%E6%9C%89%E8%80%85%E3%80%81%E6%89%80%E5%B1%9E%E7%BB%84%E3%80%81other%E6%9D%83%E9%99%90%E7%9A%84%E6%9B%B4%E6%94%B9"><span class="toc-number">4.1.</span> <span class="toc-text">1、chmod 指令(对拥有者、所属组、other权限的更改)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81chown-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%8B%A5%E6%9C%89%E8%80%85"><span class="toc-number">4.2.</span> <span class="toc-text">2、chown(修改文件的拥有者)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81-chgrp-%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6%E7%9A%84%E6%89%80%E5%B1%9E%E7%BB%84"><span class="toc-number">4.3.</span> <span class="toc-text">3、 chgrp(修改文件的所属组)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E6%9C%89%E6%97%A0%E6%9D%83%E9%99%90%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.4.</span> <span class="toc-text">4、有无权限的区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%9B%AE%E5%BD%95%E7%9A%84%E6%9D%83%E9%99%90"><span class="toc-number">5.</span> <span class="toc-text">五、目录的权限</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%BB%98%E8%AE%A4%E6%9D%83%E9%99%90"><span class="toc-number">6.</span> <span class="toc-text">六、默认权限</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E7%B2%98%E6%BB%9E%E4%BD%8D"><span class="toc-number">7.</span> <span class="toc-text">七、粘滞位</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/linux4.html" title="【Linux】权限管理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】权限管理"/></a><div class="content"><a class="title" href="/linux4.html" title="【Linux】权限管理">【Linux】权限管理</a><time datetime="2023-01-10T05:53:45.000Z" title="发表于 2023-01-10 13:53:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux3.html" title="【Linux】基础指令(下)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(下)"/></a><div class="content"><a class="title" href="/linux3.html" title="【Linux】基础指令(下)">【Linux】基础指令(下)</a><time datetime="2023-01-10T05:52:45.000Z" title="发表于 2023-01-10 13:52:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux2.html" title="【Linux】基础指令(中)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(中)"/></a><div class="content"><a class="title" href="/linux2.html" title="【Linux】基础指令(中)">【Linux】基础指令(中)</a><time datetime="2023-01-10T05:51:45.000Z" title="发表于 2023-01-10 13:51:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux1.html" title="【Linux】基础指令(上)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(上)"/></a><div class="content"><a class="title" href="/linux1.html" title="【Linux】基础指令(上)">【Linux】基础指令(上)</a><time datetime="2023-01-10T05:50:45.000Z" title="发表于 2023-01-10 13:50:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"/></a><div class="content"><a class="title" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><time datetime="2023-01-10T05:06:54.000Z" title="发表于 2023-01-10 13:06:54">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">公益推广</p><div class="bg-ad"><div>一本好书,就是一所好的学校；一本好书，就是一扇面向世界的窗口；一本好书，就是一条通往成功的大道；孩童时代起，爸爸妈妈一定都给你们许多的课外读物，或许在书架上，它们都蒙上了灰尘。你是否想过，这些闲置的、被遗忘的书籍却仍是一笔笔珍贵的财富？</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://yangfanbook.sina.com.cn/YFProject/DonateBook">扬帆计划官网</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">实用工具</p><ul class="ft-links"><li><a target="_blank" rel="noopener" href="https://dycharts.com/channel-inviteu/index.html?channelCode=33OSVUTJ&amp;hmsr=kol-lmj&amp;hmpl=mgwdm">图表设计</a><a target="_blank" rel="noopener" href="https://gitmind.cn/?apptype=chn-hucpa">思维导图</a></li><li><a target="_blank" rel="noopener" href="https://convertio.co/zh/">格式转换器</a><a target="_blank" rel="noopener" href="https://wordart.com/">云文字</a></li><li><a target="_blank" rel="noopener" href="https://www.videvo.net/">video</a><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a></li><li><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">创客贴</a><a target="_blank" rel="noopener" href="http://www.hippter.com/">hippter</a></li><li><a target="_blank" rel="noopener" href="https://www.toolfk.com/">toolfk工具箱</a><a target="_blank" rel="noopener" href="https://www.qijishow.com/">奇迹秀</a></li><li><a target="_blank" rel="noopener" href="https://bilibili.iiilab.com/">bilibili视频下载</a><a target="_blank" rel="noopener" href="https://www.onlineimagetool.com/zh/">图片压缩</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">团队成员</p><div class="ft-img-group"><div class="img-group-item"><a href=" /tags/%E4%B8%9E%E5%AD%90/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/09/ce998c8340079.jpg" alt=""/></a></div><div class="img-group-item"><a href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/"> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg" alt=""/></a></div><div class="img-group-item"><a href=" /tags/夏目浅石/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/12FPUYZ9RtEcoCK.jpg" alt=""/></a></div></div></div></div><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> stackframe</div><div class="footer_custom_text">累了就好好休息鸭，安心交给明天的自己吧  <div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">         </use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"> </i></button></div></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="2239349364" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="/js/custom/nav.js"></script><script>WIDGET = {"CONFIG":{"modules":"012","background":"5","tmpColor":"FFFFFF","tmpSize":"16","cityColor":"FFFFFF","citySize":"16","aqiColor":"FFFFFF","aqiSize":"16","weatherIconSize":"24","alertIconSize":"18","padding":"10px 10px 10px 10px","shadow":"0","language":"auto","fixed":"false","vertical":"top","horizontal":"left","key":"3da94e567f5e4e88baf90f066f0893c2"}}</script><script defer data-pjax src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script async src="/js/title.js"></script><script async src="/js/fps.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="//at.alicdn.com/t/c/font_3812295_db2mptl0ld.js"></script><script defer src="/js/light.js"></script><link rel="stylesheet" href="/css/aplayer.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/Meting2.min.js"></script><script async data-pjax src="/js/aplayer.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer src="/js/shezhi.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><canvas id="snow"></canvas><script async src="/js/snow.js"></script><script async data-pjax src="/js/nav.js"></script><script async data-pjax src="/js/custom.js"></script><script async data-pjax src="/js/waterfall.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/MlLrfXzjg7FmpS3.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/算法/&quot;);" href="javascript:void(0);">算法</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr">又是摸鱼的一天</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/Rw2HGxDl5XiYrkf.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/数据结构期末备考/&quot;);" href="javascript:void(0);">数据结构期末备考</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr">还是摸鱼</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/TB9yWGKp5P8Xm6r.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/c语言/&quot;);" href="javascript:void(0);">c语言</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">不想更新^-^</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/OktEesFoz8Gh16y.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/linux/&quot;);" href="javascript:void(0);">linux</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr">进来看看</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/ueAt3IlPLbv2pRo.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/leetcode刷题集/&quot;);" href="javascript:void(0);">leetcode刷题集</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">淦！</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.3.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.5.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">【Linux】基础指令(上)</a><div class="blog-slider__text">操作系统概念简述、基本指令：ls/pwd/cd/touch/tree/mkdir/rm/nano/clear/whoami、常用键位：tab等</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">【算法系列】前缀和与差分</a><div class="blog-slider__text">介绍前缀和差分的算法知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">gcc与动静态链接库</a><div class="blog-slider__text">学会如何使用 gcc ，了解程序经过翻译环境形成可执行程序的过程，并且讲解动静态链接库的知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/mLOkC1Dv6AijRKP.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">【c】指针那些事儿</a><div class="blog-slider__text">套娃，套娃，还是套娃。不愧是你啊，指针！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">【算法系列】高精度算法</a><div class="blog-slider__text">介绍了高精度算法的一些知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><div class="blog-slider__text">快速排序和归并排序算法的相关知识点。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":263},"mobile":{"show":false},"log":false});</script></body></html>

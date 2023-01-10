@@ -1,0 +1,582 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【Linux】基础指令(上) | StackFrame</title><meta name="author" content="stackframe"><meta name="copyright" content="stackframe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="操作系统概念简述、基本指令：ls&#x2F;pwd&#x2F;cd&#x2F;touch&#x2F;tree&#x2F;mkdir&#x2F;rm&#x2F;nano&#x2F;clear&#x2F;whoami、常用键位：tab等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】基础指令(上)">
+<meta property="og:url" content="http://example.com/linux1.html">
+<meta property="og:site_name" content="StackFrame">
+<meta property="og:description" content="操作系统概念简述、基本指令：ls&#x2F;pwd&#x2F;cd&#x2F;touch&#x2F;tree&#x2F;mkdir&#x2F;rm&#x2F;nano&#x2F;clear&#x2F;whoami、常用键位：tab等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg">
+<meta property="article:published_time" content="2023-01-10T05:50:45.000Z">
+<meta property="article:modified_time" content="2023-01-10T05:52:15.433Z">
+<meta property="article:author" content="stackframe">
+<meta property="article:tag" content="安度因">
+<meta property="article:tag" content="Linux基础指令">
+<meta property="article:tag" content="热键">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg"><link rel="shortcut icon" href="https://img.51miz.com/Element/00/84/61/94/a5bc49ec_E846194_41d9c19d.png"><link rel="canonical" href="http://example.com/linux1"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":50,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: stackframe","link":"链接: ","source":"来源: StackFrame","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Linux】基础指令(上)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-10 13:52:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jw6FnR7tEN7m8iI1",ck:"Jw6FnR7tEN7m8iI1"})</script><link rel="stylesheet" href="/css/home_essay_bar.css"><link rel="stylesheet" href="https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0" media="defer" onload="this.media='all'"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jum5QuG7PRp6MvjY",ck:"Jum5QuG7PRp6MvjY"})</script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><span id="fps"></span><link rel="stylesheet" href="/css/yitu.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/about.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/welcom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg')"><div class="menu-container" id="menu-container"><div class="menu-item"><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></div></div><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div><div class="top-bar"><div class="message-container"><div class="message-item message-weather" onclick="btf.scrollToDest(0, 500)"><div class="message-weather-box" id="he-plugin-simple"></div></div><div class="message-item message-date" onclick="Navvisible()"><div class="message-date-box" id="message-date-box"></div><div class="message-title-box" id="message-title-box"><a id="site-name" title="操作系统概念简述、基本指令：ls/pwd/cd/touch/tree/mkdir/rm/nano/clear/whoami、常用键位：tab等">【Linux】基础指令(上)  </a></div></div><div class="message-item message-function"><div id="search-button"><a class="site-page social-icon search faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg><span> 搜索</span></a></div><a class="icon-V hidden faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换"><svg class="faa-tada" width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a class="site-page faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-multi-window-01"></use></svg></a></div></div></div></div><button class="active-button" onclick="Navvisible()"></button></div><div id="post-info"><h1 class="post-title">【Linux】基础指令(上)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-10T05:50:45.000Z" title="发表于 2023-01-10 13:50:45">2023-01-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-10T05:52:15.433Z" title="更新于 2023-01-10 13:52:15">2023-01-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>18分钟</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tag link"><a class="link-card" title="安度因的csdn" target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67867172"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg"/></div><div class="right"><p class="text">安度因的csdn</p><p class="url">https://blog.csdn.net/m0_67867172</p></div></a></div>
+<pre><code>                                                                        一个只写干货，不写水货的硬核博主。
+</code></pre><h1 id="操作系统简述"><a href="#操作系统简述" class="headerlink" title="操作系统简述"></a>操作系统简述</h1><blockquote>
+<p>操作系统概念：一款进行软硬件资源管理的软件。</p>
+</blockquote>
+<p>为什么这么说？比如买来一台电脑，电脑的硬件是直接存在的，但是操作系统只有在开机后，才会被加载，这就说明<strong>操作系统是一个软件</strong>。</p>
+<p>再看下图：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221113222352457.png" alt="image-20221113222352457" style="zoom:67%;" /></p>
+<p>操作系统处于软硬件之间，起承上启下的效果。对上给应用提供接口，所以软件可以被编写出来。</p>
+<p>而操作系统存在的<strong>意义</strong>就是：<strong>对软硬件进行合理的管理。以达到为上层用户提供良好的、稳定的、安全的运行环境的目的！</strong></p>
+<h1 id="学习指令的原因"><a href="#学习指令的原因" class="headerlink" title="学习指令的原因"></a>学习指令的原因</h1><p>从时间上看，我们是先有键盘才有鼠标的，没有鼠标就代表着当时的操作系统并不需要鼠标来点击，即并没有图形化界面，这就意味着先有命令行才有图形化界面。</p>
+<p>那么学习命令行指令究竟是在干什么？其实就相当于我们小学刚接触电脑时，信息课上教的打开文件，创建文件夹等基本操作。</p>
+<p>对于 <strong>Linux操作系统</strong>，我们大多就是依靠指令来进行操作，所以学习指令是必不可少的！</p>
+<p>接下来，我们就开始学习~</p>
+<h1 id="ls-指令"><a href="#ls-指令" class="headerlink" title="ls 指令"></a>ls 指令</h1><p>语法：<code>ls [选项] [目录或文件]</code><br>功能：对于目录，该命令列出该目录下的所有子目录与文件。对于文件，将列出文件名以及其他信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# ls</span><br><span class="line">// 显示当前路径下的文件或目录名称</span><br><span class="line">homework1  testdel1</span><br></pre></td></tr></table></figure>
+<p><code>ls</code> 为命令，后面可以跟 <strong>命令选项</strong>，如-a，-d… 存在指令选项是正常的事情。</p>
+<p>常用指令：</p>
+<blockquote>
+<p>-a 列出目录下的所有文件，包括以 . 开头的隐含文件。<br>-d 将目录象文件一样显示，而不是显示其下的文件。 如：ls –d 指定目录<br>-i 输出文件的 i 节点的索引信息。 如 ls –ai 指定文件<br>-k 以 k 字节的形式表示文件的大小。ls –alk 指定文件<br>-l 列出文件的详细信息。<br>-n 用数字的 UID,GID 代替名称。 （介绍 UID， GID）<br>-F 在每个文件名后附上一个字符以说明该文件的类型，“*”表示可执行的普通文件；“/”表示目录；“@”表<br>示符号链接；“|”表示FIFOs；“=”表示套接字(sockets)。（目录类型识别）<br>-r 对目录反向排序。<br>-t 以时间排序。<br>-s 在l文件名后输出该文件的大小。（大小排序，如何找到目录下最大的文件）<br>-R 列出所有子目录下的文件。(递归)<br>-1 一行只输出一个文件。</p>
+</blockquote>
+<p><strong><em>常见选项</em></strong>：</p>
+<blockquote>
+<p><code>ls -l</code>：显示出更多的文件信息</p>
+</blockquote>
+<p>ls -l 的 l 相当于 <code>list</code>，就是使用列表的形式，列出文件的更多信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# ls -ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 13 22:07 homework1</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 12 20:54 testdel1</span><br></pre></td></tr></table></figure>
+<p>文件 = 内容 + 属性</p>
+<p>这些文件信息就相当于文件属性，如文件名，修改时间等。</p>
+<p>简写为<code>ll</code>也可以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 13 22:07 homework1</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 12 20:54 testdel1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ls -l -a：显示出更多的隐藏文件(./..)</p>
+</blockquote>
+<p>ls -l -a 可简写为：<code>ls -al / ls -la</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# ls -la</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x  2 root root 4096 Nov 13 23:08 .</span><br><span class="line">dr-xr-x---. 7 root root 4096 Nov 13 23:08 ..</span><br><span class="line">-rw-r--r--  1 root root    0 Nov 13 23:08 hello.txt</span><br></pre></td></tr></table></figure>
+<p>. 和 .. 为隐藏文件，我们手动创建一个 <strong>隐藏目录</strong> 和 <strong>隐藏文件</strong> 试试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 初始状态</span><br><span class="line">[root@VM-4-3-centos blogtest]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 13 23:08 hello.txt</span><br><span class="line">[root@VM-4-3-centos blogtest]# touch .oops.txt // 创建文件</span><br><span class="line">[root@VM-4-3-centos blogtest]# mkdir .hiddendir // 创建文件夹</span><br><span class="line">[root@VM-4-3-centos blogtest]# ll // 显示信息，没有隐藏文件</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 13 23:08 hello.txt</span><br><span class="line">[root@VM-4-3-centos blogtest]# ls -la // 显示隐藏信息，就有了</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x  3 root root 4096 Nov 13 23:17 .</span><br><span class="line">dr-xr-x---. 7 root root 4096 Nov 13 23:08 ..</span><br><span class="line">-rw-r--r--  1 root root    0 Nov 13 23:08 hello.txt</span><br><span class="line">drwxr-xr-x  2 root root 4096 Nov 13 23:17 .hiddendir</span><br><span class="line">-rw-r--r--  1 root root    0 Nov 13 23:17 .oops.txt</span><br></pre></td></tr></table></figure>
+<p>其中 <code>.</code> 为当前路径，<code>..</code> 为上级路径。</p>
+<blockquote>
+<p>拓展：<code>stat</code> 获取文件的所有属性</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# stat blogtest</span><br><span class="line">  File: ‘blogtest’</span><br><span class="line">  Size: 4096      	Blocks: 8          IO Block: 4096   directory</span><br><span class="line">Device: fd01h/64769d	Inode: 655920      Links: 3</span><br><span class="line">Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)</span><br><span class="line">Access: 2022-11-13 23:17:39.312325048 +0800</span><br><span class="line">Modify: 2022-11-13 23:17:37.527325030 +0800</span><br><span class="line">Change: 2022-11-13 23:17:37.527325030 +0800</span><br><span class="line"> Birth: -</span><br></pre></td></tr></table></figure>
+<p><code>stat</code> 指令列出的信息中有三个时间：Acess、、Change、Modify，它们被戏称为”acm”时间，它们的意思分别为：</p>
+<ol>
+<li><p>access time：最后一次 <strong>访问</strong> (仅访问，没有改动)文件的时间</p>
+</li>
+<li><p>change time：最后一次 <strong>文件属性改变</strong> 的时间，包括权限，大小，属性等</p>
+</li>
+<li>modify time：最后一次修改 <strong>文件</strong> 的时间</li>
+</ol>
+<h1 id="pwd-指令"><a href="#pwd-指令" class="headerlink" title="pwd 指令"></a>pwd 指令</h1><p>语法: pwd<br>功能：显示用户当前所在路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br></pre></td></tr></table></figure>
+<p>Linux 下的路径和 Windows 下有所不同：</p>
+<blockquote>
+<p>Linux：/root/blogtest</p>
+<p>Windows：D:\Anduin_code\data-structure\日常代码 </p>
+</blockquote>
+<p>Linux 下路径分隔符为 <code>/</code>，Windows 下路径分隔符为 <code>\</code> 。</p>
+<h1 id="cd-指令"><a href="#cd-指令" class="headerlink" title="cd 指令"></a>cd 指令</h1><p>c - change    d - directory</p>
+<p>语法：cd 目录名</p>
+<p>功能：更改路径，进入或退出某些目录。</p>
+<p><code>cd</code> 的指令的本质就是切换路径，对于 Linux 操作系统的目录结构，整体就是一个多叉树的样子：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20220717101725143.png" alt="image-20220717101725143"></p>
+<p>我们平常标识文件位置的最好方式就是使用 <strong>路径</strong>，因为 <strong>路径具有唯一性</strong>。</p>
+<p>而路径又分为两种：<strong>绝对路径、相对路径</strong></p>
+<p>绝对路径：从根目录开始，定位文件的路径，为绝对路径。(准确但麻烦，无论在哪个目录下都有效)</p>
+<p>相对路径：由当前文件所在的路径引起的跟其它文件（或文件夹）的路径关系。(方便，在不同目录下可能会无效)</p>
+<p><em>绝对路径演示</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br><span class="line">[root@VM-4-3-centos blogtest]# cd /root/blogtest/blogtt</span><br><span class="line">[root@VM-4-3-centos blogtt]# pwd</span><br><span class="line">/root/blogtest/blogtt</span><br><span class="line">[root@VM-4-3-centos blogtt]# cd ~</span><br><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# cd /root/blogtest/blogtt</span><br><span class="line">[root@VM-4-3-centos blogtt]# pwd</span><br><span class="line">/root/blogtest/blogtt</span><br></pre></td></tr></table></figure>
+<p><em>相对路径演示</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br><span class="line">[root@VM-4-3-centos blogtest]# cd ../testcd</span><br><span class="line">[root@VM-4-3-centos testcd]# pwd</span><br><span class="line">/root/testcd</span><br><span class="line">[root@VM-4-3-centos testcd]# cd ~</span><br><span class="line">[root@VM-4-3-centos ~]# cd ../testcd</span><br><span class="line">-bash: cd: ../testcd: No such file or directory</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>归纳：</p>
+<p>绝对路径：麻烦，一般是在某些配置文件中，进行对某种文件进行配置的时候采用。</p>
+<p>相对路径：用起来简单，后续指令操作的时候，常用的路径定位方案。</p>
+</blockquote>
+<p><strong>cd 的其他用法</strong>：</p>
+<blockquote>
+<p><code>cd .</code>：进入当前目录，相当于路径不变</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br><span class="line">[root@VM-4-3-centos blogtest]# cd .</span><br><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cd ..</code>：回退到上级路径</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# pwd</span><br><span class="line">/root/blogtest</span><br><span class="line">[root@VM-4-3-centos blogtest]# cd ..</span><br><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>cd 只能回退到根目录 <code>/</code>(长得和路径分隔符一样，但不是)</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# cd ..</span><br><span class="line">[root@VM-4-3-centos /]# pwd</span><br><span class="line">/</span><br><span class="line">[root@VM-4-3-centos /]# cd ..</span><br><span class="line">[root@VM-4-3-centos /]# pwd</span><br><span class="line">/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cd ~</code>：直接进入当前用户的家目录</p>
+</blockquote>
+<p><em>root(超级用户)</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos /]# cd ~</span><br><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br></pre></td></tr></table></figure>
+<p><em>普通用户</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[lx@VM-4-3-centos ~]$ cd ~</span><br><span class="line">[lx@VM-4-3-centos ~]$ pwd</span><br><span class="line">/home/lx</span><br></pre></td></tr></table></figure>
+<p>(注：当前只需要知道 root 用户权限更大，它们是不同的用户，用户之间的区别之后我会在权限管理部分讲)</p>
+<blockquote>
+<p><code>cd -</code>：回退到上一次所处路径</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtt]# pwd</span><br><span class="line">/root/blogtest/blogtt</span><br><span class="line">[root@VM-4-3-centos blogtt]# cd ~</span><br><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# cd -</span><br><span class="line">/root/blogtest/blogt</span><br></pre></td></tr></table></figure>
+<h1 id="touch-指令"><a href="#touch-指令" class="headerlink" title="touch 指令"></a>touch 指令</h1><p>语法：touch [选项]… 文件…<br>功能：touch命令参数可更改文档或目录的日期时间，包括存取时间和更改时间，或者新建一个不存在的文件。</p>
+<p>常用选项：</p>
+<blockquote>
+<p>-a 或—time=atime或—time=access或—time=use只更改存取时间。<br>-c 或—no-create 不建立任何文档。<br>-d 使用指定的日期时间，而非现在的时间。<br>-f 此参数将忽略不予处理，仅负责解决BSD版本touch指令的兼容性问题。<br>-m 或—time=mtime或—time=modify 只更改变动时间。<br>-r 把指定文档或目录的日期时间，统统设成和参考文档或目录的日期时间相同。<br>-t 使用指定的日期时间，而非现在的时间。</p>
+</blockquote>
+<p><code>touch</code> ：在当前路径下，创建一个普通文本文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtt]# pwd</span><br><span class="line">/root/blogtest/blogtt</span><br><span class="line">[root@VM-4-3-centos blogtt]# touch hello.txt</span><br><span class="line">[root@VM-4-3-centos blogtt]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 14 00:10 hello.txt</span><br></pre></td></tr></table></figure>
+<p><code>touch</code> 也可以 <strong>指定路径</strong> 创建，如在 <strong>上级目录</strong>(相对路径) 创建一个文本文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# pwd</span><br><span class="line">/root/lesson3</span><br><span class="line">[root@VM-4-3-centos lesson3]# touch ../test.c</span><br><span class="line">[root@VM-4-3-centos lesson3]# cd ..</span><br><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:13 dir</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 17 15:31 file.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:27 lesson3</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 17 15:32 test.c</span><br></pre></td></tr></table></figure>
+<p>使用 <strong>绝对路径</strong> 创建：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# touch /root/lesson3/abs.txt</span><br><span class="line">[root@VM-4-3-centos ~]# cd lesson3</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 17 15:33 abs.txt</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 17 15:22 file.txt</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 17 15:18 test.c</span><br></pre></td></tr></table></figure>
+<h1 id="tree-命令"><a href="#tree-命令" class="headerlink" title="tree 命令"></a>tree 命令</h1><p><code>tree</code>：使当前目录往后的文件夹和文件以树状结构呈现出来</p>
+<p><code>root</code> 账户下安装 <code>tree</code> 命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y tree</span><br></pre></td></tr></table></figure>
+<p>Linux 目录是树状结构，这个指令很好理解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# pwd</span><br><span class="line">/root</span><br><span class="line">[root@VM-4-3-centos ~]# tree</span><br><span class="line">.</span><br><span class="line">|-- blogtest</span><br><span class="line">|   |-- blogtt</span><br><span class="line">|   |   |-- hello.txt</span><br><span class="line">|   |   `-- test.txt</span><br><span class="line">|   |-- hello.txt</span><br><span class="line">|   `-- testcd</span><br><span class="line">`-- testcd</span><br><span class="line">    `-- file.txt</span><br><span class="line"></span><br><span class="line">4 directories, 4 files</span><br></pre></td></tr></table></figure>
+<h1 id="mkdir-指令"><a href="#mkdir-指令" class="headerlink" title="mkdir 指令"></a>mkdir 指令</h1><p>语法：mkdir [选项] dirname…</p>
+<p>功能：在<strong>当前目录</strong>下创建一个名为 “dirname”的目录</p>
+<p>常用选项：</p>
+<blockquote>
+<p>p, —parents 可以是一个路径名称。此时若路径中的某些目录尚不存在,加上此选项后,系统将自动建立好那些尚不存在的目录,即一次可以建立多个目录</p>
+<p><code>mkdir 目录名</code>：在 <strong>当前路径</strong> 下，创建一个目录(相当于 Windows 下的文件夹)</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 5 root root 4096 Nov 14 00:28 blogtest</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:30 testcd</span><br><span class="line">[root@VM-4-3-centos ~]# mkdir helloguys</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 5 root root 4096 Nov 14 00:28 blogtest</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:42 helloguys</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:30 testcd</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>mkdir -p dir1/dir2/dir3...</code>：递归创建一段路径</p>
+</blockquote>
+<p>dir1/dir2等为目录名，名字随意。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos helloguys]# pwd</span><br><span class="line">/root/helloguys</span><br><span class="line">[root@VM-4-3-centos helloguys]# mkdir -p a/b/c/d/e</span><br><span class="line">[root@VM-4-3-centos helloguys]# tree // tree 命令展示结果</span><br><span class="line">.</span><br><span class="line">`-- a</span><br><span class="line">    `-- b</span><br><span class="line">        `-- c</span><br><span class="line">            `-- d</span><br><span class="line">                `-- e</span><br><span class="line"></span><br><span class="line">5 directories, 0 files</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="rmdir-和-rm-指令"><a href="#rmdir-和-rm-指令" class="headerlink" title="rmdir 和 rm 指令"></a>rmdir 和 rm 指令</h1><p><strong><em>rmdir</em></strong>：</p>
+<p>语法：rmdir [-p] [dirName]<br>适用对象：具有当前目录操作权限的所有使用者<br>功能：删除 <strong>空目录</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# mkdir del // 创建 del</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 5 root root 4096 Nov 14 00:28 blogtest</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:52 del</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 14 00:43 helloguys</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:30 testcd</span><br><span class="line">[root@VM-4-3-centos ~]# cd del // del 目录为空</span><br><span class="line">[root@VM-4-3-centos del]# ll</span><br><span class="line">total 0</span><br><span class="line">[root@VM-4-3-centos del]# cd ..</span><br><span class="line">[root@VM-4-3-centos ~]# rmdir del // 删除del</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 5 root root 4096 Nov 14 00:28 blogtest</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 14 00:43 helloguys</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:30 testcd</span><br><span class="line">// 成功</span><br></pre></td></tr></table></figure>
+<p>注意 <code>rmdir</code> 只能删除空目录，反例演示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// blogtest 非空</span><br><span class="line">[root@VM-4-3-centos ~]# cd blogtest</span><br><span class="line">[root@VM-4-3-centos blogtest]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:11 blogtt</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 13 23:08 hello.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:28 testcd</span><br><span class="line">[root@VM-4-3-centos blogtest]# cd ..</span><br><span class="line">[root@VM-4-3-centos ~]# rmdir blogtest</span><br><span class="line">rmdir: failed to remove ‘blogtest’: Directory not empty // 无法删除</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong><em>rm</em></strong>：</p>
+<p>语法：rm [-f-i-r-v] [dirName/dir]<br>适用对象：所有使用者<br>功能：删除文件或目录</p>
+<blockquote>
+<p><code>rm 文件名</code>：删除文件(仅文本文件，无法删除目录)</p>
+</blockquote>
+<p>删除文件时，会让你确定是否删除文件，确认删除为 <code>y</code>，不删除为 <code>n</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:11 blogtt</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 13 23:08 hello.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:28 testcd</span><br><span class="line">[root@VM-4-3-centos blogtest]# rm hello.txt</span><br><span class="line">rm: remove regular empty file ‘hello.txt’? y // y - yes，确认</span><br><span class="line">[root@VM-4-3-centos blogtest]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:11 blogtt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 14 00:28 testcd</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>rm -r 文件名</code>：递归删除，目录(包括 <strong>非空目录</strong>)和文件都能删除</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 非空目录 bolgtt 的删除</span><br><span class="line">[root@VM-4-3-centos blogtest]# tree</span><br><span class="line">.</span><br><span class="line">|-- blogtt</span><br><span class="line">|   |-- hello.txt</span><br><span class="line">|   `-- test.txt</span><br><span class="line">|-- testcd</span><br><span class="line">`-- test.txt</span><br><span class="line"></span><br><span class="line">2 directories, 3 files</span><br><span class="line">[root@VM-4-3-centos blogtest]# rm -r blogtt // 以下为确认过程</span><br><span class="line">rm: descend into directory ‘blogtt’? y</span><br><span class="line">rm: remove regular empty file ‘blogtt/test.txt’? y</span><br><span class="line">rm: remove regular empty file ‘blogtt/hello.txt’? y</span><br><span class="line">rm: remove directory ‘blogtt’? y</span><br><span class="line">[root@VM-4-3-centos blogtest]# tree</span><br><span class="line">.</span><br><span class="line">|-- testcd</span><br><span class="line">`-- test.txt</span><br><span class="line"></span><br><span class="line">1 directory, 1 file</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>rm -rf 文件(目录名)：无视权限强制删除。</p>
+</blockquote>
+<p>比如在 <strong>普通用户</strong> 在 <strong>root</strong> 用户的目录下创建文件，测试在权限不同的角度能否删除：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114121205059.png" alt="image-20221114121205059"></p>
+<p>由于 root.txt 是以 sudo命令创建的，所以这个文件是被保护的，会给出提示，如果我们不想给提示，就可以用 <code>rm -rf</code> 进行 <strong>无视权限强制删除</strong> 。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114121732886.png" alt="image-20221114121732886"></p>
+<blockquote>
+<p><code>rm -rf ./*</code> ：删除当前目录下文件及其所有子文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 递归创建</span><br><span class="line">[root@VM-4-3-centos blogtest]# mkdir -p a/b/c/d/e</span><br><span class="line">[root@VM-4-3-centos blogtest]# tree</span><br><span class="line">.</span><br><span class="line">`-- a</span><br><span class="line">    `-- b</span><br><span class="line">        `-- c</span><br><span class="line">            `-- d</span><br><span class="line">                `-- e</span><br><span class="line"></span><br><span class="line">5 directories, 0 files</span><br><span class="line">[root@VM-4-3-centos blogtest]# rm -rf ./*</span><br><span class="line">[root@VM-4-3-centos blogtest]# tree</span><br><span class="line">.</span><br><span class="line"></span><br><span class="line">0 directories, 0 files</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>rm -rf/</code> ：把从根目录开始的所有文件删除，也就是删库跑路，大家可以试试，很刑的~</p>
+<p><code>rm - d</code> ：删除空目录，非空不能删</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# mkdir dir</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:12 dir</span><br><span class="line">[root@VM-4-3-centos ~]# rm -d dir</span><br><span class="line">rm: remove directory ‘dir’? y</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 0</span><br><span class="line">[root@VM-4-3-centos ~]# </span><br><span class="line">---------------------------------------------</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:13 dir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:47 lesson2</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:33 lesson3</span><br><span class="line">[root@VM-4-3-centos ~]# tree</span><br><span class="line">.</span><br><span class="line">|-- dir</span><br><span class="line">|-- lesson2</span><br><span class="line">|   `-- test.txt</span><br><span class="line">`-- lesson3</span><br><span class="line">    |-- abs.txt</span><br><span class="line">    |-- file.txt</span><br><span class="line">    `-- test.c</span><br><span class="line"></span><br><span class="line">3 directories, 4 files</span><br><span class="line">[root@VM-4-3-centos ~]# rm -d lesson2</span><br><span class="line">rm: cannot remove ‘lesson2’: Directory not empty // 无法删除</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>rm -f</code>：强制删除，不给出提示，只能删文件，不能删目录</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# rm -f dir</span><br><span class="line">rm: cannot remove ‘dir’: Is a directory // 无法删除目录</span><br><span class="line">-----------------------------------------------------</span><br><span class="line">// 文件可删</span><br><span class="line">[root@VM-4-3-centos ~]# touch test.c</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:13 dir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:47 lesson2</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:33 lesson3</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 17 15:50 test.c</span><br><span class="line">[root@VM-4-3-centos ~]# rm -f test.c</span><br><span class="line">[root@VM-4-3-centos ~]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:13 dir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:47 lesson2</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:33 lesson3</span><br></pre></td></tr></table></figure>
+<h1 id="nano-指令"><a href="#nano-指令" class="headerlink" title="nano 指令"></a>nano 指令</h1><p>在没有学习 <code>vim</code> 之前，可以先用 <code>nano</code> 在 Linux 上编写代码。</p>
+<p>root 账户下安装 nano：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y nano</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>nano</code> 文件名：对文件进行编辑</p>
+</blockquote>
+<p>ctrl + x 为退出，ctrl + x 后会提示是否保存，y(保存)，n(不保存)，c(取消)，然后按下回车 enter 退出。</p>
+<p>注：如果 <code>nano</code> 的文件不存在，会保存该文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos blogtest]# ll</span><br><span class="line">total 0</span><br><span class="line">[root@VM-4-3-centos blogtest]# nano test.c</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114152527576.png" alt="image-20221114152527576"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line"></span><br><span class="line">ctrl + x 后：</span><br><span class="line"></span><br><span class="line">![image-20221114152553000](https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114152553000.png)</span><br><span class="line"></span><br><span class="line">选择 y 保存，按 enter 退出。</span><br><span class="line"></span><br><span class="line">接着编译代码，并输出：</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>[root@VM-4-3-centos blogtest]# nano test.c<br>[root@VM-4-3-centos blogtest]# gcc test.c<br>[root@VM-4-3-centos blogtest]# ./a.out<br>hello everyone![root@VM-4-3-centos blogtest]# ll<br>total 16<br>-rwxr-xr-x 1 root root 8360 Nov 14 15:26 a.out<br>-rw-r—r— 1 root root   81 Nov 14 15:26 test.c<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">这里我们发现了 test.c 被创建了，还有编译产生的 a.out 文件。</span><br><span class="line"></span><br><span class="line">简单提一下：`gcc test.c` 为使用 gcc 编译器对 test.c 进行编译，`./a.out` 是执行当前路径下的 a.out 程序。</span><br><span class="line"></span><br><span class="line">**注**：使用 `nano` 时右侧小键盘无法使用。</span><br><span class="line"></span><br><span class="line"># clear 指令</span><br><span class="line"></span><br><span class="line">&gt; `clear` ：清理屏幕</span><br><span class="line"></span><br><span class="line"># whoami 指令</span><br><span class="line"></span><br><span class="line">&gt; `whoami`：显示当前用户</span><br><span class="line"></span><br><span class="line">_root_：</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>[root@VM-4-3-centos ~]# whoami<br>root<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">_普通用户_：</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>[lx@VM-4-3-centos ~]$ whoami<br>lx<br>```</p>
+<h1 id="常用键位"><a href="#常用键位" class="headerlink" title="常用键位"></a>常用键位</h1><blockquote>
+<p><code>alt + enter</code>：全屏，退出全屏也是 alt + enter</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114153037259.png" alt="image-20221114153037259"></p>
+<blockquote>
+<p><code>tab</code>：智能补全</p>
+</blockquote>
+<p>当指令忘记时，例如 <code>mkdir</code>，只输入了 mk，这时快速按两次 <code>tab</code> 就会列出和 mk 相关的指令，并保留输入。</p>
+<p>相当于一个查字典的热键，非常好用。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221114153321208.png" alt="image-20221114153321208"></p>
+<blockquote>
+<p>cd + tab 可以列出目录下的内容</p>
+</blockquote>
+<p>技巧：遇到路径问题时，不断的tab看能不能tab出来，没有就说明路径写错了。</p>
+<blockquote>
+<p><code>ctrl + c</code>：处理疯狂刷屏的情况，终止程序运行</p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">stackframe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/linux1.html">http://example.com/linux1.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">StackFrame</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/">安度因</a><a class="post-meta__tags" href="/tags/Linux%E5%9F%BA%E7%A1%80%E6%8C%87%E4%BB%A4/">Linux基础指令</a><a class="post-meta__tags" href="/tags/%E7%83%AD%E9%94%AE/">热键</a></div><div class="post_share"><div class="social-share" data-image="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/linux2.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【Linux】基础指令(中)</div></div></a></div><div class="next-post pull-right"><a href="/algorithm1.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/linux2.html" title="【Linux】基础指令(中)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(中)</div></div></a></div><div><a href="/linux3.html" title="【Linux】基础指令(下)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(下)</div></div></a></div><div><a href="/gaojingdu.html" title="【算法系列】高精度算法"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-06</div><div class="title">【算法系列】高精度算法</div></div></a></div><div><a href="/gccyudongjingtai.html" title="gcc与动静态链接库"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-09</div><div class="title">gcc与动静态链接库</div></div></a></div><div><a href="/linux4.html" title="【Linux】权限管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】权限管理</div></div></a></div><div><a href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-07</div><div class="title">【算法系列】前缀和与差分</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-author"><div class="item-headline"><i class="fa-solid fa-circle-user"></i><span>加入我们</span></div><div class="author-main-content"><div class="author-check-content"><label class="author-info" for="author-info">     <input id="author-info" type="checkbox" name="author-info"/><div class="author-avatar"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-name">stackframe</div></label></div><div class="author-switch-content"><input class="switch-content" type="radio" name="switch-content" value="description"/><label class="author-description-box">      <div class="author-description"></div></label><input class="switch-content" type="radio" name="switch-content" value="social" checked="checked"/><label class="author-social-box"><a class="card-author-button"><i class="iconfont icon-csdn"></i><span>暂时没想好传送到哪里啦</span></a><div class="social-icons"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:Akilarlxh@gmail.com" target="_blank" title="Email"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://steamcommunity.com/profiles/76561199139554396/" target="_blank" title="steam"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-steam"></use></svg></a></div></label><input class="switch-content" type="radio" name="switch-content" value="site-data"/><label class="author-data-box"><div class="site-data"><a class="data-item" href="/archives/"><div class="data-name">文章</div><div class="data-length">22</div></a><a class="data-item" href="/tags/"><div class="data-name">标签</div><div class="data-length">28</div></a><a class="data-item" href="/categories/"><div class="data-name">分类</div><div class="data-length">5</div></a></div></label></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到这里，今天也要打起精神哦。</div></div><div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AE%80%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">操作系统简述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AD%A6%E4%B9%A0%E6%8C%87%E4%BB%A4%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">2.</span> <span class="toc-text">学习指令的原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ls-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">ls 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwd-%E6%8C%87%E4%BB%A4"><span class="toc-number">4.</span> <span class="toc-text">pwd 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cd-%E6%8C%87%E4%BB%A4"><span class="toc-number">5.</span> <span class="toc-text">cd 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#touch-%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">touch 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tree-%E5%91%BD%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">tree 命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mkdir-%E6%8C%87%E4%BB%A4"><span class="toc-number">8.</span> <span class="toc-text">mkdir 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#rmdir-%E5%92%8C-rm-%E6%8C%87%E4%BB%A4"><span class="toc-number">9.</span> <span class="toc-text">rmdir 和 rm 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nano-%E6%8C%87%E4%BB%A4"><span class="toc-number">10.</span> <span class="toc-text">nano 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E9%94%AE%E4%BD%8D"><span class="toc-number">11.</span> <span class="toc-text">常用键位</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/linux4.html" title="【Linux】权限管理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】权限管理"/></a><div class="content"><a class="title" href="/linux4.html" title="【Linux】权限管理">【Linux】权限管理</a><time datetime="2023-01-10T05:53:45.000Z" title="发表于 2023-01-10 13:53:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux3.html" title="【Linux】基础指令(下)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(下)"/></a><div class="content"><a class="title" href="/linux3.html" title="【Linux】基础指令(下)">【Linux】基础指令(下)</a><time datetime="2023-01-10T05:52:45.000Z" title="发表于 2023-01-10 13:52:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux2.html" title="【Linux】基础指令(中)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(中)"/></a><div class="content"><a class="title" href="/linux2.html" title="【Linux】基础指令(中)">【Linux】基础指令(中)</a><time datetime="2023-01-10T05:51:45.000Z" title="发表于 2023-01-10 13:51:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux1.html" title="【Linux】基础指令(上)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(上)"/></a><div class="content"><a class="title" href="/linux1.html" title="【Linux】基础指令(上)">【Linux】基础指令(上)</a><time datetime="2023-01-10T05:50:45.000Z" title="发表于 2023-01-10 13:50:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"/></a><div class="content"><a class="title" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><time datetime="2023-01-10T05:06:54.000Z" title="发表于 2023-01-10 13:06:54">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">公益推广</p><div class="bg-ad"><div>一本好书,就是一所好的学校；一本好书，就是一扇面向世界的窗口；一本好书，就是一条通往成功的大道；孩童时代起，爸爸妈妈一定都给你们许多的课外读物，或许在书架上，它们都蒙上了灰尘。你是否想过，这些闲置的、被遗忘的书籍却仍是一笔笔珍贵的财富？</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://yangfanbook.sina.com.cn/YFProject/DonateBook">扬帆计划官网</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">实用工具</p><ul class="ft-links"><li><a target="_blank" rel="noopener" href="https://dycharts.com/channel-inviteu/index.html?channelCode=33OSVUTJ&amp;hmsr=kol-lmj&amp;hmpl=mgwdm">图表设计</a><a target="_blank" rel="noopener" href="https://gitmind.cn/?apptype=chn-hucpa">思维导图</a></li><li><a target="_blank" rel="noopener" href="https://convertio.co/zh/">格式转换器</a><a target="_blank" rel="noopener" href="https://wordart.com/">云文字</a></li><li><a target="_blank" rel="noopener" href="https://www.videvo.net/">video</a><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a></li><li><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">创客贴</a><a target="_blank" rel="noopener" href="http://www.hippter.com/">hippter</a></li><li><a target="_blank" rel="noopener" href="https://www.toolfk.com/">toolfk工具箱</a><a target="_blank" rel="noopener" href="https://www.qijishow.com/">奇迹秀</a></li><li><a target="_blank" rel="noopener" href="https://bilibili.iiilab.com/">bilibili视频下载</a><a target="_blank" rel="noopener" href="https://www.onlineimagetool.com/zh/">图片压缩</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">团队成员</p><div class="ft-img-group"><div class="img-group-item"><a href=" /tags/%E4%B8%9E%E5%AD%90/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/09/ce998c8340079.jpg" alt=""/></a></div><div class="img-group-item"><a href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/"> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg" alt=""/></a></div><div class="img-group-item"><a href=" /tags/夏目浅石/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/12FPUYZ9RtEcoCK.jpg" alt=""/></a></div></div></div></div><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> stackframe</div><div class="footer_custom_text">累了就好好休息鸭，安心交给明天的自己吧  <div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">         </use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"> </i></button></div></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="2239349364" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="/js/custom/nav.js"></script><script>WIDGET = {"CONFIG":{"modules":"012","background":"5","tmpColor":"FFFFFF","tmpSize":"16","cityColor":"FFFFFF","citySize":"16","aqiColor":"FFFFFF","aqiSize":"16","weatherIconSize":"24","alertIconSize":"18","padding":"10px 10px 10px 10px","shadow":"0","language":"auto","fixed":"false","vertical":"top","horizontal":"left","key":"3da94e567f5e4e88baf90f066f0893c2"}}</script><script defer data-pjax src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script async src="/js/title.js"></script><script async src="/js/fps.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="//at.alicdn.com/t/c/font_3812295_db2mptl0ld.js"></script><script defer src="/js/light.js"></script><link rel="stylesheet" href="/css/aplayer.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/Meting2.min.js"></script><script async data-pjax src="/js/aplayer.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer src="/js/shezhi.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><canvas id="snow"></canvas><script async src="/js/snow.js"></script><script async data-pjax src="/js/nav.js"></script><script async data-pjax src="/js/custom.js"></script><script async data-pjax src="/js/waterfall.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/MlLrfXzjg7FmpS3.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/算法/&quot;);" href="javascript:void(0);">算法</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr">又是摸鱼的一天</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/Rw2HGxDl5XiYrkf.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/数据结构期末备考/&quot;);" href="javascript:void(0);">数据结构期末备考</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr">还是摸鱼</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/TB9yWGKp5P8Xm6r.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/c语言/&quot;);" href="javascript:void(0);">c语言</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">不想更新^-^</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/OktEesFoz8Gh16y.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/linux/&quot;);" href="javascript:void(0);">linux</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr">进来看看</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/ueAt3IlPLbv2pRo.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/leetcode刷题集/&quot;);" href="javascript:void(0);">leetcode刷题集</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">淦！</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.3.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.5.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">【Linux】基础指令(上)</a><div class="blog-slider__text">操作系统概念简述、基本指令：ls/pwd/cd/touch/tree/mkdir/rm/nano/clear/whoami、常用键位：tab等</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">【算法系列】前缀和与差分</a><div class="blog-slider__text">介绍前缀和差分的算法知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">gcc与动静态链接库</a><div class="blog-slider__text">学会如何使用 gcc ，了解程序经过翻译环境形成可执行程序的过程，并且讲解动静态链接库的知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/mLOkC1Dv6AijRKP.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">【c】指针那些事儿</a><div class="blog-slider__text">套娃，套娃，还是套娃。不愧是你啊，指针！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">【算法系列】高精度算法</a><div class="blog-slider__text">介绍了高精度算法的一些知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><div class="blog-slider__text">快速排序和归并排序算法的相关知识点。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":263},"mobile":{"show":false},"log":false});</script></body></html>

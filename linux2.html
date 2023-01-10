@@ -1,0 +1,928 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>【Linux】基础指令(中) | StackFrame</title><meta name="author" content="stackframe"><meta name="copyright" content="stackframe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="man&#x2F;cp&#x2F;mv&#x2F;echo&#x2F;cat&#x2F;wc&#x2F;more&#x2F;less&#x2F;head&#x2F;tail&#x2F;date&#x2F;cal&#x2F;sort&#x2F;find&#x2F;which&#x2F;whereis&#x2F;alias&#x2F;grep&#x2F;top&#x2F;zip指令、重定向、管道用法讲解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Linux】基础指令(中)">
+<meta property="og:url" content="http://example.com/linux2.html">
+<meta property="og:site_name" content="StackFrame">
+<meta property="og:description" content="man&#x2F;cp&#x2F;mv&#x2F;echo&#x2F;cat&#x2F;wc&#x2F;more&#x2F;less&#x2F;head&#x2F;tail&#x2F;date&#x2F;cal&#x2F;sort&#x2F;find&#x2F;which&#x2F;whereis&#x2F;alias&#x2F;grep&#x2F;top&#x2F;zip指令、重定向、管道用法讲解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg">
+<meta property="article:published_time" content="2023-01-10T05:51:45.000Z">
+<meta property="article:modified_time" content="2023-01-10T05:53:08.652Z">
+<meta property="article:author" content="stackframe">
+<meta property="article:tag" content="安度因">
+<meta property="article:tag" content="Linux基础指令">
+<meta property="article:tag" content="热键">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg"><link rel="shortcut icon" href="https://img.51miz.com/Element/00/84/61/94/a5bc49ec_E846194_41d9c19d.png"><link rel="canonical" href="http://example.com/linux2"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: {"limitDay":50,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: stackframe","link":"链接: ","source":"来源: StackFrame","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-right"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【Linux】基础指令(中)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-01-10 13:53:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jw6FnR7tEN7m8iI1",ck:"Jw6FnR7tEN7m8iI1"})</script><link rel="stylesheet" href="/css/home_essay_bar.css"><link rel="stylesheet" href="https://widget.heweather.net/simple/static/css/he-simple.css?v=1.4.0" media="defer" onload="this.media='all'"><script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"Jum5QuG7PRp6MvjY",ck:"Jum5QuG7PRp6MvjY"})</script><script src="https://npm.elemecdn.com/echarts@4.9.0/dist/echarts.min.js"></script><span id="fps"></span><link rel="stylesheet" href="/css/yitu.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/about.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/welcom.js"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><svg aria-hidden="true" style="position:absolute; overflow:hidden; width:0; height:0"><symbol id="icon-sun" viewBox="0 0 1024 1024"><path d="M960 512l-128 128v192h-192l-128 128-128-128H192v-192l-128-128 128-128V192h192l128-128 128 128h192v192z" fill="#FFD878" p-id="8420"></path><path d="M736 512a224 224 0 1 0-448 0 224 224 0 1 0 448 0z" fill="#FFE4A9" p-id="8421"></path><path d="M512 109.248L626.752 224H800v173.248L914.752 512 800 626.752V800h-173.248L512 914.752 397.248 800H224v-173.248L109.248 512 224 397.248V224h173.248L512 109.248M512 64l-128 128H192v192l-128 128 128 128v192h192l128 128 128-128h192v-192l128-128-128-128V192h-192l-128-128z" fill="#4D5152" p-id="8422"></path><path d="M512 320c105.888 0 192 86.112 192 192s-86.112 192-192 192-192-86.112-192-192 86.112-192 192-192m0-32a224 224 0 1 0 0 448 224 224 0 0 0 0-448z" fill="#4D5152" p-id="8423"></path></symbol><symbol id="icon-moon" viewBox="0 0 1024 1024"><path d="M611.370667 167.082667a445.013333 445.013333 0 0 1-38.4 161.834666 477.824 477.824 0 0 1-244.736 244.394667 445.141333 445.141333 0 0 1-161.109334 38.058667 85.077333 85.077333 0 0 0-65.066666 135.722666A462.08 462.08 0 1 0 747.093333 102.058667a85.077333 85.077333 0 0 0-135.722666 65.024z" fill="#FFB531" p-id="11345"></path><path d="M329.728 274.133333l35.157333-35.157333a21.333333 21.333333 0 1 0-30.165333-30.165333l-35.157333 35.157333-35.114667-35.157333a21.333333 21.333333 0 0 0-30.165333 30.165333l35.114666 35.157333-35.114666 35.157334a21.333333 21.333333 0 1 0 30.165333 30.165333l35.114667-35.157333 35.157333 35.157333a21.333333 21.333333 0 1 0 30.165333-30.165333z" fill="#030835" p-id="11346"></path></symbol></svg><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">28</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg')"><div class="menu-container" id="menu-container"><div class="menu-item"><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shouye"></use></svg><span> 首页</span></a></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-boke"></use></svg><span> 日志</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/archives/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/charts/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-zhangbentongji"></use></svg><span> 统计</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 博客</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/tags/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei1"></use></svg><span> 标签</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/categories/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei3"></use></svg><span> 分类</span></a></div></div><div class="menu-item-main has-child"><div class="menu-item-parent"><a class="site-page faa-parent animated-hover" href="javascript:void(0);"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shenghuo"></use></svg><span> 生活</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/movies/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon--dianyingpiao-"></use></svg><span> 追剧网站</span></a></div><div class="menu-item-child"><a class="faa-parent animated-hover site-page child" href="/air-conditioner/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shinei_kongtiao01"></use></svg><span> 小空调</span></a></div></div><div class="menu-item-main"><a class="site-page faa-parent animated-hover" href="/link/"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-LINKS"></use></svg><span> 友链</span></a></div></div><div class="top-bar"><div class="message-container"><div class="message-item message-weather" onclick="btf.scrollToDest(0, 500)"><div class="message-weather-box" id="he-plugin-simple"></div></div><div class="message-item message-date" onclick="Navvisible()"><div class="message-date-box" id="message-date-box"></div><div class="message-title-box" id="message-title-box"><a id="site-name" title="man/cp/mv/echo/cat/wc/more/less/head/tail/date/cal/sort/find/which/whereis/alias/grep/top/zip指令、重定向、管道用法讲解">【Linux】基础指令(中)  </a></div></div><div class="message-item message-function"><div id="search-button"><a class="site-page social-icon search faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-icon-sousuo"></use></svg><span> 搜索</span></a></div><a class="icon-V hidden faa-parent animated-hover" onclick="switchNightMode()" title="浅色和深色模式转换"><svg class="faa-tada" width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon"></use></svg></a><div id="toggle-menu"><a class="site-page faa-parent animated-hover"><svg class="faa-tada icon" style="height:25px;width:25px" aria-hidden="true"><use xlink:href="#icon-multi-window-01"></use></svg></a></div></div></div></div><button class="active-button" onclick="Navvisible()"></button></div><div id="post-info"><h1 class="post-title">【Linux】基础指令(中)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-01-10T05:51:45.000Z" title="发表于 2023-01-10 13:51:45">2023-01-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-01-10T05:53:08.652Z" title="更新于 2023-01-10 13:53:08">2023-01-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>33分钟</span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="tag link"><a class="link-card" title="安度因的csdn" target="_blank" rel="noopener" href="https://blog.csdn.net/m0_67867172"><div class="left"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg"/></div><div class="right"><p class="text">安度因的csdn</p><p class="url">https://blog.csdn.net/m0_67867172</p></div></a></div>
+<pre><code>                                                                        一个只写干货，不写水货的硬核博主。
+</code></pre><h1 id="man-指令"><a href="#man-指令" class="headerlink" title="man 指令"></a>man 指令</h1><p>语法: man [选项] 命令</p>
+<p>功能：man 指令可以查阅 Linux 的联机手册</p>
+<hr>
+<p>root下安装 man 指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum intall -y man-pages</span><br></pre></td></tr></table></figure>
+<p>通过 <code>sudo</code> 来为普通用户安装(<a target="_blank" rel="noopener" href="http://t.csdn.cn/zp4M1">普通用户使用sudo</a>)：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum intall -y man-pages</span><br></pre></td></tr></table></figure>
+<p>man 可以查阅指令或库函数等内容… 我们先查阅一下 <code>man</code> 指令本身如何使用：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/2f6a9a139f36eac7c62a641632498de6.png" alt="image-20221117162825931"></p>
+<p>查找手册介绍：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>英文</th>
+<th>中文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1☆</td>
+<td>Executable programs or shell commands</td>
+<td>普通的命令</td>
+</tr>
+<tr>
+<td>2☆</td>
+<td>System calls (functions provided by the kernel)</td>
+<td>系统调用</td>
+</tr>
+<tr>
+<td>3☆</td>
+<td>Library calls (functions within program libraries)</td>
+<td>（C语言）库函数</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Special files (usually found in /dev)</td>
+<td>特殊文件</td>
+</tr>
+<tr>
+<td>5</td>
+<td>File formats and conventions, e.g. /etc/passwd</td>
+<td>文件格式</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Games</td>
+<td>游戏</td>
+</tr>
+<tr>
+<td>7☆</td>
+<td>Miscellaneous (including macro packages and conventions), e.g. man(7), groff(7)</td>
+<td>附件和变量</td>
+</tr>
+<tr>
+<td>8</td>
+<td>System administration commands (usually only for root)</td>
+<td>系统管理命令(通常为root使用)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Kernel routines [Non standard]</td>
+<td>内核例程（非标准）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注：<code>☆</code> 为常用手册。</p>
+<p><strong>man 默认从1号手册开始查找 man 后的内容，按照手册顺序依次向后查找，找到就显示，找不到就是找不到</strong></p>
+<p>按 <code>q</code> 退出查阅</p>
+<p><em>查找 printf 指令</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos ~]# man printf</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/9673efd90d5adc4f5ed38bd71f77eb51.png" alt="image-20221117160952425"></p>
+<p>(注：Linux 下也有 printf 指令，在 1号手册 中)</p>
+<p>在 Linux 下使用 <code>printf</code> 指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# printf &quot;%d:%s\n&quot; 10 &quot;hello printf&quot;</span><br><span class="line">10:hello printf</span><br></pre></td></tr></table></figure>
+<p><em>使用 <code>man</code> 在 3号手册(C语言库函数) 查找 <code>printf</code></em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# man 3 printf</span><br></pre></td></tr></table></figure>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/b53e3bc09412bbc92e00c91fc54c84ef.png" alt="image-20221117162003262"></p>
+<h1 id="cp-指令"><a href="#cp-指令" class="headerlink" title="cp 指令"></a>cp 指令</h1><p>语法：cp [选项] 源文件或目录 目标文件或目录</p>
+<p>功能: cp —— copy，顾名思义就是拷贝，复制文件或目录</p>
+<p><em>常用选项</em>：</p>
+<blockquote>
+<ul>
+<li><p>-f 或 —force 强行复制文件或目录， 不论目的文件或目录是否已经存在</p>
+</li>
+<li><p>-i 或 —interactive 覆盖文件之前先询问用户</p>
+</li>
+<li><p>-r递归处理，将指定目录下的文件与子目录一并处理。若源文件或目录的形态，不属于目录或符号链</p>
+<p>接，则一律视为普通文件处理</p>
+</li>
+<li><p>-R 或 —recursive递归处理，将指定目录下的文件及子目录一并处理</p>
+</li>
+</ul>
+</blockquote>
+<p>拓展：</p>
+<p>cp指令用于复制文件或目录，如同时指定两个以上的文件或目录，且最后的目的地是一个已经存在的目录，则它会把前面指定的所有文件或目录复制到此目录中。若同时指定多个文件或目录，而最后的目的地并非一个已存在的目录，则会出现错误信息。</p>
+<hr>
+<p>cp 为拷贝的操作，cp 指令默认拷贝的文件</p>
+<blockquote>
+<p><code>cp 文件名 路径</code>：拷贝文件</p>
+</blockquote>
+<p>将 testcp2 中文件拷贝到 上级目录 lesson3 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cd testcp2</span><br><span class="line">[root@VM-4-3-centos testcp2]# touch file.txt</span><br><span class="line">[root@VM-4-3-centos testcp2]# cp file.txt ..</span><br><span class="line">[root@VM-4-3-centos testcp2]# ll ..</span><br><span class="line">total 8</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 00:59 file.txt</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:58 testcp2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cp -r 目录名 路径</code>：r 为递归，递归拷贝文件，即拷贝目录</p>
+</blockquote>
+<p>将 testcp1 目录拷贝到 test2cp2目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# tree</span><br><span class="line">.</span><br><span class="line">|-- testcp1</span><br><span class="line">|   `-- a</span><br><span class="line">|       |-- b</span><br><span class="line">|       |   `-- c</span><br><span class="line">|       |       `-- d</span><br><span class="line">|       `-- test.txt</span><br><span class="line">`-- testcp2</span><br><span class="line"></span><br><span class="line">6 directories, 1 file</span><br><span class="line">[root@VM-4-3-centos lesson3]# cp -r testcp1 testcp2</span><br><span class="line">[root@VM-4-3-centos lesson3]# tree</span><br><span class="line">.</span><br><span class="line">|-- testcp1</span><br><span class="line">|   `-- a</span><br><span class="line">|       |-- b</span><br><span class="line">|       |   `-- c</span><br><span class="line">|       |       `-- d</span><br><span class="line">|       `-- test.txt</span><br><span class="line">`-- testcp2</span><br><span class="line">    `-- testcp1</span><br><span class="line">        `-- a</span><br><span class="line">            |-- b</span><br><span class="line">            |   `-- c</span><br><span class="line">            |       `-- d</span><br><span class="line">            `-- test.txt</span><br><span class="line"></span><br><span class="line">11 directories, 2 files</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cp -f 文件名 路径</code>：强制拷贝。平常状况下，路径下有同名目录会给出覆盖提示；-f 为暴力，为不给是否覆盖提示，直接覆盖</p>
+</blockquote>
+<p><strong>但是实际上这里的不给提示是有歧义的</strong>，我们可以测试一下：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/9c59f8aba23c5705ded07a6cd834a1e0.png" alt="image-20221119013853483"></p>
+<p><em>那么这是为什么？我第一次测试时，以为是系统错误了，但是反复登入几次测试结果都是这个。我就联想到了是不是 <strong>cp 本身的问题</strong>，所以我用 <code>alias</code> 查看了它的别名</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos f1]# alias cp</span><br><span class="line">alias cp=&#x27;cp -i&#x27;</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>cp -i</code> 我们上面见过，它的意思是覆盖文件之前先询问用户，所以 <strong><code>cp 本质是 cp -i</code></strong> ，<strong>无论怎样都会先提问用户</strong>，比如我们的 <code>cp -f</code> 其实就被转换为了<strong><code>cp -i -f</code></strong>，这里我们可以通过 <strong>取消别名</strong> 的方式，来解决这个问题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos f1]# unalias cp</span><br></pre></td></tr></table></figure>
+<p><em>取消别名后</em>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos f1]# ll ..</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 01:33 f1</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 01:33 f2</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 01:34 file.txt</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos f1]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 19 01:33 file.txt</span><br><span class="line">[root@VM-4-3-centos f1]# cp -f file.txt .. // 没有给提示了</span><br></pre></td></tr></table></figure>
+<p>恢复别名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos f1]# alias cp=&#x27;cp -i&#x27;</span><br><span class="line">[root@VM-4-3-centos f1]# alias cp</span><br><span class="line">alias cp=&#x27;cp -i&#x27;</span><br></pre></td></tr></table></figure>
+<h1 id="mv-指令"><a href="#mv-指令" class="headerlink" title="mv 指令"></a>mv 指令</h1><p>mv —— move，可以 <strong>剪切文件/目录</strong> 或者 <strong>重命名文件/目录</strong>。</p>
+<p>语法: mv [选项] 源文件或目录 目标文件或目录</p>
+<p>功能：</p>
+<ol>
+<li><p>当第二个参数类型是文件时，mv命令完成文件重命名，此时，源文件只能有一个（也可以是源目录名），它<br>将所给的源文件或目录重命名为给定的目标文件名。</p>
+</li>
+<li><p>当第二个参数是已存在的目录名称时，源文件或目录参数可以有多个，mv命令将各参数指定的源文件均移至<br>目标目录中。</p>
+</li>
+</ol>
+<p><em>常用选项</em>：</p>
+<blockquote>
+<ul>
+<li>-f ：f —— force 强制的意思，如果目标文件已经存在，不会询问直接覆盖。</li>
+<li>-i ：若目标文件已经存在时，就会询问是否覆盖！</li>
+</ul>
+</blockquote>
+<hr>
+<p><strong><em>剪切</em></strong>：</p>
+<blockquote>
+<p><code>mv 文件名 路径</code>：剪切文件到指定路径</p>
+</blockquote>
+<p>剪切 mydir 中的 <code>file.txt</code> 到上级目录 lesson3 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r-- 1 root root 0 Nov 19 02:01 file.txt</span><br><span class="line">[root@VM-4-3-centos mydir]# mv file.txt ..</span><br><span class="line">[root@VM-4-3-centos mydir]# ll ..</span><br><span class="line">total 12</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 file.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:01 mydir</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>mv 目录名 路径</code>：剪切目录到指定路径</p>
+</blockquote>
+<p>剪切 mydir 中的 <code>mydirdir</code> 目录到 上级目录 lesson3 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 12</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 file.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:01 mydir</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos lesson3]# cd mydir</span><br><span class="line">[root@VM-4-3-centos mydir]# mkdir mydirdir // 创建目录</span><br><span class="line">[root@VM-4-3-centos mydir]# mv mydirdir .. // 剪切到上级目录</span><br><span class="line">[root@VM-4-3-centos mydir]# ll ..</span><br><span class="line">total 16</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 file.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos mydir]# </span><br></pre></td></tr></table></figure>
+<p><strong><em>重命名</em></strong>：</p>
+<p>mv 可以重命名文件或目录</p>
+<blockquote>
+<p><code>mv 文件名 新的文件名</code>：文件重命名。如果当前面目录并没有这个名字，且不是一个存在的目录，shell会判定它是一个新的文件名</p>
+</blockquote>
+<p>把 file.txt 重命名为 newname.txt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 16</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 file.txt</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos lesson3]# mv file.txt newname.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 newname.txt</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>mv 文件名 路径 新文件名：剪切文件到指定路径并重命名</p>
+</blockquote>
+<p>将 lesson3 下的 newname.txt 剪切到 testcp1 并重命名为 newnew.txt ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 newname.txt // 存在</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos lesson3]# mv newname.txt testcp1/newnew.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll testcp1 // 剪切并重命名到testcp1</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 00:50 a</span><br><span class="line">-rw-r--r-- 1 root root    0 Nov 19 02:01 newnew.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll </span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir    // 删除掉了</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 02:57 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>总结</strong>：</p>
+<ul>
+<li>mv 文件名 不存在文件名：重命名</li>
+<li>mv 文件名 路径：剪切</li>
+<li>mv 文件名 目录 + 不存在文件名：剪切并重命名文件</li>
+<li>mv 目录名 目录 + 不存在目录名：剪切并重命名目录</li>
+</ul>
+<h1 id="echo-指令-含输出重定向"><a href="#echo-指令-含输出重定向" class="headerlink" title="echo 指令(含输出重定向)"></a>echo 指令(含输出重定向)</h1><blockquote>
+<p><code>echo &quot;字符串&quot;</code>：可以把字符串打印到屏幕上</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;hello Linux&quot;</span><br><span class="line">hello Linux</span><br></pre></td></tr></table></figure>
+<p>echo 在打印的时候默认是向显示器打印的。</p>
+<blockquote>
+<p><code>echo &quot;字符串&quot; &gt; 文件名</code>：将字符串写入文件中，若文件不存在会创建文件，为<strong>输出重定向</strong></p>
+</blockquote>
+<p>将 “aaa bbb ccc”，<strong>输出重定向</strong> 到 mylog.txt 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;aaa bbb ccc&quot; &gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 20</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">-rw-r--r-- 1 root root   12 Nov 19 03:18 mylog.txt // 文件被创建</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 02:57 testcp1</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 01:08 testcp2</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt // 被写入</span><br><span class="line">aaa bbb ccc</span><br></pre></td></tr></table></figure>
+<p>测试 <strong>多次输出重定向</strong> 文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">aaa bbb ccc</span><br><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;aaa&quot; &gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">aaa</span><br><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;bbb&quot; &gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">bbb</span><br><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;ccc&quot; &gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">ccc</span><br></pre></td></tr></table></figure>
+<p>每次重定向后，文件中的内容为最后一次重定向的结果。覆盖式写入(准备写入之前，先清空文件)</p>
+<hr>
+<p>说了这么久，那么 <strong>输出重定向到底是什么意思？</strong></p>
+<p>这里的 <code>&gt;</code>为 <strong>输出重定向</strong>，echo 默认是打印到屏幕上的。</p>
+<p>如果 <code>&gt;</code> 对应的 <strong>目标文件不存在</strong> ，则会 <strong>自动创建</strong> ，并把本来应该显示到<strong>显示器</strong>上面的文本，写入到 <strong>文件</strong> 中，这一过程，就叫 <strong>输出重定向</strong> 。</p>
+<p><em>拓展一下</em>：</p>
+<p>显示数据到显示器上，就是向显示器打印，可以理解为向显示器写入，可以<strong>把显示器看做一种文件</strong>。</p>
+<p>我们的C程序获取数据，比如 <code>scanf、cin</code> 都是从键盘读取到的，所以<strong>键盘也可以看做一种文件</strong>。</p>
+<p>内存从键盘获取数据的过程，也就是 <code>read</code> ，对应着 input(输入)到程序中；内存显示数据到显示器的过程，也就是 write，对应着 output(输出) 到显示器上。这一过程就是IO。</p>
+<p><em>示意图</em>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/image-20221119123949126.png#pic_center" alt="image-20221119123949126" style="zoom:70%;" /></p>
+<p>之前我们学习C语言文件操作时，读写方法是对于文件的。所以我们可以抽象拓展出一个概念：<strong>Linux下一切皆文件</strong> ！！！</p>
+<p><strong>所以，输出重定向就是把原本写入到 <code>显示器文件</code> 的内容写入到文件中！</strong></p>
+<hr>
+<blockquote>
+<p><code>echo &quot;字符串&quot; &gt;&gt; 文件名</code>：将字符串内容追加到文件中，为 <strong>追加重定向</strong></p>
+</blockquote>
+<p>例如追加字符串到 mylog.txt 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">ccc</span><br><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;hello&quot; &gt;&gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">ccc</span><br><span class="line">hello</span><br><span class="line">[root@VM-4-3-centos lesson3]# echo &quot;Linux&quot; &gt;&gt; mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">ccc</span><br><span class="line">hello</span><br><span class="line">Linux</span><br></pre></td></tr></table></figure>
+<p>追加自带换行，不断向目标文件中新增内容</p>
+<h1 id="cat-指令-含输入重定向"><a href="#cat-指令-含输入重定向" class="headerlink" title="cat 指令(含输入重定向)"></a>cat 指令(含输入重定向)</h1><p>语法：cat [选项] [文件]<br>功能： 查看目标文件的内容<br>常用选项：</p>
+<blockquote>
+<ul>
+<li>-b 对非空输出行编号</li>
+<li>-n 对输出的所有行编号</li>
+<li>-s 不输出多行空行</li>
+</ul>
+</blockquote>
+<hr>
+<p>cat 打印文件的内容到屏幕上，其实就是查看文件内容。</p>
+<p>我们 nano 一个文件，使用 cat 查看内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# nano mylog.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt</span><br><span class="line">aaaaaaa</span><br><span class="line">bbbbbbb</span><br><span class="line"></span><br><span class="line">ccccccc</span><br><span class="line">ssssssss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">aaaaaaaa</span><br><span class="line">ddddddddd</span><br><span class="line">cccccccc</span><br><span class="line">aaaaaaaaaaaaaaaaa</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cat -s 文件名</code>：<strong>省略多余空行</strong> 查看文件内容，说白了就是指令之间最多输出一个空行</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat -s mylog.txt</span><br><span class="line">aaaaaaa</span><br><span class="line">bbbbbbb</span><br><span class="line"></span><br><span class="line">ccccccc</span><br><span class="line">ssssssss</span><br><span class="line"></span><br><span class="line">aaaaaaaa</span><br><span class="line">ddddddddd</span><br><span class="line">cccccccc</span><br><span class="line">aaaaaaaaaaaaaaaaa</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cat -sn 文件名</code>：-n 是对输出行编号，-sn组合使用就是省略空行输出编号并打印内容</p>
+</blockquote>
+<p>很清晰的看到省略了空行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat -sn mylog.txt</span><br><span class="line">     1	aaaaaaa</span><br><span class="line">     2	bbbbbbb</span><br><span class="line">     3	</span><br><span class="line">     4	ccccccc</span><br><span class="line">     5	ssssssss</span><br><span class="line">     6	</span><br><span class="line">     7	aaaaaaaa</span><br><span class="line">     8	ddddddddd</span><br><span class="line">     9	cccccccc</span><br><span class="line">    10	aaaaaaaaaaaaaaaaa</span><br><span class="line">    11	</span><br></pre></td></tr></table></figure>
+<hr>
+<p>cat 会把文件内容读取到程序里，然后打印出来。</p>
+<blockquote>
+<p><code>cat &lt; 文件名</code>：<strong>输入重定向</strong>，将文件中内容读取到 cat 中，并打印</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat &lt;  mylog.txt</span><br><span class="line">aaaaaaa</span><br><span class="line">bbbbbbb</span><br><span class="line"></span><br><span class="line">ccccccc</span><br><span class="line">ssssssss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">aaaaaaaa</span><br><span class="line">ddddddddd</span><br><span class="line">cccccccc</span><br><span class="line">aaaaaaaaaaaaaaaaa</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>如果 cat 后不跟任何内容，那么就会 <strong>默认从键盘中读数据</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat</span><br><span class="line">hello</span><br><span class="line">hello</span><br><span class="line">Linux</span><br><span class="line">Linux</span><br><span class="line">aaa</span><br><span class="line">aaa</span><br><span class="line">bbb</span><br><span class="line">bbb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>所以，输入重定向就是改变原先从键盘上读取数据的方式，改为从其他文件中读取数据</strong></p>
+<p>其实这里使用 <code>cat mylog.txt</code> 和 <code>cat &lt; mylog.txt</code> 的效果是一样的，但是还是有些区别：第一个是通过命令行参数获得文件名，第二个是通过重定向获得文件名。</p>
+<p>这里简单了解一下就可以。</p>
+<h1 id="wc-指令"><a href="#wc-指令" class="headerlink" title="wc 指令"></a>wc 指令</h1><p>语法：wc [-lwm]</p>
+<p>功能：统计文件的行数、单词数、字符数</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-l ：仅列出行</li>
+<li>-w ：仅列出多少字(英文单字)</li>
+<li>-m ：多少字符</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p><code>wc -l 文件名</code>：显示文本文件有多少行和文件名</p>
+</blockquote>
+<p>显示文件有多少行，并文件名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# wc -l mylog.txt</span><br><span class="line">12 mylog.txt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>wc -l &lt; 文件名</code>：输入重定向，显示文本文件行数不显示文件名</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# wc -l &lt; mylog.txt</span><br><span class="line">12</span><br></pre></td></tr></table></figure>
+<h1 id="more-指令"><a href="#more-指令" class="headerlink" title="more 指令"></a>more 指令</h1><p>语法：more [选项] [文件]</p>
+<p>功能：more命令，功能类似 cat</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-n 对输出的所有行编号</li>
+<li>q 退出more</li>
+</ul>
+</blockquote>
+<hr>
+<p>测试 <code>more</code> 指令前，我们先写一个命令行脚本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnt=0; while [ $cnt -le 1000 ]; do echo &quot;hello $cnt&quot;; let cnt++; done &gt; mylog.txt</span><br></pre></td></tr></table></figure>
+<p>意思是往 mylog.txt 中写入 hello 1 ~ hello 1000。</p>
+<p>使用 cat 查看一下：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/8e1b27ecd25e82df579f0ab1fcbdad05.png" alt="image-20221119140656268"></p>
+<p>cat 只看到了结尾部分，说明 cat 适用于观看短文本。</p>
+<p>长文本可以使用 <code>more</code> 指令观看：</p>
+<blockquote>
+<p><code>more 文件名</code>：从头部查看文本内容，按回车逐行翻阅。</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/ddc7828f53d28523100d65184539b046.png" alt="image-20221119141113701"></p>
+<h1 id="less-指令"><a href="#less-指令" class="headerlink" title="less 指令"></a>less 指令</h1><p>语法： less [参数] 文件</p>
+<p>功能：<br>less与more类似，但使用less可以 <strong>随意浏览文件</strong>，而more仅能向前移动，却不能向后移动，而且less在查看之前不会加载整个文件。</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-i 忽略搜索时的大小写</li>
+<li>-N 显示每行的行号</li>
+<li>/字符串：向下搜索“字符串”的功能</li>
+<li>?字符串：向上搜索“字符串”的功能</li>
+<li>n：重复前一个搜索（与 / 或 ? 有关）</li>
+<li>N：反向重复前一个搜索（与 / 或 ? 有关）</li>
+<li>q：quit 退出</li>
+</ul>
+</blockquote>
+<p>补充：</p>
+<ul>
+<li>less 工具是对文件或其它输出进行分页显示的工具，应该说是linux查看文件内容的工具，功能强大。</li>
+<li>less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看。</li>
+<li>使用 less，就可以使用 [pageup] [pagedown] 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容。</li>
+<li>less 拥有更多的搜索功能，不止可以向下搜，也可以向上搜。</li>
+</ul>
+<hr>
+<blockquote>
+<p><code>less 文件名</code>：查看文件内容支持上下翻阅</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://anduin.oss-cn-nanjing.aliyuncs.com/less.gif" alt="less" style="zoom: 33%;" /></p>
+<p><strong>↑ 向上翻阅，↓ 向下翻阅，q 退出</strong></p>
+<p>less 支持查阅功能，方法为 <code>/ + 查阅内容</code>，在一次查阅后，无法查阅到上次查阅内容前面的内容：</p>
+<p>样例：</p>
+<p>先查阅带9的内容，然后查阅带1的内容。上次查阅结果为带9的内容，9前面的内容无法被查阅。查阅带1的内容是从10开始查阅的。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/e23c0acb14cd9c147b7b15a41bed3647.gif" alt="less2"></p>
+<h1 id="head-和-tail-指令-含管道用法"><a href="#head-和-tail-指令-含管道用法" class="headerlink" title="head 和 tail 指令(含管道用法)"></a>head 和 tail 指令(含管道用法)</h1><p><strong><em>head</em></strong></p>
+<p>语法： head [参数]… [文件]…</p>
+<p>功能：<br>head 用来显示档案的开头至标准输出中，<strong>默认head命令打印其相应文件的开头10 行</strong>。</p>
+<p>选项：</p>
+<blockquote>
+<ul>
+<li>-n&lt;行数&gt; 显示的行数</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p><code>head -n5 文件名</code>：显示前五行，写成 head -5</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# head -n5 mylog.txt</span><br><span class="line">hello 0</span><br><span class="line">hello 1</span><br><span class="line">hello 2</span><br><span class="line">hello 3</span><br><span class="line">hello 4</span><br></pre></td></tr></table></figure>
+<p><strong><em>tail</em></strong></p>
+<p>语法： tail[必要参数] [选择参数] [文件]</p>
+<p>功能： 用于显示指定文件末尾内容，不指定文件时，作为输入信息进行处理。常用查看日志文件。</p>
+<p>选项：</p>
+<blockquote>
+<ul>
+<li>-f 循环读取</li>
+<li>-n&lt;行数&gt; 显示行数</li>
+</ul>
+</blockquote>
+<hr>
+<p>tail 默认打印尾部十行内容。</p>
+<blockquote>
+<p><code>tail -n5 文件名</code>：显示文件尾部五行内容</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# tail -n5 mylog.txt</span><br><span class="line">hello 996</span><br><span class="line">hello 997</span><br><span class="line">hello 998</span><br><span class="line">hello 999</span><br><span class="line">hello 1000</span><br></pre></td></tr></table></figure>
+<hr>
+<blockquote>
+<p> <strong>学习了 head 和 tail，我们能否获取 mylog.txt 中间部分的 第500 - 520 行？</strong></p>
+</blockquote>
+<p><strong>法1：借助中间文件 + 重定向</strong></p>
+<p><em>step 1：head -520 mylog.txt &gt; tmp.txt —— 将前520内容重定向到 tmp.txt 中</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# head -520 mylog.txt &gt; tmp.txt</span><br></pre></td></tr></table></figure>
+<p><em>step2：tail -20 tmp.txt —— tail 截取 tmp.txt 的后20行</em></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# tail -20 tmp.txt</span><br><span class="line">hello 500</span><br><span class="line">hello 501</span><br><span class="line">hello 502</span><br><span class="line">hello 503</span><br><span class="line">hello 504</span><br><span class="line">hello 505</span><br><span class="line">hello 506</span><br><span class="line">hello 507</span><br><span class="line">hello 508</span><br><span class="line">hello 509</span><br><span class="line">hello 510</span><br><span class="line">hello 511</span><br><span class="line">hello 512</span><br><span class="line">hello 513</span><br><span class="line">hello 514</span><br><span class="line">hello 515</span><br><span class="line">hello 516</span><br><span class="line">hello 517</span><br><span class="line">hello 518</span><br><span class="line">hello 519</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>法2</strong>：管道</p>
+<p>首先，介绍一下管道。我们生活中，管道是用来传输资源的，对于Linux中的管道也是。</p>
+<p><code>|</code> 就是管道的标志。计算机中最重要的资源是数据，<code>|</code> 就会被 shell 解释为链接两条指令用来传输数据的指令。我们可以把管道也当做一种文件。</p>
+<p>先看两个管道的例子：</p>
+<p>我们原本 <strong>统计行</strong> 需要用 <code>wc -l mylog.txt</code>，并且会打印文件名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# wc -l mylog.txt</span><br><span class="line">1001 mylog.txt</span><br></pre></td></tr></table></figure>
+<p>但是学习了管道后，我们可以使用 <code>cat mylog.txt | wc -l</code> ，<strong>把 cat 的数据写到管道里</strong>，之后用 <code>wc-l</code> 到管道中读取，这样也不显示文件名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt | wc -l</span><br><span class="line">1001</span><br></pre></td></tr></table></figure>
+<p><strong>好了，介绍完管道和用法，我们回到正题</strong>:&gt;</p>
+<p>cat mylog.txt 将内容放到管道中，head -520 截取文件中前520行，再把这些放入管道中，tail -20 截取这些的后20行</p>
+<p>指令为：<code>cat mylog.txt | head -520 | tail -20</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cat mylog.txt | head -520 | tail -20</span><br><span class="line">hello 500</span><br><span class="line">hello 501</span><br><span class="line">hello 502</span><br><span class="line">hello 503</span><br><span class="line">hello 504</span><br><span class="line">hello 505</span><br><span class="line">hello 506</span><br><span class="line">hello 507</span><br><span class="line">hello 508</span><br><span class="line">hello 509</span><br><span class="line">hello 510</span><br><span class="line">hello 511</span><br><span class="line">hello 512</span><br><span class="line">hello 513</span><br><span class="line">hello 514</span><br><span class="line">hello 515</span><br><span class="line">hello 516</span><br><span class="line">hello 517</span><br><span class="line">hello 518</span><br><span class="line">hello 519</span><br></pre></td></tr></table></figure>
+<p><strong>管道意义：集联多条指令，做数据的不断加工。</strong></p>
+<h1 id="date-指令"><a href="#date-指令" class="headerlink" title="date 指令"></a>date 指令</h1><p>date 指定格式显示时间： date +%Y:%m:%d</p>
+<p>date 用法：date [OPTION]… [+FORMAT]</p>
+<p>在显示方面，使用者可以设定显示的格式，格式设定为 <strong>一个加号后接数个标记</strong>，其中常用的标记列表如下：</p>
+<blockquote>
+<ul>
+<li>%H : 小时(00..23)</li>
+<li>%M : 分钟(00..59)</li>
+<li>%S : 秒(00..61)</li>
+<li>%X : 相当于 %H:%M:%S</li>
+<li>%d : 日 (01..31)</li>
+<li>%m : 月份 (01..12)</li>
+<li>%Y : 完整年份 (0000..9999)</li>
+<li>%F : 相当于 %Y-%m-%d</li>
+</ul>
+</blockquote>
+<p>在设定时间方面：</p>
+<blockquote>
+<ul>
+<li>date -s //设置当前时间，只有root权限才能设置，其他只能查看。</li>
+<li>date -s 20080523 //设置成20080523，这样会把具体时间设置成空00:00:00</li>
+<li>date -s 01:01:01 //设置具体时间，不会对日期做更改</li>
+<li>date -s “01:01:01 2008-05-23″ //这样可以设置全部时间</li>
+<li>date -s “01:01:01 20080523″ //这样可以设置全部时间</li>
+<li>date -s “2008-05-23 01:01:01″ //这样可以设置全部时间</li>
+<li>date -s “20080523 01:01:01″ //这样可以设置全部时间</li>
+</ul>
+</blockquote>
+<p>时间戳：</p>
+<blockquote>
+<p>时间-&gt;时间戳：date +%s<br>时间戳-&gt;时间：date -d@1508749502<br>Unix时间戳（英文为Unix epoch, Unix time, POSIX time 或 Unix timestamp）是从1970年1月1日（UTC/GMT的午夜）开始所经过的秒数，不考虑闰秒。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p><code>date +%Y-%m:%d/%H:%M:%S</code>：特殊格式显示时间</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# date +%Y-%m:%d/%H:%M:%S</span><br><span class="line">2022-11:19/15:25:32</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>date +%s</code>：显示时间戳时间</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# date +%s</span><br><span class="line">1668842769</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>date +%Y-%m:%d/%H:%M:%S -d@时间戳</code>：将时间戳转换为格式时间</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# date +%Y-%m:%d/%H:%M:%S -d@1668842769</span><br><span class="line">2022-11:19/15:26:09</span><br></pre></td></tr></table></figure>
+<h1 id="cal-指令"><a href="#cal-指令" class="headerlink" title="cal 指令"></a>cal 指令</h1><p>语法： cal [参数] [月份] [年份]</p>
+<p>功能： 用于查看日历等时间信息，如只有一个参数，则表示年份(1-9999)，如有两个参数，则表示月份和年份</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-3 显示系统前一个月，当前月，下一个月的月历</li>
+<li>-j 显示在当年中的第几天（一年日期按天算，从1月1号算起，默认显示当前月在一年中的天数）</li>
+<li>-y 显示当前年份的日历</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p><code>cal</code> ：默认查看本月日历</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cal</span><br><span class="line">    November 2022   </span><br><span class="line">Su Mo Tu We Th Fr Sa</span><br><span class="line">       1  2  3  4  5</span><br><span class="line"> 6  7  8  9 10 11 12</span><br><span class="line">13 14 15 16 17 18 19</span><br><span class="line">20 21 22 23 24 25 26</span><br><span class="line">27 28 29 30</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cal 年份</code>：查看一年的日历</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cal 2022</span><br><span class="line">                               2022                               </span><br><span class="line"></span><br><span class="line">       January               February                 March       </span><br><span class="line">Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1          1  2  3  4  5          1  2  3  4  5</span><br><span class="line"> 2  3  4  5  6  7  8    6  7  8  9 10 11 12    6  7  8  9 10 11 12</span><br><span class="line"> 9 10 11 12 13 14 15   13 14 15 16 17 18 19   13 14 15 16 17 18 19</span><br><span class="line">16 17 18 19 20 21 22   20 21 22 23 24 25 26   20 21 22 23 24 25 26</span><br><span class="line">23 24 25 26 27 28 29   27 28                  27 28 29 30 31</span><br><span class="line">30 31</span><br><span class="line">        April                   May                   June        </span><br><span class="line">Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa</span><br><span class="line">                1  2    1  2  3  4  5  6  7             1  2  3  4</span><br><span class="line"> 3  4  5  6  7  8  9    8  9 10 11 12 13 14    5  6  7  8  9 10 11</span><br><span class="line">10 11 12 13 14 15 16   15 16 17 18 19 20 21   12 13 14 15 16 17 18</span><br><span class="line">17 18 19 20 21 22 23   22 23 24 25 26 27 28   19 20 21 22 23 24 25</span><br><span class="line">24 25 26 27 28 29 30   29 30 31               26 27 28 29 30</span><br><span class="line"></span><br><span class="line">        July                  August                September     </span><br><span class="line">Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa</span><br><span class="line">                1  2       1  2  3  4  5  6                1  2  3</span><br><span class="line"> 3  4  5  6  7  8  9    7  8  9 10 11 12 13    4  5  6  7  8  9 10</span><br><span class="line">10 11 12 13 14 15 16   14 15 16 17 18 19 20   11 12 13 14 15 16 17</span><br><span class="line">17 18 19 20 21 22 23   21 22 23 24 25 26 27   18 19 20 21 22 23 24</span><br><span class="line">24 25 26 27 28 29 30   28 29 30 31            25 26 27 28 29 30</span><br><span class="line">31</span><br><span class="line">       October               November               December      </span><br><span class="line">Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa   Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1          1  2  3  4  5                1  2  3</span><br><span class="line"> 2  3  4  5  6  7  8    6  7  8  9 10 11 12    4  5  6  7  8  9 10</span><br><span class="line"> 9 10 11 12 13 14 15   13 14 15 16 17 18 19   11 12 13 14 15 16 17</span><br><span class="line">16 17 18 19 20 21 22   20 21 22 23 24 25 26   18 19 20 21 22 23 24</span><br><span class="line">23 24 25 26 27 28 29   27 28 29 30            25 26 27 28 29 30 31</span><br><span class="line">30 31</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cal -3</code> ：显示系统前一个月，当前月，下一个月的月历</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cal -3</span><br><span class="line">    October 2022          November 2022         December 2022   </span><br><span class="line">Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa  Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1         1  2  3  4  5               1  2  3</span><br><span class="line"> 2  3  4  5  6  7  8   6  7  8  9 10 11 12   4  5  6  7  8  9 10</span><br><span class="line"> 9 10 11 12 13 14 15  13 14 15 16 17 18 19  11 12 13 14 15 16 17</span><br><span class="line">16 17 18 19 20 21 22  20 21 22 23 24 25 26  18 19 20 21 22 23 24</span><br><span class="line">23 24 25 26 27 28 29  27 28 29 30           25 26 27 28 29 30 31</span><br><span class="line">30 31        </span><br></pre></td></tr></table></figure>
+<h1 id="sort-指令"><a href="#sort-指令" class="headerlink" title="sort 指令"></a>sort 指令</h1><p>对文本内容进行排序，排序后的顺序类似于类似于strcmp的比较，按照 ascii码值 排序，排序默认升序，-r 选项降序。</p>
+<blockquote>
+<p><code>sort 文件名</code>：按 ascii 码值排序文件内容并打印，不会影响到文件本身</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# nano test.c</span><br><span class="line">[root@VM-4-3-centos lesson3]# sort test.c</span><br><span class="line"></span><br><span class="line">aaaaaaaaa</span><br><span class="line">aaaaaaaaa</span><br><span class="line">bbb</span><br><span class="line">bbbbbbb</span><br><span class="line">cccccccc</span><br><span class="line">ccccccccc</span><br><span class="line">ggg</span><br><span class="line">hhhhhhhh</span><br><span class="line">jjjjjjjj</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sort -r 文件名</code>：倒序排序</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# sort -r test.c</span><br><span class="line">jjjjjjjj</span><br><span class="line">hhhhhhhh</span><br><span class="line">ggg</span><br><span class="line">ccccccccc</span><br><span class="line">cccccccc</span><br><span class="line">bbbbbbb</span><br><span class="line">bbb</span><br><span class="line">aaaaaaaaa</span><br><span class="line">aaaaaaaaa</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>sort 文件名 | uniq</code>：<strong>uniq 是对相邻文本内容进行去重</strong>，将 sort 文件名的内容放到 <strong>管道</strong> 中，使用 <code>uniq</code> 进行去重。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# sort test.c | uniq</span><br><span class="line"></span><br><span class="line">aaaaaaaaa // 另一句内容被去除</span><br><span class="line">bbb</span><br><span class="line">bbbbbbb</span><br><span class="line">cccccccc</span><br><span class="line">ccccccccc</span><br><span class="line">ggg</span><br><span class="line">hhhhhhhh</span><br><span class="line">jjjjjjjj</span><br></pre></td></tr></table></figure>
+<h1 id="find-和-which-和-whereis-指令"><a href="#find-和-which-和-whereis-指令" class="headerlink" title="find 和 which 和 whereis 指令"></a>find 和 which 和 whereis 指令</h1><p><strong><em>find</em></strong></p>
+<p>语法： find pathname -options</p>
+<p>功能： 用于在文件树种查找文件，并作出相应的处理（可能访问磁盘）</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>name 按照文件名查找文件。</li>
+</ul>
+</blockquote>
+<p>拓展：</p>
+<blockquote>
+<ul>
+<li>Linux下find命令在目录结构中搜索文件，并执行指定的操作。</li>
+<li>Linux下find命令提供了相当多的查找条件，功能很强大。由于find具有强大的功能，所以它的选项也很多，其中大部分选项都值得我们花时间来了解一下。</li>
+<li>即使系统中含有网络文件系统(NFS)，find命令在该文件系统中同样有效，只你具有相应的权限。</li>
+<li>在运行一个非常消耗资源的find命令时，很多人都倾向于把它放在后台执行，因为遍历一个大的文件系</li>
+<li>统可能会花费很长的时间(这里是指30G字节以上的文件系统)。</li>
+</ul>
+</blockquote>
+<hr>
+<p>find在查找时，第一次查找较慢，第二次很快，Linux会把查找的结果缓存起来。</p>
+<blockquote>
+<p><code>find 路径 -name 查找名称</code>：把从这个路径开始的所有 <strong>带有查找名称</strong> 的文件查找出来</p>
+</blockquote>
+<p>查找 test.txt：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# find ./testcp2 -name test.txt</span><br><span class="line">./testcp2/testcp1/a/test.txt</span><br></pre></td></tr></table></figure>
+<p><strong><em>which</em></strong></p>
+<p><code>which 指令</code>： 可以查看指令路径</p>
+<p>比如查看 clear 的路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# which clear</span><br><span class="line">/usr/bin/clear</span><br></pre></td></tr></table></figure>
+<p>我们常用的指令都在 <code>/usr/bin</code> 位置：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/b1d3ad1375578e9fb56cbb25016b39e9.png" alt="image-20221119161741222"></p>
+<p><strong><em>whereis</em></strong></p>
+<p>whereis 搜索指定名称的文件/程序/归档文件 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# whereis ls</span><br><span class="line">ls: /usr/bin/ls /usr/share/man/man1/ls.1.gz /usr/share/man/man1p/ls.1p.gz</span><br></pre></td></tr></table></figure>
+<h1 id="alias-指令"><a href="#alias-指令" class="headerlink" title="alias 指令"></a>alias 指令</h1><p>当一条指令过于复杂时，可以使用alias 为文件起别名。</p>
+<blockquote>
+<p>`alias 别名=’指令’：为指令起别名，起别名后，使用别名就相当于这条指令</p>
+</blockquote>
+<p>例如给 <code>ls -a -l -i -n</code> 起别名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# ls -a -l -i -n</span><br><span class="line">total 48</span><br><span class="line">655920 drwxr-xr-x  6 0 0 4096 Nov 19 15:40 .</span><br><span class="line">393219 dr-xr-x---. 9 0 0 4096 Nov 17 23:45 ..</span><br><span class="line">656003 drwxr-xr-x  2 0 0 4096 Nov 19 02:03 mydir</span><br><span class="line">656511 drwxr-xr-x  2 0 0 4096 Nov 19 02:03 mydirdir</span><br><span class="line">656513 -rw-r--r--  1 0 0 9901 Nov 19 14:06 mylog.txt</span><br><span class="line">656516 -rw-r--r--  1 0 0   74 Nov 19 15:41 test.c</span><br><span class="line">655867 drwxr-xr-x  3 0 0 4096 Nov 19 02:57 testcp1</span><br><span class="line">655966 drwxr-xr-x  4 0 0 4096 Nov 19 16:06 testcp2</span><br><span class="line">656512 -rw-r--r--  1 0 0 5090 Nov 19 14:54 tmp.txt</span><br><span class="line">[root@VM-4-3-centos lesson3]# alias myls=&#x27;ls -a -l -i -n&#x27;</span><br><span class="line">[root@VM-4-3-centos lesson3]# myls</span><br><span class="line">total 48</span><br><span class="line">655920 drwxr-xr-x  6 0 0 4096 Nov 19 15:40 .</span><br><span class="line">393219 dr-xr-x---. 9 0 0 4096 Nov 17 23:45 ..</span><br><span class="line">656003 drwxr-xr-x  2 0 0 4096 Nov 19 02:03 mydir</span><br><span class="line">656511 drwxr-xr-x  2 0 0 4096 Nov 19 02:03 mydirdir</span><br><span class="line">656513 -rw-r--r--  1 0 0 9901 Nov 19 14:06 mylog.txt</span><br><span class="line">656516 -rw-r--r--  1 0 0   74 Nov 19 15:41 test.c</span><br><span class="line">655867 drwxr-xr-x  3 0 0 4096 Nov 19 02:57 testcp1</span><br><span class="line">655966 drwxr-xr-x  4 0 0 4096 Nov 19 16:06 testcp2</span><br><span class="line">656512 -rw-r--r--  1 0 0 5090 Nov 19 14:54 tmp.txt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>unalias 别名</code>：取消别名</p>
+</blockquote>
+<p>再为 alias 取消别名：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# alias myls</span><br><span class="line">alias myls=&#x27;ls -a -l -i -n&#x27;</span><br><span class="line">[root@VM-4-3-centos lesson3]# unalias myls</span><br><span class="line">[root@VM-4-3-centos lesson3]# alias myls</span><br><span class="line">-bash: alias: myls: not found // 取消成功</span><br></pre></td></tr></table></figure>
+<h1 id="grep-指令"><a href="#grep-指令" class="headerlink" title="grep 指令"></a>grep 指令</h1><p>语法： grep [选项] 搜寻字符串 文件</p>
+<p>功能： 在文件中搜索字符串，将找到的行打印出来</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-i ：忽略大小写的不同，所以大小写视为相同</li>
+<li>-n ：顺便输出行号</li>
+<li>-v ：反向选择，亦即显示出没有 ‘搜寻字符串’ 内容的那一行</li>
+</ul>
+</blockquote>
+<hr>
+<p>grep 为文本行过滤，说白了就是将指定文本内容，按照特定关键字，按行筛选。</p>
+<blockquote>
+<p>grep ‘字符串’ 文件：筛选出 <strong>含有该字符串</strong> 的内容</p>
+</blockquote>
+<p>例如在文件中匹配 <code>aaa</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# cat test.txt</span><br><span class="line">aaaaaa</span><br><span class="line">bbbbb</span><br><span class="line">bbbaaaabbb</span><br><span class="line">cccccc</span><br><span class="line">vvvvv</span><br><span class="line">aaaaa</span><br><span class="line">ccccccc</span><br><span class="line"></span><br><span class="line">[root@VM-4-3-centos mydir]# grep &#x27;aaa&#x27; test.txt</span><br><span class="line">aaaaaa</span><br><span class="line">bbbaaaabbb</span><br><span class="line">aaaaa</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>grep -v ‘字符串’ 文件：筛选出 <strong>不含有该字符串</strong> 的内容</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# grep -v &#x27;aaa&#x27; test.txt</span><br><span class="line">bbbbb</span><br><span class="line">cccccc</span><br><span class="line">vvvvv</span><br><span class="line">ccccccc</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>grep -i ‘字符串’ 文件：忽略大小写 <strong>正向匹配</strong></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# grep -i &#x27;aaa&#x27; test.txt</span><br><span class="line">aAaaa</span><br><span class="line">bbbaaaabbb</span><br><span class="line">AAAaaa</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>grep -ivn &#39;字符串&#39; 文件</code> ：忽略大小写反向匹配并给上行号</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# grep -ivn &#x27;aaa&#x27; test.txt</span><br><span class="line">2:bbbbb</span><br><span class="line">4:cccccc</span><br><span class="line">5:vvvvv</span><br><span class="line">7:ccccccc</span><br><span class="line">8:</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>cat test.txt | grep &#39;aaa&#39;</code>： 通过管道来匹配 aaa</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos mydir]# cat test.txt | grep &#x27;aaa&#x27;</span><br><span class="line">aAaaa</span><br><span class="line">bbbaaaabbb</span><br><span class="line">AAAaaa</span><br></pre></td></tr></table></figure>
+<h1 id="top-指令"><a href="#top-指令" class="headerlink" title="top 指令"></a>top 指令</h1><blockquote>
+<p><code>top</code>：相当于 windows 中的任务管理器</p>
+</blockquote>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img-blog.csdnimg.cn/img_convert/3450d440cbf4ceb327242ddfe3e1d3ff.png" alt="image-20221119164614407"></p>
+<h1 id="zip-和-unzip-指令"><a href="#zip-和-unzip-指令" class="headerlink" title="zip 和 unzip 指令"></a>zip 和 unzip 指令</h1><p>语法： zip 压缩文件.zip 目录或文件</p>
+<p>功能： 将目录或文件压缩成zip格式</p>
+<p>常用选项：</p>
+<blockquote>
+<ul>
+<li>-r 递归处理，将指定目录下的所有文件和子目录一并处理</li>
+</ul>
+</blockquote>
+<hr>
+<blockquote>
+<p><code>zip -r 压缩文件.zip 目录或文件名</code>：压缩一个文件</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# zip -r testcp1.zip testcp1</span><br><span class="line">  adding: testcp1/ (stored 0%)</span><br><span class="line">  adding: testcp1/newnew.txt (stored 0%)</span><br><span class="line">  adding: testcp1/a/ (stored 0%)</span><br><span class="line">  adding: testcp1/a/b/ (stored 0%)</span><br><span class="line">  adding: testcp1/a/b/c/ (stored 0%)</span><br><span class="line">  adding: testcp1/a/b/c/d/ (stored 0%)</span><br><span class="line">  adding: testcp1/a/test.txt (stored 0%)</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll</span><br><span class="line">total 44</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 16:34 mydir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 19 02:03 mydirdir</span><br><span class="line">-rw-r--r-- 1 root root 9901 Nov 19 14:06 mylog.txt</span><br><span class="line">-rw-r--r-- 1 root root   74 Nov 19 15:41 test.c</span><br><span class="line">drwxr-xr-x 3 root root 4096 Nov 19 02:57 testcp1</span><br><span class="line">-rw-r--r-- 1 root root 1110 Nov 19 17:16 testcp1.zip //打包成功</span><br><span class="line">drwxr-xr-x 4 root root 4096 Nov 19 16:06 testcp2</span><br><span class="line">-rw-r--r-- 1 root root 5090 Nov 19 14:54 tmp.txt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>unzip 压缩文件</code>：解包到当前路径</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@VM-4-3-centos lesson3]# cp testcp1.zip /root // 拷贝文件到上一路径</span><br><span class="line">[root@VM-4-3-centos lesson3]# ll ..</span><br><span class="line">total 16</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:13 dir</span><br><span class="line">drwxr-xr-x 2 root root 4096 Nov 17 15:47 lesson2</span><br><span class="line">drwxr-xr-x 6 root root 4096 Nov 19 17:17 lesson3</span><br><span class="line">-rw-r--r-- 1 root root 1110 Nov 19 17:18 testcp1.zip</span><br><span class="line">[root@VM-4-3-centos lesson3]# cd ..</span><br><span class="line">[root@VM-4-3-centos ~]# unzip testcp1.zip // 解包</span><br><span class="line">Archive:  testcp1.zip</span><br><span class="line">   creating: testcp1/</span><br><span class="line"> extracting: testcp1/newnew.txt      </span><br><span class="line">   creating: testcp1/a/</span><br><span class="line">   creating: testcp1/a/b/</span><br><span class="line">   creating: testcp1/a/b/c/</span><br><span class="line">   creating: testcp1/a/b/c/d/</span><br><span class="line"> extracting: testcp1/a/test.txt      </span><br><span class="line">[root@VM-4-3-centos ~]# tree testcp1 // 解包成功</span><br><span class="line">testcp1</span><br><span class="line">|-- a</span><br><span class="line">|   |-- b</span><br><span class="line">|   |   `-- c</span><br><span class="line">|   |       `-- d</span><br><span class="line">|   `-- test.txt</span><br><span class="line">`-- newnew.txt</span><br><span class="line"></span><br><span class="line">4 directories, 2 files</span><br></pre></td></tr></table></figure>
+<p>打包压缩的意义：防止数据丢失并节省空间。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">stackframe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/linux2.html">http://example.com/linux2.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">StackFrame</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/">安度因</a><a class="post-meta__tags" href="/tags/Linux%E5%9F%BA%E7%A1%80%E6%8C%87%E4%BB%A4/">Linux基础指令</a><a class="post-meta__tags" href="/tags/%E7%83%AD%E9%94%AE/">热键</a></div><div class="post_share"><div class="social-share" data-image="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/linux3.html"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">【Linux】基础指令(下)</div></div></a></div><div class="next-post pull-right"><a href="/linux1.html"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">【Linux】基础指令(上)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/linux1.html" title="【Linux】基础指令(上)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(上)</div></div></a></div><div><a href="/linux3.html" title="【Linux】基础指令(下)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】基础指令(下)</div></div></a></div><div><a href="/gaojingdu.html" title="【算法系列】高精度算法"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-06</div><div class="title">【算法系列】高精度算法</div></div></a></div><div><a href="/gccyudongjingtai.html" title="gcc与动静态链接库"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-09</div><div class="title">gcc与动静态链接库</div></div></a></div><div><a href="/linux4.html" title="【Linux】权限管理"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-10</div><div class="title">【Linux】权限管理</div></div></a></div><div><a href="/qianzhuihechafen.html" title="【算法系列】前缀和与差分"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-01-07</div><div class="title">【算法系列】前缀和与差分</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-author"><div class="item-headline"><i class="fa-solid fa-circle-user"></i><span>加入我们</span></div><div class="author-main-content"><div class="author-check-content"><label class="author-info" for="author-info">     <input id="author-info" type="checkbox" name="author-info"/><div class="author-avatar"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/08/3luHesMXPU6dG9j.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-name">stackframe</div></label></div><div class="author-switch-content"><input class="switch-content" type="radio" name="switch-content" value="description"/><label class="author-description-box">      <div class="author-description"></div></label><input class="switch-content" type="radio" name="switch-content" value="social" checked="checked"/><label class="author-social-box"><a class="card-author-button"><i class="iconfont icon-csdn"></i><span>暂时没想好传送到哪里啦</span></a><div class="social-icons"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-github"></use></svg></a><a class="social-icon faa-parent animated-hover" href="mailto:Akilarlxh@gmail.com" target="_blank" title="Email"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-youjian"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://steamcommunity.com/profiles/76561199139554396/" target="_blank" title="steam"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-steam"></use></svg></a></div></label><input class="switch-content" type="radio" name="switch-content" value="site-data"/><label class="author-data-box"><div class="site-data"><a class="data-item" href="/archives/"><div class="data-name">文章</div><div class="data-length">22</div></a><a class="data-item" href="/tags/"><div class="data-name">标签</div><div class="data-length">28</div></a><a class="data-item" href="/categories/"><div class="data-name">分类</div><div class="data-length">5</div></a></div></label></div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到这里，今天也要打起精神哦。</div></div><div class="xpand" style="height:200px;"><canvas class="illo" width="800" height="800" style="max-width: 200px; max-height: 200px; touch-action: none; width: 640px; height: 640px;"></canvas></div><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople1.js"></script><script src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/zdog.dist.js"></script><script id="rendered-js" src="https://npm.elemecdn.com/ethan4116-blog/lib/js/other/two-people/twopeople.js"></script><style>.card-widget.card-announcement {
+margin: 0;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+canvas {
+display: block;
+margin: 0 auto;
+cursor: move;
+}</style><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#man-%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">man 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cp-%E6%8C%87%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">cp 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#mv-%E6%8C%87%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text">mv 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#echo-%E6%8C%87%E4%BB%A4-%E5%90%AB%E8%BE%93%E5%87%BA%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">4.</span> <span class="toc-text">echo 指令(含输出重定向)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cat-%E6%8C%87%E4%BB%A4-%E5%90%AB%E8%BE%93%E5%85%A5%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-number">5.</span> <span class="toc-text">cat 指令(含输入重定向)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#wc-%E6%8C%87%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">wc 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#more-%E6%8C%87%E4%BB%A4"><span class="toc-number">7.</span> <span class="toc-text">more 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#less-%E6%8C%87%E4%BB%A4"><span class="toc-number">8.</span> <span class="toc-text">less 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#head-%E5%92%8C-tail-%E6%8C%87%E4%BB%A4-%E5%90%AB%E7%AE%A1%E9%81%93%E7%94%A8%E6%B3%95"><span class="toc-number">9.</span> <span class="toc-text">head 和 tail 指令(含管道用法)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#date-%E6%8C%87%E4%BB%A4"><span class="toc-number">10.</span> <span class="toc-text">date 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cal-%E6%8C%87%E4%BB%A4"><span class="toc-number">11.</span> <span class="toc-text">cal 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sort-%E6%8C%87%E4%BB%A4"><span class="toc-number">12.</span> <span class="toc-text">sort 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#find-%E5%92%8C-which-%E5%92%8C-whereis-%E6%8C%87%E4%BB%A4"><span class="toc-number">13.</span> <span class="toc-text">find 和 which 和 whereis 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#alias-%E6%8C%87%E4%BB%A4"><span class="toc-number">14.</span> <span class="toc-text">alias 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#grep-%E6%8C%87%E4%BB%A4"><span class="toc-number">15.</span> <span class="toc-text">grep 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top-%E6%8C%87%E4%BB%A4"><span class="toc-number">16.</span> <span class="toc-text">top 指令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zip-%E5%92%8C-unzip-%E6%8C%87%E4%BB%A4"><span class="toc-number">17.</span> <span class="toc-text">zip 和 unzip 指令</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/linux4.html" title="【Linux】权限管理"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/89558900e1dec.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】权限管理"/></a><div class="content"><a class="title" href="/linux4.html" title="【Linux】权限管理">【Linux】权限管理</a><time datetime="2023-01-10T05:53:45.000Z" title="发表于 2023-01-10 13:53:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux3.html" title="【Linux】基础指令(下)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/3b724731cb086.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(下)"/></a><div class="content"><a class="title" href="/linux3.html" title="【Linux】基础指令(下)">【Linux】基础指令(下)</a><time datetime="2023-01-10T05:52:45.000Z" title="发表于 2023-01-10 13:52:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux2.html" title="【Linux】基础指令(中)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/820ad54cc8f8a.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(中)"/></a><div class="content"><a class="title" href="/linux2.html" title="【Linux】基础指令(中)">【Linux】基础指令(中)</a><time datetime="2023-01-10T05:51:45.000Z" title="发表于 2023-01-10 13:51:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/linux1.html" title="【Linux】基础指令(上)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【Linux】基础指令(上)"/></a><div class="content"><a class="title" href="/linux1.html" title="【Linux】基础指令(上)">【Linux】基础指令(上)</a><time datetime="2023-01-10T05:50:45.000Z" title="发表于 2023-01-10 13:50:45">2023-01-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）"/></a><div class="content"><a class="title" href="/algorithm1.html" title="【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><time datetime="2023-01-10T05:06:54.000Z" title="发表于 2023-01-10 13:06:54">2023-01-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">公益推广</p><div class="bg-ad"><div>一本好书,就是一所好的学校；一本好书，就是一扇面向世界的窗口；一本好书，就是一条通往成功的大道；孩童时代起，爸爸妈妈一定都给你们许多的课外读物，或许在书架上，它们都蒙上了灰尘。你是否想过，这些闲置的、被遗忘的书籍却仍是一笔笔珍贵的财富？</div><div class="btn-xz-box"><a class="btn-xz" target="_blank" rel="noopener" href="https://yangfanbook.sina.com.cn/YFProject/DonateBook">扬帆计划官网</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">实用工具</p><ul class="ft-links"><li><a target="_blank" rel="noopener" href="https://dycharts.com/channel-inviteu/index.html?channelCode=33OSVUTJ&amp;hmsr=kol-lmj&amp;hmpl=mgwdm">图表设计</a><a target="_blank" rel="noopener" href="https://gitmind.cn/?apptype=chn-hucpa">思维导图</a></li><li><a target="_blank" rel="noopener" href="https://convertio.co/zh/">格式转换器</a><a target="_blank" rel="noopener" href="https://wordart.com/">云文字</a></li><li><a target="_blank" rel="noopener" href="https://www.videvo.net/">video</a><a target="_blank" rel="noopener" href="https://www.iconfont.cn/">iconfont</a></li><li><a target="_blank" rel="noopener" href="https://www.chuangkit.com/">创客贴</a><a target="_blank" rel="noopener" href="http://www.hippter.com/">hippter</a></li><li><a target="_blank" rel="noopener" href="https://www.toolfk.com/">toolfk工具箱</a><a target="_blank" rel="noopener" href="https://www.qijishow.com/">奇迹秀</a></li><li><a target="_blank" rel="noopener" href="https://bilibili.iiilab.com/">bilibili视频下载</a><a target="_blank" rel="noopener" href="https://www.onlineimagetool.com/zh/">图片压缩</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">团队成员</p><div class="ft-img-group"><div class="img-group-item"><a href=" /tags/%E4%B8%9E%E5%AD%90/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/09/ce998c8340079.jpg" alt=""/></a></div><div class="img-group-item"><a href="/tags/%E5%AE%89%E5%BA%A6%E5%9B%A0/"> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/qLsbO8Xnj46uPGA.jpg" alt=""/></a></div><div class="img-group-item"><a href=" /tags/夏目浅石/"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/12FPUYZ9RtEcoCK.jpg" alt=""/></a></div></div></div></div><div class="copyright">&copy;2022 - 2023  <i id="heartbeat" class="fa fas fa-heartbeat"></i> stackframe</div><div class="footer_custom_text">累了就好好休息鸭，安心交给明天的自己吧  <div id="runtime"></div></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><a class="icon-V hidden" onclick="switchNightMode()" title="浅色和深色模式转换"><svg width="25" height="25" viewBox="0 0 1024 1024"><use id="modeicon" xlink:href="#icon-moon">         </use></svg></a><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button class="share" type="button" title="分享链接" onclick="share()"><i class="fas fa-share-nodes"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button><button id="go-down" type="button" title="直达底部" onclick="btf.scrollToDest(document.body.scrollHeight, 500)"><i class="fas fa-arrow-down"> </i></button></div></div><div id="nav-music"><div id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()">播放音乐</div><meting-js id="2239349364" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        insertScript: [200, () => {
+          document.querySelectorAll('mjx-container').forEach(node => {
+            if (node.hasAttribute('display')) {
+              btf.wrap(node, 'div', { class: 'mathjax-overflow' })
+            } else {
+              btf.wrap(node, 'span', { class: 'mathjax-overflow' })
+            }
+          });
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script async data-pjax src="/js/custom/nav.js"></script><script>WIDGET = {"CONFIG":{"modules":"012","background":"5","tmpColor":"FFFFFF","tmpSize":"16","cityColor":"FFFFFF","citySize":"16","aqiColor":"FFFFFF","aqiSize":"16","weatherIconSize":"24","alertIconSize":"18","padding":"10px 10px 10px 10px","shadow":"0","language":"auto","fixed":"false","vertical":"top","horizontal":"left","key":"3da94e567f5e4e88baf90f066f0893c2"}}</script><script defer data-pjax src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script><script async src="/js/title.js"></script><script async src="/js/fps.js"></script><script defer type="text/javascript" src="https://cdn1.tianli0.top/npm/sweetalert2@8.19.0/dist/sweetalert2.all.js"></script><script defer src="/js/lunar.js"></script><script defer src="/js/day.js"></script><script async src="//npm.elemecdn.com/pace-js@1.2.4/pace.min.js"></script><script async src="//at.alicdn.com/t/c/font_3812295_db2mptl0ld.js"></script><script defer src="/js/light.js"></script><link rel="stylesheet" href="/css/aplayer.css" media="defer" onload="this.media='all'"><script async data-pjax src="/js/Meting2.min.js"></script><script async data-pjax src="/js/aplayer.js"></script><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"></script><script defer src="/js/shezhi.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><canvas id="snow"></canvas><script async src="/js/snow.js"></script><script async data-pjax src="/js/nav.js"></script><script async data-pjax src="/js/custom.js"></script><script async data-pjax src="/js/waterfall.js"></script><canvas class="fireworks" mobile="true"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show","#web_bg",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script></div><!-- hexo injector body_end start --><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 380px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 320px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/MlLrfXzjg7FmpS3.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/算法/&quot;);" href="javascript:void(0);">算法</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr">又是摸鱼的一天</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/Rw2HGxDl5XiYrkf.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/数据结构期末备考/&quot;);" href="javascript:void(0);">数据结构期末备考</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr">还是摸鱼</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/TB9yWGKp5P8Xm6r.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/c语言/&quot;);" href="javascript:void(0);">c语言</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr">不想更新^-^</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/OktEesFoz8Gh16y.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/linux/&quot;);" href="javascript:void(0);">linux</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr">进来看看</span></li><li class="categoryBar-list-item" style="background:url(https://s2.loli.net/2023/01/09/ueAt3IlPLbv2pRo.webp);"> <a class="categoryBar-list-link" onclick="pjax.loadUrl(&quot;categories/leetcode刷题集/&quot;);" href="javascript:void(0);">leetcode刷题集</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">淦！</span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v6.3.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.5.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" data-title="本站使用JsDelivr为静态资源提供CDN加速" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/10/7f76a505481b9.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">【Linux】基础指令(上)</a><div class="blog-slider__text">操作系统概念简述、基本指令：ls/pwd/cd/touch/tree/mkdir/rm/nano/clear/whoami、常用键位：tab等</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;linux1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://f.pz.al/pzal/2023/01/07/faeed9599364e.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">【算法系列】前缀和与差分</a><div class="blog-slider__text">介绍前缀和差分的算法知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;qianzhuihechafen.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15255" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">gcc与动静态链接库</a><div class="blog-slider__text">学会如何使用 gcc ，了解程序经过翻译环境形成可执行程序的过程，并且讲解动静态链接库的知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gccyudongjingtai.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://s2.loli.net/2023/01/07/mLOkC1Dv6AijRKP.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-07</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">【c】指针那些事儿</a><div class="blog-slider__text">套娃，套娃，还是套娃。不愧是你啊，指针！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;zhizhenjinjie.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/11875" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-06</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">【算法系列】高精度算法</a><div class="blog-slider__text">介绍了高精度算法的一些知识。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;gaojingdu.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://imgbed.link/file/15256" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2023-01-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">【algorithm】算法基础课---排序算法（附笔记 _ 建议收藏）</a><div class="blog-slider__text">快速排序和归并排序算法的相关知识点。</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;algorithm1.html&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '1s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script async src="//at.alicdn.com/t/font_2032782_8d5kxvn09md.js"></script><!-- hexo injector body_end end --><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":263},"mobile":{"show":false},"log":false});</script></body></html>
