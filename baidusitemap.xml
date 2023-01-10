@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://example.com/shuati1.html</loc>
+    <lastmod>2023-01-10</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/erchashu.html</loc>
+    <lastmod>2023-01-10</lastmod>
+  </url>
+  <url>
     <loc>http://example.com/algorithm1.html</loc>
+    <lastmod>2023-01-10</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/lianbiao.html</loc>
     <lastmod>2023-01-10</lastmod>
   </url>
   <url>
@@ -49,10 +61,6 @@
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/shuati1.html</loc>
-    <lastmod>2023-01-07</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/postshuzupian.html</loc>
     <lastmod>2023-01-07</lastmod>
   </url>
@@ -61,15 +69,7 @@
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/lianbiao.html</loc>
-    <lastmod>2023-01-07</lastmod>
-  </url>
-  <url>
     <loc>http://example.com/hanshu.html</loc>
-    <lastmod>2023-01-07</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/erchashu.html</loc>
     <lastmod>2023-01-07</lastmod>
   </url>
 </urlset> 
