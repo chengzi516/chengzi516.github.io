@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://example.com/xiamu-algorithm1.html</loc>
+    <lastmod>2023-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/auduyin-linux4.html</loc>
+    <lastmod>2023-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/auduyin-linux5.html</loc>
+    <lastmod>2023-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/auduyin-linux6.html</loc>
+    <lastmod>2023-01-11</lastmod>
+  </url>
+  <url>
     <loc>http://example.com/zifuchuanjinjie.html</loc>
+    <lastmod>2023-01-11</lastmod>
+  </url>
+  <url>
+    <loc>http://example.com/auduyin-linux2.html</loc>
     <lastmod>2023-01-10</lastmod>
   </url>
   <url>
-    <loc>http://example.com/linux2.html</loc>
+    <loc>http://example.com/auduyin-linux3.html</loc>
     <lastmod>2023-01-10</lastmod>
   </url>
   <url>
-    <loc>http://example.com/linux3.html</loc>
-    <lastmod>2023-01-10</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/linux4.html</loc>
-    <lastmod>2023-01-10</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/linux1.html</loc>
+    <loc>http://example.com/auduyin-linux1.html</loc>
     <lastmod>2023-01-10</lastmod>
   </url>
   <url>
@@ -26,10 +38,6 @@
   </url>
   <url>
     <loc>http://example.com/erchashu.html</loc>
-    <lastmod>2023-01-10</lastmod>
-  </url>
-  <url>
-    <loc>http://example.com/algorithm1.html</loc>
     <lastmod>2023-01-10</lastmod>
   </url>
   <url>
@@ -45,7 +53,7 @@
     <lastmod>2023-01-09</lastmod>
   </url>
   <url>
-    <loc>http://example.com/gccyudongjingtai.html</loc>
+    <loc>http://example.com/auduyin-gccyudongjingtai.html</loc>
     <lastmod>2023-01-09</lastmod>
   </url>
   <url>
@@ -61,7 +69,7 @@
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/gaojingdu.html</loc>
+    <loc>http://example.com/auduyin-gaojingdu.html</loc>
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
@@ -69,7 +77,7 @@
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
-    <loc>http://example.com/qianzhuihechafen.html</loc>
+    <loc>http://example.com/auduyin-qianzhuihechafen.html</loc>
     <lastmod>2023-01-07</lastmod>
   </url>
   <url>
