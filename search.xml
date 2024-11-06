@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>一些碎碎念</title>
+      <link href="/2024/11/06/%E7%A2%8E%E7%A2%8E%E5%BF%B5/"/>
+      <url>/2024/11/06/%E7%A2%8E%E7%A2%8E%E5%BF%B5/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>关于c++的inline关键字,以下说法正确的是( ) </p></blockquote><p>A.使用inline关键字的函数会被编译器在调用处展开<br>B.头文件中可以包含inline函数的声明<br>C.可以在同一个项目的不同源文件内定义函数名相同但实现不同的inline函数<br>D.递归函数也都可以成为inline函数</p><p>A.inline只是一种建议，需要看此函数是否能够成为内联函数，具体看编译器。</p><p>B. inline函数<code>不支持声明和定义分离</code>，编译器一旦将一个函数作为内联函数处理，就会在调用位置展开，即该函数是<code>没有地址</code>的，也不能在其他源文件中调用，故一般都是直接在源文件中定义内联函数的。</p><p>C.inline函数会在调用的地方展开，所以符号表中不会有inline函数的符号名，不存在链接冲突。</p><p>D.比较长的函数，递归函数就算定义为inline，也会被编译器忽略。</p><p>故选C。</p><blockquote><p>下面描述错误的是( )</p></blockquote><p>A.this指针是非静态成员函数的隐含形参.<br>B.每个非静态的成员函数都有一个this指针.<br>C.this指针是存在对象里面的.<br>D.this指针可以为空</p><p>A.静态成员函数没有this指针，只有非静态成员函数才有，且为隐藏指针。</p><p>B.非静态成员函数的第一个参数就是隐藏的this指针。</p><p>C.this指针在非静态的成员函数里面，对象的内存布局中并没有一个专门的字段用来存储this指针。this指针在成员函数被调用时，指向调用该成员函数的对象。</p><p>D.单纯的对this赋空是不可以的，但可以强转直接赋空(不建议)。</p><p>故选C。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 碎碎念 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 碎碎念 </tag>
+            
+            <tag> 易错点 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>木星卫星上可能存在生命</title>
+      <link href="/2024/11/06/Life%20may%20exist%20on%20Jupiter/"/>
+      <url>/2024/11/06/Life%20may%20exist%20on%20Jupiter/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>经济学人-科技</p></blockquote><h1 id="木星卫星上可能存在生命-上"><a href="#木星卫星上可能存在生命-上" class="headerlink" title="木星卫星上可能存在生命(上)"></a>木星卫星上可能存在生命(上)</h1><p><em><strong>506词</strong></em><br>Besides Earth itself, Mars is the most-studied planet in the <code>solar</code>(adj.太阳的;日光的;利用太阳光的;与太阳相关的n.日光浴室)system.<br>除了地球，火星是太阳系中研究最多的行星。<br>One reason for the abundance (n. 大量,充足) of probes and landers, of course, is that Mars is relatively (adv.<br>相对地,比较而言;相当 相对来说;相比较而言)close.<br>探测器和着陆器数量众多的原因之一当然是火星距离地球相对较近<br>Another is that Mars appears to have once had plenty of liquid(adj.液体的;清澈的;明亮的;易变的n.液体，流体;[语]流音) water on its surface(n.表面;外观;表层 adj.表面的，肤浅的).另一个原因是火星表面似乎曾经有大量液态水。<br>And where there is water, astrobiologists whisper(n.私语;谣传;飒飒的声音 v.耳语;密谈;飒飒地响) about thepossibility(n.可能;可能性;可能的事情;潜在的价值)oflife.<br>而哪里有水，天体生物学家就会悄悄谈论生命存在的可能性。<br>But Mars and Earth are not the only places in the solar system that either have, or have had, water但火星和地球并不是太阳系中唯一有水或曾经有水的地方。<br>On October 14th a NASA probe (n.探针;调查 vi.调查;探测) called Europa Clipper blasted off from Florida10月14日，美国宇航局的“欧罗巴快船”号探测器从佛罗里达州发射升空。<br>As its name suggests, the mission’s target is Europa, one of the biggest of jupiter’s 95 known moonsEuropa is a snowball slightly smaller than Earth’s moon.<br>顾名思义，该任务的目标是欧罗巴，它是木星95颗已知卫星中最大的卫星之一。欧罗巴是一个比月球略小的雪球。<br>It has an atmosphere (n.大气;空气;气氛;气压)that is thin(adj.薄的;瘦的;稀薄的;微弱的v.使淡;使瘦;使稀疏) to the point of non-existence,a crust(n.面包皮;外壳;坚硬外皮 .结硬皮;结成外壳) of water ice and asurface temperature (n.温度, 气温 高烧,发烧,发热) of around -180°C.<br>它的大气层稀薄到几乎不存在，地壳由水冰组成，表面温度约为-180°C<br>But scientists (n.科学家) think a vast(adj.巨大的;广阔的;大量的;巨额的 n.浩瀚;广阔无垠的空间)ocean existsbeneath (prep.在…之下 adv. 在下方) the ice, kept liquid by friction (n.摩擦，摩擦力)produced as Europa iskneaded by Jupiter’s powerful gravity(n.重力，地心引力;庄严;严重性).<br>但科学家认为，冰层之下存在着一片浩瀚的海洋，欧罗巴在木星强大的引力作用下产生摩擦，使之保持液态。<br>Over the past few decades scientists have become steadily more excited (adi. 激动的;兴奋的;活跃的 v. 激动;唤起(excite的过去分词))about the life-bearing potential(adj,潜在的,有可能的n.潜力;电位;电势;可能性) ofsuch “icy moons”.<br>在过去的几十年里，科学家们对这种“冰卫星”孕育生命的可能性越来越感兴趣<br>Besides Europa, these include Ganymede and Callisto, two other Jovian moons; Enceladus, which orbits (r轨道;眼眶;势力范围;生活常规 v.盘旋;绕轨道运行)Saturn; and Triton,the biggest satellite(n.卫星人造卫星卫星国,附庸国,卫星都市) of Neptune.<br>除了欧罗巴，这些卫星还包括:另外两颗木星卫星木卫三和木卫四;绕土星运行的土卫二;海王星最大的卫星海卫一。<br>Europa’s icy crust is thought to be tens of kilometres (n.千米,公里)thick (adj. 厚的;浓密的;粗的;愚笨的).Europa Clipperwill, therefore, not be able to tell whether there actually are any aliens swimming around inthe depths(n.深度;深奥).<br>欧罗巴的冰壳被认为有数十公里厚。因此，欧罗巴快船将无法判断是否真的有外星人在深处游动。<br>Instead, its job is to assess (vt. 评定;估价;对..征税) whether the moon is the sort of place where life mightplausibly arise(v.发生;产生;出现;起身，起来;起床).<br>相反，它的工作是评估这颗卫星是否是生命可能出现的地方<br>One of the probe’s tasks will be to characterise the size and saltiness of the ocean.探测器的任务之一是描述海洋的大小和盐度，<br>NASA’s present best guess is that it varies from 60km to 150km deep.<br>美国宇航局目前最好的猜测是，海洋深度从60公里到150公里不等<br>lf that is right, then, despite its small size, Europa would have about twice as much liquid water as Earthdoes.<br>如果这是正确的，那么尽管欧罗巴体积很小，但其液态水量却是地球的两倍<br>But although water is thought to be extremely useful (adj. 有用的，有益的;有帮助的)(and possibly even vita(adj.生死攸关的;至关重要的;有活力的))to the development of life,it is not enough on its own.但是，尽管人们认为水对生命的发展极其有用(甚至可能至关重要)，但仅靠水是不够的。<br>To qualify (vt.使具有资格;证明..合格;限制 v.取得资格，有资格) as habitable(adj.适于居住的),a world needsenough other elements to allow complex(adj.复杂的;合成的 n.复合体;综合设施)chemistry(n.化学).要成为宜居星球，一个星球需要足够多的其他元素才能进行复杂的化学反应。<br>Besides the hydrogen (n.氢) and oxygen (n.氧气，氧) in water, a common shortlist (vt.把.….列入决选名单) addscarbon (n.碳;碳棒;复写纸 adj.碳的;碳处理的),nitrogen (n.[化]氮),phosphorus (n.磷) and sulphur(n.[化]硫磺;硫磺色 vt.用硫磺处理;使硫化).<br>除了水中的氢和氧之外，常见的元素还包括碳、氮、磷和硫。<br>All of these have already been found on a different icy moon-Enceladus.所有这些都已在另一颗冰卫星土卫二上发现，<br>On Enceladus, plumes (vt. 用羽毛装饰 n. 羽毛) of ocean water jet out into space through cracks in the crust.在土卫二上，海水羽流通过地壳裂缝喷入太空，<br>In 2008 Cassini, another American spacecraft (n. 字宙飞船), flew straight through one of those plumes,discovering six of the elements on the astrobiological list.2008年，另一艘美国航天器卡西尼号直接飞过其中一个羽流，发现了天体生物学名单上的六种元素<br>Whether such plumes exist on Europa is an open question, says Robert Pappalardo, Europa Clipper’s chiefscientist.<br>欧罗巴快船首席科学家罗伯特·帕帕拉多(Robert Pappalardo)表示，欧罗巴上是否存在这样的羽流仍是一个悬而未决的问题。<br>Europa’s ice shell (n.壳，贝壳;外形;炮弹 vi.剥落;[计]设定命令行解释器的位置) is much thicker than Enceladus’she says, which makes it less likely that surface cracks or fissures would reach all the way to the ocean.他说，欧罗巴的冰壳比土卫二的厚得多，因此表面裂缝不太可能一直延伸到海洋。<br>Some tantalising-but uncertain-images from telescopes (n.望远镜v. 缩短;压缩;套叠) nevertheless (adv. 仍然然而,不过 coni. 尽管如此,然而) show things that look plume-like.<br>一些令人着迷但不确定的望远镜图像显示了类似羽状的东西。<br>But follow-up observations (n.观察;观察力;注意;评论) with the space-based James Webb Space Telescope have so far failed to spot any.但太空中的詹姆斯·韦布空间望远镜的后续观测迄今为止未能发现任何羽状物.</p><h1 id="木星卫星上可能存在生命-下"><a href="#木星卫星上可能存在生命-下" class="headerlink" title="木星卫星上可能存在生命(下)"></a>木星卫星上可能存在生命(下)</h1><p><em><strong>447词</strong></em><br>If plumes (n.李子;洋李;紫红色;梅子 adj.人所希望的;有利的;上等的) do not exist,then Europa Clipperwill haveto content itself with examining (vt.调查;考试;检査;[计算机]检测 vi.检查;调查)the moon’s surface(n.表面;外观;表层 adj.表面的，肤浅的).<br>如果不存在羽状物，那么欧罗巴快船就只能满足于检测卫星表面，<br>That surface is notably(adv.显著地;尤其)smooth(adj.光滑的;顺利的;平稳的 .使光滑;缓和;消除(障碍等);使优雅) and relatively(adv.相对地,比较而言;相当 相对来说;相比较而言)free from impact craters,which suggestsit is regularly renewed by processes a bit like plate tectonics on Earth.欧罗巴表面非常光滑，相对没有撞击坑，这表明它定期通过类似地球板块构造的过程进行更新。<br>That, in turn, suggests that chemicals that form on Europa’s surface might have a way down to the ocean,and vice (n,堕落，恶习;(尤指与性或毒品有关的)罪行，道德败坏行为;老虎钳 pref,副职的;副的)versa.这反过来又表明，欧罗巴表面形成的化学物质可能有通往海洋的途径，反之亦然。<br>Studying Europa’s surface mav, therefore, qive valuable (adi.贵重的;有价值的;可估价的n. 贵重物品) clues asto what lies beneath(prep.在…之下 adv. 在下方).因此，研究欧罗巴表面可能会为了解其下方情况提供有价值的线索。<br>The final ingredient (n.混合物的组成部分;配料) for a habitable (adj. 适于居住的) world is a source of energy forife to exploit(vt.开发，开拓;剥削;开采 n.勋绩;功绩).<br>宜居世界的最后一个要素是可供生命利用的能量来源。<br>Whatever that might be on Europa-far from the Sun, and beneath kilometres (n, 千米,公里) of ice-it will notbe sunlight. That is a bit of a problem.<br>欧罗巴远离太阳，在数公里厚的冰层之下，因此，无论欧罗巴上有什么，它都不会有阳光。这有点问题<br>On Earth almost every living thing ultimately (ady,最后:最终) depends (yi, 依赖，依靠;相信，信赖;取决干) onphotosynthesis for its energy, including the rich ecosystems (n. 生态系统) in the ocean depths (n. 深度;深奥),discovered in the 1980s and which helped the idea of life on Europa gain (n.收获;增加;利润 v.获得;增加;<br>赚到) a foothold(n.立足处;据点).在地球上，几乎所有生物最终都依赖光合作用获取能量，包括20世纪80年代发现的丰富的海洋深处生态系统，这有助于欧罗巴上存在生命的观点获得立足点。<br>Their inhabitants (n, 居民) do not benefit from sunlight directlv, but their metabolisms (n, 新陈代谢) arepowered by chemicals created in the photosynthesising, oxygen-rich surface oceans far above.那里的居民并不直接受益于阳光，但他们的新陈代谢是由远在天上、进行光合作用、氧气丰富的海洋表面产生的化学物质提供能量的。<br>There’s none of that on Europa. But there does not have to be欧罗巴上没有这些。但也不一定要有。<br>Some of the microbes living in fissures in the earth’s sea bed make use of chemicals that come entirelyfrom below, rather than above.<br>一些生活在地球海床裂缝中的微生物利用完全来自下方而不是上方的化学物质<br>It is a scant (adj.不足的;缺乏的;勉强够的 vt.减少;节省;限制)source of energy, but areal one. And Europamight offer much the same.<br>这是一种稀少的能量来源，但却是真实存在的。欧罗巴可能也提供类似的能量<br>Analysing (vt. 分析;分解;细察) Europa’s surface chemistry (n. 化学) may give clues as to whether somethingsimilar could, at least in principle (n.原理;原则;主义;信念),be happening on its ocean floor分析欧罗巴的表面化学成分可能会提供线索，说明类似的事情是否至少在原则上可能发生在其海底。<br>And Europa Clipperwil not be the only probe (n. 探针;调查 vi. 调查;探测) hanging out at Jupiter.欧罗巴快船将不是唯一在木星上停留的探测器<br>_ast year saw the launch (vt.发射(导弹、火箭等);发起，发动;使….下水 v.下水;开始;起飞)ofa Europeanprobe called the Jupiter lcy Moons Explorer(n.探测者，探测器;探险家)(JUICE(n.果汁;(水果)汁，液))<br>去年，欧洲发射了一个名为木星冰卫星探测器(JUICE)的探测器。<br>It will likewise (adv, 也; 同样地) examine Europa, as well as Callisto and Ganymede, two other moons that arealso thought to have oceans.<br>它还将研究欧罗巴，以及另外两颗被认为也拥有海洋的卫星木卫四和木卫三<br>The vagaries of orbital (adj. 轨道的;眼窝的) mechanics mean that, despite its later departure (n.离开,离去)Europa Clipperwill arrive in 2030, a year before JUlCE.<br>轨道力学的变化意味着，尽管欧罗巴快船较晚离开，但它将于2030年抵达，比JUICE早一年。<br>If the findings from the two missions are sufficiently (ady,足够地,充分地)exciting (adi,使人激动的;令人兴奋的 v激动;唤起;刺激(excite的ing形式)),then the next step could be to send alander.如果这两次任务的发现足够令人兴奋，那么下一步可能是发射着陆器。<br>Scouting for landing sites on Europa is another of Europa Clipper’s goals.<br>寻找欧罗巴上的着陆点是欧罗巴快船的另一个目标。<br>But the probe will not be able to build a perfect map of the moon’s surface.<br>但探测器无法绘制出完美的月球表面地图。<br>Jupiter’s powerful maqnetic (adi.有吸引力的;有磁性的;地磁的) field produces areas of intense (adi. 强烈的;紧张的;热情的;非常的)radiation(n.辐射能;放射 放射物) near the planet, enough to fry any spacecraft (n.宇宙飞船) that dingers (vi. 逗留, 徘徊 缓慢消失) too long.<br>木星强大的磁场在木星附近产生强烈辐射区，足以摧毁任何停留时间过长的航天器，<br>Europa Clipper wil, instead, make 49 looping flybys, gathering as much data as possible each time beforeretreating to a safe distance.<br>相反，欧罗巴快船将进行49次循环飞行，每次在撤退到安全距离之前收集尽可能多的数据，<br>The world’s alien-hunters will be hoping it survives.<br>全世界的外星人猎人都希望它能幸存下来。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经济学人 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 经济学人2024 </tag>
+            
+            <tag> 科技 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>String类的模拟实现</title>
       <link href="/2024/11/04/cpp-String%20implement/"/>
       <url>/2024/11/04/cpp-String%20implement/</url>
@@ -151,7 +205,7 @@
     
     
     <entry>
-      <title>（快速复习）结构体对齐与大小端</title>
+      <title>结构体对齐与大小端</title>
       <link href="/2024/11/03/cpp-Structure%20alignment/"/>
       <url>/2024/11/03/cpp-Structure%20alignment/</url>
       
