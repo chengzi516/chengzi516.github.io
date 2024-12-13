@@ -1,0 +1,513 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Makefile——高效的自动编译工具 | ChengZi</title><meta name="keywords" content="makefile,编译"><meta name="author" content="chengzi"><meta name="copyright" content="chengzi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Makefile——高效的自动编译工具"><meta name="application-name" content="Makefile——高效的自动编译工具"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Makefile——高效的自动编译工具"><meta property="og:url" content="http://example.com/2024/12/13/linux-makefile/index.html"><meta property="og:site_name" content="ChengZi"><meta property="og:description" content="预备知识在Linux系统中，gcc&amp;#x2F;g++是一款非常常用的编译器。它可以将C&amp;#x2F;C++的源代码编译、汇编、链接，生成可执行文件或库文件。 在编译过程中，一个代码文件需要经过预处理、编译、汇编、连接等步骤才能转化为可执行的程序。  预处理：主要进行宏替换、文件包含、条件编译、去注释等操作。预处"><meta property="og:locale" content="en"><meta property="og:image" content="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3"><meta property="article:author" content="chengzi"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3"><meta name="description" content="预备知识在Linux系统中，gcc&amp;#x2F;g++是一款非常常用的编译器。它可以将C&amp;#x2F;C++的源代码编译、汇编、链接，生成可执行文件或库文件。 在编译过程中，一个代码文件需要经过预处理、编译、汇编、连接等步骤才能转化为可执行的程序。  预处理：主要进行宏替换、文件包含、条件编译、去注释等操作。预处"><link rel="shortcut icon" href="/tubiao1.jpg"><link rel="canonical" href="http://example.com/2024/12/13/linux-makefile/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"(⁎⁍̴̛ᴗ⁍̴̛⁎)快回来快回来！","backTitle":"♪(^∇^*)你好鸭！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"σ(o’ω’o)睡觉啦，不要熬夜！","startTime":0,"endTime":5},{"greeting":"٩(๑˃̵ᴗ˂̵๑)۶早上好鸭，今天也要开心！","startTime":6,"endTime":9},{"greeting":"(｡◕ ∀ ◕｡)上午好鸭，今天有什么计划呢？","startTime":10,"endTime":10},{"greeting":"(๑¯ω¯๑)想淦饭了捏~","startTime":11,"endTime":11},{"greeting":"ʕ•̀ω•́ʔ✧午安!","startTime":12,"endTime":14},{"greeting":"(･’ω’･)今天完成了什么工作呢？","startTime":14,"endTime":18},{"greeting":"(๑˃̵ᴗ˂̵)و ﾖｼ!19点喽, 奖励一顿丰盛的大餐吧。","startTime":19,"endTime":19},{"greeting":"(,,◕ ⋏ ◕,,)晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🏠 摆烂躺平大学生","智能家居小能手","💢 壮汉人狠话不多"]},
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇博客已经","messageNext":"天没有更新啦，可能某些内容已经不适用。"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":true,"limitCount":50,"languages":{"author":"Author: chengzi","link":"Link: ","source":"Source: ChengZi","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'ChengZi',
+  title: 'Makefile——高效的自动编译工具',
+  postAI: '',
+  pageFillDescription: '预备知识, 什么是makex2Fmakefile？, 实例, 简单文件编译, 变量预备知识在系统中是一款非常常用的编译器它可以将的源代码编译汇编链接生成可执行文件或库文件在编译过程中一个代码文件需要经过预处理编译汇编连接等步骤才能转化为可执行的程序预处理主要进行宏替换文件包含条件编译去注释等操作预处理指令以号开头编译在这个阶段中首先要检查代码的规范性是否有语法错误等以确定代码的实际要做的工作然后将代码翻译成汇编语言汇编汇编阶段是将编译阶段生成的文件转成目标文件链接在成功编译之后就进入了链接阶段将目标文件链接成可执行文件或库文件可能有人很早就有疑惑在我们的程序中并没有定义的函数实现且在预编译中包含的中也只有该函数的声明而没有定义函数的实现那么到底是在哪里实现的系统把这些函数实现都被写到名为的库文件中在没有特别指定时会到系统默认的搜索路径下进行查找也就是链接到库函数中去这样就能实现函数了而这也就是链接的作用函数库一般分为静态库和动态库两种静态库是指编译链接时把库文件的代码全部加入到可执行文件中因此生成的文件比较大但在运行时也就不再需要库文件了其后缀名一般为动态库与之相反在编译链接时并没有把库文件的代码加入到可执行文件中而是在程序执行时由运行时链接文件加载库这样可以节省系统的开销动态库一般后缀名为如前面所述的就是动态库在编译时默认使用动态库完成了链接之后就可以生成可执行文件二者可以看作是网吧的电脑动和自己家的电脑静想玩电脑时可以选择玩家里的或者去网吧上网一旦网吧停业就会有大批家里没有电脑的人无法上网但自己买一台电脑价格也是高昂的总的来说动态库虽然有效的节约了资源不用自己买电脑但一旦缺失几乎各个程序都会无法运行都上不了网而静态库虽然可以让程序独立的运行但体积大比较消耗资源单独买电脑价格高昂是他的弊病这么说了一大串可能对初次接触的同学有些困难可以结合图片来看一下可以看到从我们写出来的源文件到变成一个可执行的文件大概经过了什么步骤在中我们使用这样的指令的使用格式为选项要编译的文件选项目标文件预处理使用选项该选项的作用是让在预处理结束后停止编译过程例如要将文件预处理成文件可以使用如下命令编译使用选项该选项只进行编译而不进行汇编生成汇编代码例如要将文件编译成文件可以使用如下命令汇编使用选项将汇编代码转化为的二进制目标代码例如要将文件汇编成文件可以使用如下命令连接将目标文件链接成可执行文件或库文件例如要将文件链接成可执行文件可以使用如下命令什么是是一个在软件开发中所使用的构建工具用于自动化建构软件它通过一个名为的文本文件来描述源代码文件之间的依赖关系和构建规则会根据这些规则和依赖关系判断哪些文件需要重新编译并执行相应的编译命令以确保最终生成可执行文件或其他目标文件这些目标被称为大多数情况下它被用来编译源代码生成结果代码然后把结果代码连接起来生成可执行文件或者库文件以上摘自维基百科一个特别大的项目一般来说会有很多的源文件被分门别类的放在不同的目录中有时候也会在一个目录里存放了多个程序的源代码这时如何对这些代码的编译就成了个问题就是为这个问题而生的它定义了一套规则决定了哪些文件要先编译哪些文件后编译哪些文件要重新编译简单地说通过读取的文件中所定义的规则来执行一个项目的构建过程目标文件中定义的要生成的文件或执行的操作目标可以是可执行文件对象文件库文件或任何其他类型的文件依赖文件生成目标文件所需的其他文件如果依赖文件发生了变化那么目标文件就需要重新生成要执行的命令用于生成目标文件的命令这些命令会在目标文件或其依赖文件发生变化时被执行其基本格式为生成目标文件需要执行的命令这些命令以键开始而不是空格这点需要注意的基本规则如上接下来用几个实例深入学习实例简单文件编译新建与文件使用编辑与再输入命令行此时就会先检查文件是否存在若存在则执行命令如果再次执行文件不会有任何变化而当操作后再执行就会重新编译也可以同时编译多个文件用空格隔开即可这样就会出现一个问题如果被修改那么也会跟着重新编译所以更规范的写法这样就先把两个文件先编译成文件最后再一起链接稍微提一提工作原理当运行命令不带任何目标时会查找中的第一个目标如果没有指定目标它会尝试构建第一个定义的目标在这个例子中是如果指定如那么就只会构建构建目标看到目标依赖于和它会检查这两个对象文件是否已经存在且是最新的即它们的修改时间是否晚于它们的依赖源文件或任何其他相关的文件如果或中的任何一个不存在或不是最新的会构建它们构建目标如果需要被构建因为它不存在或不是最新的会查找的规则它看到依赖于然后它会执行用于生成的命令构建目标与类似如果需要被构建会查找的规则并执行相应的命令链接生成一旦和都是最新的或已经被成功构建会执行用于生成的命令这将链接和生成最终的可执行文件当执行一些清理临时文件或者打包等不需要生成文件的操作就会用到伪目标来定义规则伪目标就是不生成文件的操作例如当执行时就会删除所有文件与文件要是有一个文件恰好叫呢那执行不就有两层意思一层是构建文件一层是执行伪目标为了避免此情况会使用如下语法此时再执行就可以达到删除文件的预期效果再加入命令行如下构建和两个文件查看当前目录下文件清除所有文件与文件再次查看目录下文件变量使用变量对等文件进行替换有利于整体的修改和维护定义编译器和编译选项定义目标文件定义源文件默认目标使用变量的规则就是加上变量名规则如何生成每个目标清理规则是一个自动变量它代表当前规则的目标文件名会被替换成所以实际的命令会是',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-13 16:01:35',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/eb67a099382d79c5.gif"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="demo"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="project" alt="demo"/><span class="back-menu-item-text">demo</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">ChengZi</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> Search</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" alt="微信" src="/null"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="/null"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">音乐</div><span class="author-content-item-title">灵魂的碰撞💥</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">December 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">November 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">9</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">October 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/" itemprop="url">linux</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/makefile/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>makefile</span></a><a class="article-meta__tags" href="/tags/%E7%BC%96%E8%AF%91/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>编译</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Makefile——高效的自动编译工具</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-12-13T06:28:00.000Z" title="Created 2024-12-13 14:28:00">2024-12-13</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-12-13T08:01:35.132Z" title="Updated 2024-12-13 16:01:35">2024-12-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为四川"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>四川</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/12/13/linux-makefile/"><header><a class="post-meta-categories" href="/categories/linux/" itemprop="url">linux</a><a href="/tags/makefile/" tabindex="-1" itemprop="url">makefile</a><a href="/tags/%E7%BC%96%E8%AF%91/" tabindex="-1" itemprop="url">编译</a><h1 id="CrawlerTitle" itemprop="name headline">Makefile——高效的自动编译工具</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">chengzi</span><time itemprop="dateCreated datePublished" datetime="2024-12-13T06:28:00.000Z" title="Created 2024-12-13 14:28:00">2024-12-13</time><time itemprop="dateCreated datePublished" datetime="2024-12-13T08:01:35.132Z" title="Updated 2024-12-13 16:01:35">2024-12-13</time></header><h1 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h1><p>在Linux系统中，<code>gcc/g++</code>是一款非常常用的编译器。它可以将C&#x2F;C++的源代码<code>编译、汇编、链接</code>，生成可执行文件或库文件。</p>
+<p>在编译过程中，一个代码文件需要经过预处理、编译、汇编、连接等步骤才能转化为可执行的程序。</p>
+<ol>
+<li><p>预处理：主要进行<code>宏替换、文件包含、条件编译、去注释</code>等操作。预处理指令以#号开头。</p>
+</li>
+<li><p>编译：在这个阶段中，gcc&#x2F;g++ 首先要检查代码的规范性、是否有语法错误等，以确定代码的实际要做的工作，然后将代码<code>翻译成汇编语言</code>。</p>
+</li>
+<li><p>汇编：汇编阶段是将编译阶段生成的“.s”文件转成<code>目标文件</code>。</p>
+</li>
+<li><p>链接：在成功编译之后，就进入了链接阶段，将目标文件链接成可执行文件或库文件。<br>可能有人很早就有疑惑：在我们的C程序中，并没有定义“printf”的函数实现,且在预编译中包含的“stdio.h”中也<code>只有该函数的声明,而没有定义函数的实现</code>,那么到底printf是在哪里实现的？<br>系统把这些函数实现都被写到名为 libc.so.6 的库文件中,在没有特别指定时,gcc会到系统默认的搜索路径“&#x2F;usr&#x2F;lib”下进行查找,也就是链接到 libc.so.6 库函数中去,这样就能实现函数“printf”了,而这也就是链接的作用。</p>
+</li>
+</ol>
+<p>函数库一般分为<code>静态库和动态库</code>两种。</p>
+<ol>
+<li>静态库是指编译链接时,把库文件的代码<code>全部加入到可执行文件</code>中,因此生成的文件比较大,但在运行时也<br>就不再需要库文件了。其后缀名一般为“.a”</li>
+<li>动态库与之相反,在编译链接时并没有把库文件的代码加入到可执行文件中,而是在程序执行时<code>由运行时 链接文件加载库</code>,这样可以节省系统的开销。动态库一般后缀名为“.so”,如前面所述的 libc.so.6 就是动态<br>库。gcc 在编译时默认使用动态库。完成了链接之后,gcc 就可以生成可执行文件。</li>
+</ol>
+<p>二者可以看作是网吧的电脑（动）和自己家的电脑（静），想玩电脑时，可以选择玩家里的或者去网吧上网，一旦网吧停业，就会有大批家里没有电脑的人无法上网，但自己买一台电脑价格也是高昂的。<br>总的来说，动态库虽然有效的节约了资源（不用自己买电脑），但一旦缺失，几乎各个程序都会无法运行（都上不了网）。而静态库虽然可以让程序独立的运行，但体积大比较消耗资源（单独买电脑价格高昂）是他的弊病。</p>
+<p>这么说了一大串可能对初次接触的同学有些困难，可以结合图片来看一下。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/makefile1.png"><br>可以看到从我们写出来的源文件到变成一个可执行的exe文件，大概经过了什么步骤。</p>
+<p>在linux中，我们使用这样的指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc/g++的使用格式为：gcc [选项] 要编译的文件 [选项] [目标文件]</span><br></pre></td></tr></table></figure>
+
+<p>预处理：使用选项“-E”，该选项的作用是让 gcc 在预处理结束后停止编译过程。例如，要将hello.c文件预处理成hello.i文件，可以使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc –E hello.c –o hello.i</span><br></pre></td></tr></table></figure>
+
+<p>编译：使用选项“-S”，该选项只进行编译而不进行汇编，生成汇编代码。例如，要将hello.i文件编译成hello.s文件，可以使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc –S hello.i –o hello.s</span><br></pre></td></tr></table></figure>
+
+<p>汇编：使用选项“-c”，将汇编代码转化为“.o”的二进制目标代码。例如，要将hello.s文件汇编成hello.o文件，可以使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc –c hello.s –o hello.o</span><br></pre></td></tr></table></figure>
+
+<p>连接：将目标文件链接成可执行文件或库文件。例如，要将hello.o文件链接成hello可执行文件，可以使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc hello.o –o hello</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="什么是make-makefile？"><a href="#什么是make-makefile？" class="headerlink" title="什么是make&#x2F;makefile？"></a>什么是make&#x2F;makefile？</h1><p>Make是一个在软件开发中所使用的<code>构建工具</code>，用于自动化建构软件。 它通过一个名为 Makefile 的<code>文本文件</code>来描述源代码文件之间的依赖关系和构建规则。 Make 会根据这些规则和依赖关系，判断哪些文件需要重新编译，并执行相应的编译命令，以确保最终生成可执行文件或其他目标文件（这些目标被称为“target”）。 大多数情况下，它被用来编译源代码，生成结果代码，然后把结果代码连接起来生成可执行文件或者库文件。(以上摘自维基百科)</p>
+<p>一个特别大的项目，一般来说会有很多的源文件，被分门别类的放在不同的目录中，有时候也会在一个目录里存放了多个程序的源代码。这时，如何对这些代码的编译就成了个问题。Makefile就是为这个问题而生的，它定义了一套规则，<code>决定了哪些文件要先编译，哪些文件后编译，哪些文件要重新编译</code>。</p>
+<blockquote>
+<p>简单地说，Make通过读取Makefile的文件中所定义的规则来执行一个项目的构建过程。</p>
+</blockquote>
+<p>目标文件（Target）：Makefile中定义的<code>要生成的</code>文件或<code>执行的</code>操作。目标可以是可执行文件、对象文件（.o）、库文件或任何其他类型的文件。<br>依赖文件（Dependencies）：生成目标文件所需的其他文件。如果依赖文件<code>发生了变化</code>，那么目标文件就需要重新生成。<br>要执行的命令（Commands）：用于生成目标文件的命令，这些命令会在目标文件或其依赖文件<code>发生变化</code>时被执行。<br>其基本格式：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">target: dependencies </span><br><span class="line">    <span class="built_in">command</span>...[other commands]</span><br></pre></td></tr></table></figure>
+<p>command为生成目标文件需要执行的命令，这些命令以<code>Tab键</code>开始，而不是空格(这点需要注意！)。</p>
+<p>Makefile的基本规则如上，接下来用几个实例深入学习。</p>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h2 id="简单文件编译"><a href="#简单文件编译" class="headerlink" title="简单文件编译"></a>简单文件编译</h2><p>新建test.c与makefile文件。使用vim编辑test.c与makefile：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//test.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//makefile</span></span><br><span class="line">test:test.c</span><br><span class="line">    gcc test.c -o test</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>再输入make命令行，此时就会先检查test.c文件是否存在，若存在则执行gcc test.c -o test命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@hcss-ecs-3ad5 ~]# make  </span><br><span class="line">gcc test.c -o test</span><br><span class="line">[root@hcss-ecs-3ad5 ~]# ls -a</span><br><span class="line">.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cache  .cshrc  .history  makefile  .ssh  .tcshrc  test  test.c  .viminfo</span><br><span class="line">[root@hcss-ecs-3ad5 ~]# ./test</span><br><span class="line">hello world[root@hcss-ecs-3ad5 ~]# </span><br></pre></td></tr></table></figure>
+<p>如果再次执行make，文件不会有任何变化。而当touch操作test.c后，再执行make就会重新编译。<br>也可以同时编译多个文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:test1.c test2.c //用空格隔开即可</span><br><span class="line">    gcc test1.c test2.c -o <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>这样就会出现一个问题，如果test1.c被修改，那么test2.c也会跟着重新编译。<br>所以更规范的makefile写法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">test</span>:test1.o test2.o</span><br><span class="line">    gcc test1.o test2.o -o <span class="built_in">test</span></span><br><span class="line">test1.o: test1.c</span><br><span class="line">    gcc -c test1.c</span><br><span class="line">test2.o: test2.c</span><br><span class="line">    gcc -c test2.c</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这样就先把两个test文件先编译成.o文件，最后再一起链接。</p>
+<blockquote>
+<p>稍微提一提工作原理：<br>当运行make命令（不带任何目标）时：<br>Make会查找Makefile中的<code>第一个</code>目标，如果没有指定目标，它会尝试构建第一个定义的目标（在这个例子中是test）。如果指定如make test1.o ，那么就只会构建test1.o。<br>构建test目标：<br>Make看到test目标<code>依赖于</code>test1.o和test2.o。<br>它会检查这两个对象文件是否<code>已经存在且是最新</code>的（即它们的修改时间是否晚于它们的依赖源文件或任何其他相关的文件）。<br>如果test1.o或test2.o中的任何一个不存在或不是最新的，make会构建它们。<br>构建test1.o目标：<br>如果test1.o需要被构建（因为它不存在或不是最新的），make会查找test1.o的规则。<br>它看到test1.o依赖于test1.c。<br>然后，它会执行用于生成test1.o的命令：gcc -c test1.c。<br>构建test2.o目标：<br>与test1类似，如果test2.o需要被构建，make会查找test2.o的规则并执行相应的命令：gcc -c test2.c。<br>链接生成test：<br>一旦test1.o和test2.o都是最新的或已经被成功构建，make会执行用于生成test的命令：gcc test1.o test2.o -o test。<br>这将链接test1.o和test2.o生成最终的可执行文件test。</p>
+</blockquote>
+<p>当执行一些清理临时文件或者打包等不需要生成文件的操作，就会用到<code>伪目标</code>来定义规则。伪目标就是不生成文件的操作。<br>例如:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clean:</span><br><span class="line">`<span class="built_in">rm</span> -f *.o <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<p>当执行make clean时，就会删除所有.o文件与test文件。</p>
+<blockquote>
+<p>要是有一个文件恰好叫clean呢？那执行make clean不就有两层意思：一层是构建clean文件，一层是执行伪目标clean。</p>
+</blockquote>
+<p>为了避免此情况，会使用如下语法：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.PHONY： clean</span><br></pre></td></tr></table></figure>
+<p>此时再执行make clean就可以达到删除文件的预期效果。<br>再加入all：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">.PHONY: clean all</span><br><span class="line">all: hello chengzi</span><br><span class="line"></span><br><span class="line">hello:test.c</span><br><span class="line">        gcc test.c -o hello</span><br><span class="line">chengzi:test.c</span><br><span class="line">        gcc test.c -o chengzi</span><br><span class="line">clean:</span><br><span class="line">        <span class="built_in">rm</span> -f *.o hello</span><br></pre></td></tr></table></figure>
+<p>命令行如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@hcss-ecs-3ad5 ~]# make all  //构建hello和chengzi两个文件</span><br><span class="line">gcc test.c -o hello</span><br><span class="line">gcc test.c -o chengzi</span><br><span class="line">[root@hcss-ecs-3ad5 ~]# ls -a  //查看当前目录下文件</span><br><span class="line">.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cache  chengzi  .cshrc  hello  .history  makefile  .ssh  .tcshrc  test  test.c  .viminfo</span><br><span class="line">[root@hcss-ecs-3ad5 ~]# make clean //清除所有.o文件与hello文件</span><br><span class="line">rm -f *.o hello</span><br><span class="line">[root@hcss-ecs-3ad5 ~]# ls -a //再次查看目录下文件</span><br><span class="line">.  ..  .bash_history  .bash_logout  .bash_profile  .bashrc  .cache  chengzi  .cshrc  .history  makefile  .ssh  .tcshrc  test  test.c  .viminfo</span><br></pre></td></tr></table></figure>
+
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>使用变量对hello，chengzi等文件进行替换，有利于整体的修改和维护。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.PHONY: clean all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义编译器和编译选项</span></span><br><span class="line">CC = gcc</span><br><span class="line">CFLAGS = </span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义目标文件</span></span><br><span class="line">TARGETS = hello chengzi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义源文件</span></span><br><span class="line">SRC = test.c</span><br><span class="line"></span><br><span class="line"><span class="comment"># 默认目标</span></span><br><span class="line">all: $(TARGETS)  //使用变量的规则就是$加上(变量名)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 规则：如何生成每个目标</span></span><br><span class="line">$(TARGETS): $(SRC)</span><br><span class="line">	$(CC) $(CFLAGS) $(SRC) -o <span class="variable">$@</span>  </span><br><span class="line"><span class="comment"># 清理规则</span></span><br><span class="line">clean:</span><br><span class="line">	<span class="built_in">rm</span> -f *.o $(TARGETS)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>$@ 是一个<code>自动变量</code>，它代表当前规则的目标文件名。</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello: test.c</span><br><span class="line">    gcc test.c -o <span class="variable">$@</span></span><br></pre></td></tr></table></figure>
+
+<p>$@ 会被替换成 hello，所以实际的命令会是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc test.c -o hello</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/071ed84ad1e1489e920c9127c23551cd.gif" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/071ed84ad1e1489e920c9127c23551cd.gif" title="头像" alt="头像"></a><div class="post-copyright__author_name">chengzi</div><div class="post-copyright__author_desc">个人博客</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/12/13/linux-makefile/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/12/13/linux-makefile/')">Makefile——高效的自动编译工具</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2024/12/13/linux-makefile/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=Makefile——高效的自动编译工具&amp;url=http://example.com/2024/12/13/linux-makefile/&amp;pic=https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/makefile/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>makefile<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E7%BC%96%E8%AF%91/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>编译<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/12/13/cpp-vector%20implement/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734060885575.jpg" onerror="onerror=null;src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">vector的模拟实现</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/071ed84ad1e1489e920c9127c23551cd.gif" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">本博客记载<b style="color:#fff">开发，算法等</b>相关内容，还有<b style="color:#fff">雅思学习</b>和<b style="color:#fff">分享</b>。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">希望你在这里能得到有用的<b style="color:#fff">知识</b>和<b style="color:#fff">教程</b>。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">chengzi</h1><div class="author-info__desc">个人博客</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">预备知识</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFmake-makefile%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">什么是make&#x2F;makefile？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%96%87%E4%BB%B6%E7%BC%96%E8%AF%91"><span class="toc-number">3.1.</span> <span class="toc-text">简单文件编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.2.</span> <span class="toc-text">变量</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/linux-makefile/" title="Makefile——高效的自动编译工具"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif?_r_=7fe09807-a00a-23bc-7a27-2706102b3db3" onerror="this.onerror=null;this.src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="Makefile——高效的自动编译工具"/></a><div class="content"><a class="title" href="/2024/12/13/linux-makefile/" title="Makefile——高效的自动编译工具">Makefile——高效的自动编译工具</a><time datetime="2024-12-13T06:28:00.000Z" title="Created 2024-12-13 14:28:00">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/13/cpp-vector%20implement/" title="vector的模拟实现"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734060885575.jpg" onerror="this.onerror=null;this.src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="vector的模拟实现"/></a><div class="content"><a class="title" href="/2024/12/13/cpp-vector%20implement/" title="vector的模拟实现">vector的模拟实现</a><time datetime="2024-12-13T03:33:04.000Z" title="Created 2024-12-13 11:33:04">2024-12-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/06/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="一些碎碎念"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1730863677696.jpg" onerror="this.onerror=null;this.src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="一些碎碎念"/></a><div class="content"><a class="title" href="/2024/11/06/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" title="一些碎碎念">一些碎碎念</a><time datetime="2024-11-06T03:26:11.000Z" title="Created 2024-11-06 11:26:11">2024-11-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/06/Life%20may%20exist%20on%20Jupiter/" title="木星卫星上可能存在生命"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1730855251925.jpg" onerror="this.onerror=null;this.src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="木星卫星上可能存在生命"/></a><div class="content"><a class="title" href="/2024/11/06/Life%20may%20exist%20on%20Jupiter/" title="木星卫星上可能存在生命">木星卫星上可能存在生命</a><time datetime="2024-11-06T00:17:50.000Z" title="Created 2024-11-06 08:17:50">2024-11-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/11/04/cpp-String%20implement/" title="String类的模拟实现"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1730709520256.jpg" onerror="this.onerror=null;this.src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif'" alt="String类的模拟实现"/></a><div class="content"><a class="title" href="/2024/11/04/cpp-String%20implement/" title="String类的模拟实现">String类的模拟实现</a><time datetime="2024-11-04T08:35:14.000Z" title="Created 2024-11-04 16:35:14">2024-11-04</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="footer_deal"><a class="deal_link" href="mailto:p772307283@outlook.com" title="email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a><img class="footer_mini_logo" title="返回顶部" alt="返回顶部" onclick="anzhiyu.scrollToDest(0, 500)" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/071ed84ad1e1489e920c9127c23551cd.gif" size="50px"/><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/chengzi516" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div><div class="copyright">&copy;2023 - 2024 By chengzi</div><div id="workboard"><div id="runtimeTextTip"></div></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title="博客框架为Hexo_v5.4.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a class="github-badge" target="_blank" href="https://blog.anheyu.com/" style="margin-inline:5px" data-title="本站使用AnZhiYu主题" title="本站使用AnZhiYu主题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.9/img/Theme-AnZhiYu-2E67D3.svg" alt="本站使用AnZhiYu主题"/></a></p></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">12</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">22</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">4</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="demo"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/fc9ee60300bb4e23b750cf87a6199a36.gif&quot;" data-lazy-src="project" alt="demo"/><span class="back-menu-item-text">demo</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/c/" style="font-size: 0.88rem;">c<sup>1</sup></a><a href="/tags/c/" style="font-size: 0.88rem;">c++<sup>9</sup></a><a href="/tags/makefile/" style="font-size: 0.88rem;">makefile<sup>1</sup></a><a href="/tags/string/" style="font-size: 0.88rem;">string<sup>1</sup></a><a href="/tags/vector/" style="font-size: 0.88rem;">vector<sup>1</sup></a><a href="/tags/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" style="font-size: 0.88rem;">内存对齐<sup>1</sup></a><a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 0.88rem;">内存管理<sup>1</sup></a><a href="/tags/%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD/" style="font-size: 0.88rem;">函数重载<sup>1</sup></a><a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" style="font-size: 0.88rem;">初始化列表<sup>1</sup></a><a href="/tags/%E5%8F%8B%E5%85%83/" style="font-size: 0.88rem;">友元<sup>1</sup></a><a href="/tags/%E5%A4%9A%E6%80%81/" style="font-size: 0.88rem;">多态<sup>1</sup></a><a href="/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF/" style="font-size: 0.88rem;">大小端<sup>1</sup></a><a href="/tags/%E5%AF%B9%E8%B1%A1/" style="font-size: 0.88rem;">对象<sup>2</sup></a><a href="/tags/%E5%BC%95%E7%94%A8/" style="font-size: 0.88rem;">引用<sup>1</sup></a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.88rem;">数据结构<sup>2</sup></a><a href="/tags/%E6%98%93%E9%94%99%E7%82%B9/" style="font-size: 0.88rem;">易错点<sup>1</sup></a><a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 0.88rem;">碎碎念<sup>1</sup></a><a href="/tags/%E7%A7%91%E6%8A%80/" style="font-size: 0.88rem;">科技<sup>1</sup></a><a href="/tags/%E7%B1%BB/" style="font-size: 0.88rem;">类<sup>2</sup></a><a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6%E4%BA%BA2024/" style="font-size: 0.88rem;">经济学人2024<sup>1</sup></a><a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 0.88rem;">继承<sup>1</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 0.88rem;">编译<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="5094069883" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/#/playlist?id=5094069883&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("10/26/2024 12:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2023 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 chengzi 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><script async="async">(function () {
+  var grt = new Date("10/26/2024 12:00:00"); //设置网站上线时间
+  var now = new Date();
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var days = (now - grt) / 1000 / 60 / 60 / 24;
+    dnum = Math.floor(days);
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * dnum;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * dnum - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * dnum - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "";
+        img.title = "下班了就该开开心心的玩耍，嘿嘿~";
+        img.alt = "下班了就该开开心心的玩耍，嘿嘿~";
+      }
+
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
