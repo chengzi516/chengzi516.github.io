@@ -1,0 +1,501 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>基于Linux的进程通信 | ChengZi</title><meta name="author" content="chengzi"><meta name="copyright" content="chengzi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="基于Linux的进程通信"><meta name="application-name" content="基于Linux的进程通信"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="基于Linux的进程通信"><meta property="og:url" content="http://example.com/2024/12/25/post/index.html"><meta property="og:site_name" content="ChengZi"><meta property="og:description" content="在 Linux 操作系统里，进程间通信（IPC）是一个重要概念，它使得不同进程能够协同工作，实现数据传输、进程控制等功能。本文将详细介绍 Linux 中几种常见的进程间通信方式，包括管道、命名管道、共享内存、消息队列和信号量。  进程间通信概述进程间通信的目的主要有以下几点：  数据传输：一个进程"><meta property="og:locale" content="en"><meta property="og:image" content="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=1f205f5f-8dfa-3aa3-d4c2-913d49d178f9"><meta property="article:author" content="chengzi"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=1f205f5f-8dfa-3aa3-d4c2-913d49d178f9"><meta name="description" content="在 Linux 操作系统里，进程间通信（IPC）是一个重要概念，它使得不同进程能够协同工作，实现数据传输、进程控制等功能。本文将详细介绍 Linux 中几种常见的进程间通信方式，包括管道、命名管道、共享内存、消息队列和信号量。  进程间通信概述进程间通信的目的主要有以下几点：  数据传输：一个进程"><link rel="shortcut icon" href="/tubiao1.jpg"><link rel="canonical" href="http://example.com/2024/12/25/post/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><script>(adsbygoogle = window.adsbygoogle || []).push({
+  google_ad_client: '',
+  enable_page_level_ads: 'true'
+});</script><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: undefined,
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"(⁎⁍̴̛ᴗ⁍̴̛⁎)快回来快回来！","backTitle":"♪(^∇^*)你好鸭！"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"晚上好👋","list":[{"greeting":"σ(o’ω’o)睡觉啦，不要熬夜！","startTime":0,"endTime":5},{"greeting":"٩(๑˃̵ᴗ˂̵๑)۶早上好鸭，今天也要开心！","startTime":6,"endTime":9},{"greeting":"(｡◕ ∀ ◕｡)上午好鸭，今天有什么计划呢？","startTime":10,"endTime":10},{"greeting":"(๑¯ω¯๑)想淦饭了捏~","startTime":11,"endTime":11},{"greeting":"ʕ•̀ω•́ʔ✧午安!","startTime":12,"endTime":14},{"greeting":"(･’ω’･)今天完成了什么工作呢？","startTime":14,"endTime":18},{"greeting":"(๑˃̵ᴗ˂̵)و ﾖｼ!19点喽, 奖励一顿丰盛的大餐吧。","startTime":19,"endTime":19},{"greeting":"(,,◕ ⋏ ◕,,)晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":["🤖️ 数码科技爱好者","🏠 摆烂躺平大学生","智能家居小能手","💢 壮汉人狠话不多"]},
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"这篇博客已经","messageNext":"天没有更新啦，可能某些内容已经不适用。"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":true,"limitCount":50,"languages":{"author":"Author: chengzi","link":"Link: ","source":"Source: ChengZi","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'ChengZi',
+  title: '基于Linux的进程通信',
+  postAI: '',
+  pageFillDescription: '进程间通信概述, 管道（Pipe）, （一）匿名管道, 命名管道, 共享内存（Shared Memory）在操作系统里进程间通信是一个重要概念它使得不同进程能够协同工作实现数据传输进程控制等功能本文将详细介绍中几种常见的进程间通信方式包括管道命名管道共享内存消息队列和信号量进程间通信概述进程间通信的目的主要有以下几点数据传输一个进程需要将它的数据发送给另一个进程实现信息的交换资源共享多个进程可能需要共同使用某些系统资源如打印机内存区域等通过进程间通信可以协调对这些资源的访问避免冲突进程控制在某些情况下一个进程可能需要控制另一个进程的执行例如调试工具进程需要拦截被调试进程的异常和陷入以便进行调试分析管道管道是中最古老的进程间通信形式它是从一个进程连接到另一个进程的数据流管道分为匿名管道和命名管道一匿名管道匿名管道由函数创建其函数原型为其中表示读端表示写端它通常用于具有共同祖先的进程有亲缘关系的进程之间通信例如一个进程创建管道后调用函数父子进程就可以通过管道进行通信其基本原理是父进程创建管道后出子进程父子进程各自关闭不需要的端因为管道只允许一个使用读端一个使用写端然后通过管道进行数据传输如图某一进程创建管道后操作系统将该进程的描述符表位置指针分别指向专门负责读和写的文件在里管道也被看作是文件文件缓冲区就是管道无法像普通文件那样在文件系统中被其他不相关的进程通过文件名来找到和使用仅仅用于管道通信所以称之为匿名管道当创建子进程后子进程也会复制父进程的文件描述符表二者都具有读写文件且指向同一个文件缓冲区此时关闭想要关闭的读写端即可如图父进程负责读子进程负责写读写规则当没有数据可读且禁用时调用阻塞进程暂停执行一直等到有数据来到为止当启用时调用返回值为当管道满的时候且禁用调用阻塞直到有进程读走数据当启用时调用返回值为如果管道写端对应的文件描述符被关闭则返回表示读到了文件末尾没有进程再向管道写入数据读操作自然结束如果管道读端对应的文件描述符被关闭则操作会产生信号导致进程退出这一点体现了操作系统不希望发生资源浪费读端被关闭写端写给谁呢使用进程规则匿名管道只能用于具有共同祖先的进程具有亲缘关系的进程之间进行通信一般来说是一个进程创建管道后调用函数此后父子进程之间就可应用该管道例如父进程创建管道后出子进程父子进程各自关闭不需要的描述符父进程关闭读端子进程关闭写端或者反之然后通过保留的读端和写端进行数据传输当然兄弟进程间也可以使用管道来进行通信比如父进程多个子进程其多个子进程都将具有与父进程相同的文件描述表自然也就有指向同一块文件缓冲区的读写文件管道特性规则管道提供流式服务数据在管道中像在文件流中一样按顺序传输一般而言进程退出管道释放所以管道的生命周期随进程管道是半双工的数据只能向一个方向流动需要双方通信时需要建立起两个管道例如进程向进程发送数据需要一个管道进程向进程发送数据则需要另一个管道匿名管道示例存储读端和写端的下标子进程关闭读端管道通信自然站在文件视角父进程关闭写端命名管道命名管道不再遵循只能在亲缘关系进程间通信的限制它是一种特殊类型的文件匿名管道是由函数来创建管道而命名管道可以由程序员自定义管道可以在命令行使用命令创建如也可以在程序中使用函数创建函数用于创建命名管道参数说明是一个指向以空字符结尾的字符串的指针指定了要创建的命名管道的文件名这个文件名在文件系统中必须是唯一的并且遵循文件系统的命名规则是一个类型的参数用于设置命名管道的权限模式它类似于创建普通文件时的权限设置例如可以使用八进制数表示权限如表示所有者具有读写权限所属组和其他用户具有读权限函数功能当调用该函数时如果成功创建命名管道它会返回创建的命名管道是一种特殊类型的文件在文件系统中可见可以被不同的进程通过文件名来访问其他进程可以使用函数以适当的模式读或写打开这个命名管道从而实现进程间的通信如果创建失败函数会返回命名管道示例在该目录下的文件创建命名管道子进程父进程父进程等待子进程结束删除命名管道共享内存共享内存通信简单来说就是让多个进程看到同一个内存块当进程被创建可以认为天然的就具备了虚拟地址空间虚拟地址与物理地址的一一对应需要借助页表的帮助当进程申请一块共享内存在该进程的共享区就会划出与该共享内存大小相等的地址空间同样的需要页表来记录映射关系当另一个进程也通过页表建立与该共享内存的映射关系后两个进程就能在自己的虚拟地址空间对同一块共享内存进行访问当两个进程看到了同一份资源也就认为实现了进程通信共享内存是最快的形式一旦内存映射到共享它的进程的地址空间进程间数据传递不再涉及内核即进程无需通过系统调用来传递数据而诸如管道通信这样的方式需要进行多次拷贝速度会受到影响共享内存的数据结构为其中包含了共享内存的各种属性信息如操作权限大小创建时间最后操作时间连接的进程数等相关函数如下函数用于创建共享内存原型为其中是共享内存段名字是共享内存大小成功返回标识码失败返回函数将共享内存段连接到进程地址空间原型为是共享内存标识指定连接地址有不同取值成功返回指向共享内存第一个节的指针失败返回函数将共享内存段与当前进程脱离原型为是返回的指针成功返回失败返回注意脱离不等于删除共享内存段函数用于控制共享内存原型为是标识码有不同操作命令如指向保存共享内存状态和权限的数据结构成功返回失败返回共享内存示例父进程向共享内存写入数据子进程子进程从共享内存读取数据并输出子进程脱离共享内存父进程父进程等待子进程结束父进程脱离共享内存并删除共享内存段需要注意的是共享内存没有进行同步与互斥在使用时需要开发者自行处理否则可能会出现数据不一致等问题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-25 20:16:46',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%E9%B8%AD%E5%AD%90%E8%B5%B0%E8%B7%AF.gif"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="demo"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="project" alt="demo"/><span class="back-menu-item-text">demo</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">ChengZi</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><div class="nav-button" id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" title="搜索🔍" accesskey="s"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span> Search</span></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" alt="微信" src="/null"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/null" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="/null"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">音乐</div><span class="author-content-item-title">灵魂的碰撞💥</span></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/02/"><span class="card-archive-list-date">February 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/12/"><span class="card-archive-list-date">December 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">8</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">November 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">9</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/10/"><span class="card-archive-list-date">October 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"></span></div></div><h1 class="post-title" itemprop="name headline">基于Linux的进程通信</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-12-25T07:26:01.000Z" title="Created 2024-12-25 15:26:01">2024-12-25</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-12-25T12:16:46.205Z" title="Updated 2024-12-25 20:16:46">2024-12-25</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为四川"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>四川</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=1f205f5f-8dfa-3aa3-d4c2-913d49d178f9"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/12/25/post/"><header><h1 id="CrawlerTitle" itemprop="name headline">基于Linux的进程通信</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">chengzi</span><time itemprop="dateCreated datePublished" datetime="2024-12-25T07:26:01.000Z" title="Created 2024-12-25 15:26:01">2024-12-25</time><time itemprop="dateCreated datePublished" datetime="2024-12-25T12:16:46.205Z" title="Updated 2024-12-25 20:16:46">2024-12-25</time></header><blockquote>
+<p>在 Linux 操作系统里，进程间通信（IPC）是一个重要概念，它使得不同进程能够协同工作，实现数据传输、进程控制等功能。本文将详细介绍 Linux 中几种常见的进程间通信方式，包括管道、命名管道、共享内存、消息队列和信号量。</p>
+</blockquote>
+<h1 id="进程间通信概述"><a href="#进程间通信概述" class="headerlink" title="进程间通信概述"></a>进程间通信概述</h1><p>进程间通信的目的主要有以下几点：</p>
+<ul>
+<li><strong>数据传输</strong>：一个进程需要将它的数据发送给另一个进程，实现信息的交换。</li>
+<li><strong>资源共享</strong>：多个进程可能需要共同使用某些系统资源，如打印机、内存区域等。通过进程间通信，可以协调对这些资源的访问，避免冲突。</li>
+<li><strong>进程控制</strong>：在某些情况下，一个进程可能需要控制另一个进程的执行。例如，调试工具进程需要拦截被调试进程的异常和陷入，以便进行调试分析。</li>
+</ul>
+<h1 id="管道（Pipe）"><a href="#管道（Pipe）" class="headerlink" title="管道（Pipe）"></a>管道（Pipe）</h1><p>管道是 Unix 中最古老的进程间通信形式，它是从一个进程连接到另一个进程的数据流。管道分为匿名管道和命名管道。</p>
+<h2 id="（一）匿名管道"><a href="#（一）匿名管道" class="headerlink" title="（一）匿名管道"></a>（一）匿名管道</h2><p>匿名管道由 <code>pipe</code> 函数创建，其函数原型为 <code>int pipe(int fd[2]);</code>，其中 <code>fd[0]</code> 表示读端，<code>fd[1]</code> 表示写端。它通常用于具有共同祖先的进程（有亲缘关系的进程）之间通信。例如，一个进程创建管道后调用 <code>fork</code> 函数，父子进程就可以通过管道进行通信。其基本原理是：父进程创建管道后，<code>fork</code> 出子进程，父子进程各自关闭不需要的端(因为管道只允许一个使用读端，一个使用写端)，然后通过管道进行数据传输。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/1735116519920.png'><br>如图，某一进程创建管道后，操作系统将该进程的描述符表3，4位置指针分别指向专门负责读和写的文件，<code>在Linux里，管道也被看作是文件</code>，文件缓冲区就是管道。无法像普通文件那样在文件系统中被其他不相关的进程通过文件名来找到和使用，仅仅用于管道通信，所以称之为匿名管道。<br>当创建子进程后，子进程也会复制父进程的文件描述符表，二者都具有读写文件，且指向同一个文件缓冲区，此时关闭想要关闭的读写端即可。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/1735117263389.png'><br>如图，父进程负责读，子进程负责写。</p>
+<ul>
+<li><p><strong>读写规则</strong>：</p>
+<ul>
+<li>当没有数据可读且 <code>O_NONBLOCK</code> 禁用时，<code>read</code> 调用阻塞，进程暂停执行，一直等到有数据来到为止；当 <code>O_NONBLOCK</code> 启用时，<code>read</code> 调用返回 -1，<code>errno</code> 值为 <code>EAGAIN</code>。</li>
+<li>当管道满的时候且 <code>O_NONBLOCK</code> 禁用，<code>write</code> 调用阻塞，直到有进程读走数据；当 <code>O_NONBLOCK</code> 启用时，调用返回 -1，<code>errno</code> 值为 <code>EAGAIN</code>。</li>
+<li>如果管道写端对应的文件描述符被关闭，则 <code>read</code> 返回 0，表示读到了文件末尾。没有进程再向管道写入数据，读操作自然结束。</li>
+<li>如果管道读端对应的文件描述符被关闭，则 <code>write</code> 操作会产生信号 <code>SIGPIPE</code>，导致 <code>write</code> 进程退出。这一点体现了操作系统不希望发生资源浪费，读端被关闭，写端写给谁呢？</li>
+</ul>
+</li>
+<li><p><strong>使用进程规则</strong>：匿名管道只能用于具有共同祖先的进程（具有亲缘关系的进程）之间进行通信。一般来说是一个进程创建管道后调用 <code>fork</code> 函数，此后父、子进程之间就可应用该管道。例如，父进程创建管道后，<code>fork</code> 出子进程，父子进程各自关闭不需要的描述符（父进程关闭读端，子进程关闭写端或者反之），然后通过保留的读端和写端进行数据传输。当然，兄弟进程间也可以使用管道来进行通信。比如父进程fork多个子进程，其多个子进程都将具有与父进程相同的文件描述表，自然也就有指向同一块文件缓冲区的读写文件。</p>
+</li>
+<li><p><strong>管道特性规则</strong>：</p>
+<ul>
+<li>管道提供流式服务，数据在管道中像在文件流中一样按顺序传输。</li>
+<li>一般而言，进程退出，管道释放，所以管道的生命周期随进程。</li>
+<li>管道是半双工的，数据只能向一个方向流动；需要双方通信时，需要建立起两个管道。例如，进程 A 向进程 B 发送数据需要一个管道，进程 B 向进程 A 发送数据则需要另一个管道。</li>
+</ul>
+</li>
+</ul>
+<p>匿名管道示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> pipefd[<span class="number">2</span>]; <span class="comment">//存储读端和写端的下标</span></span><br><span class="line">    <span class="keyword">if</span> (pipe(pipefd) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;pipe creation failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;  <span class="comment">// 子进程</span></span><br><span class="line">        close(pipefd[<span class="number">0</span>]);  <span class="comment">// 关闭读端</span></span><br><span class="line">        <span class="type">char</span> message[] = <span class="string">&quot;Hello from child!&quot;</span>;</span><br><span class="line">        write(pipefd[<span class="number">1</span>], message, <span class="keyword">sizeof</span>(message)); <span class="comment">//管道通信自然站在文件视角</span></span><br><span class="line">        close(pipefd[<span class="number">1</span>]);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 父进程</span></span><br><span class="line">        close(pipefd[<span class="number">1</span>]);  <span class="comment">// 关闭写端</span></span><br><span class="line">        <span class="type">char</span> buffer[<span class="number">100</span>];</span><br><span class="line">        <span class="type">ssize_t</span> bytesRead = read(pipefd[<span class="number">0</span>], buffer, <span class="keyword">sizeof</span>(buffer));</span><br><span class="line">        <span class="keyword">if</span> (bytesRead &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            buffer[bytesRead] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Received message: %s\n&quot;</span>, buffer);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            perror(<span class="string">&quot;read from pipe failed&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        close(pipefd[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="命名管道"><a href="#命名管道" class="headerlink" title="命名管道"></a>命名管道</h2><p>命名管道不再遵循只能在亲缘关系进程间通信的限制，它是一种特殊类型的文件。匿名管道是由函数来创建管道，而命名管道可以由程序员自定义管道。可以在命令行使用 <code>mkfifo</code> 命令创建，如 <code>$ mkfifo filename</code>，也可以在程序中使用 <code>int mkfifo(const char *filename, mode_t mode);</code> 函数创建。</p>
+<blockquote>
+<p>int mkfifo(const char *filename, mode_t mode); 函数用于创建命名管道。</p>
+</blockquote>
+<ul>
+<li><p><strong>参数说明</strong>：</p>
+<ul>
+<li><code>filename</code>：是一个指向以空字符结尾的字符串的指针，指定了要创建的命名管道的文件名。这个文件名在文件系统中必须是唯一的，并且遵循文件系统的命名规则。</li>
+<li><code>mode</code>：是一个 <code>mode_t</code> 类型的参数，用于设置命名管道的权限模式。它类似于创建普通文件时的权限设置，例如可以使用八进制数表示权限，如 <code>0644</code> 表示所有者具有读写权限，所属组和其他用户具有读权限。</li>
+</ul>
+</li>
+<li><p><strong>函数功能</strong>：当调用该函数时，如果成功创建命名管道，它会返回 0。创建的命名管道是一种特殊类型的文件，在文件系统中可见，可以被不同的进程通过文件名来访问。其他进程可以使用 <code>open</code> 函数以适当的模式（读或写）打开这个命名管道，从而实现进程间的通信。如果创建失败，函数会返回 -1。</p>
+</li>
+</ul>
+<p>命名管道示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FIFO_NAME <span class="string">&quot;./my_fifo&quot;</span>  <span class="comment">//在该目录下的my_fifo文件</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 创建命名管道</span></span><br><span class="line">    <span class="keyword">if</span> (mkfifo(FIFO_NAME, <span class="number">0666</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;mkfifo failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;  <span class="comment">// 子进程</span></span><br><span class="line">        <span class="type">int</span> fd = open(FIFO_NAME, O_RDONLY);</span><br><span class="line">        <span class="keyword">if</span> (fd == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;open FIFO for reading failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> buffer[<span class="number">100</span>];</span><br><span class="line">        <span class="type">ssize_t</span> bytesRead = read(fd, buffer, <span class="keyword">sizeof</span>(buffer));</span><br><span class="line">        <span class="keyword">if</span> (bytesRead &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            buffer[bytesRead] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;Child received: %s\n&quot;</span>, buffer);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            perror(<span class="string">&quot;read from FIFO failed&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        close(fd);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 父进程</span></span><br><span class="line">        <span class="type">int</span> fd = open(FIFO_NAME, O_WRONLY);</span><br><span class="line">        <span class="keyword">if</span> (fd == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;open FIFO for writing failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">char</span> message[] = <span class="string">&quot;Hello from parent!&quot;</span>;</span><br><span class="line">        write(fd, message, <span class="keyword">sizeof</span>(message));</span><br><span class="line">        close(fd);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 父进程等待子进程结束</span></span><br><span class="line">    wait(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除命名管道</span></span><br><span class="line">    <span class="keyword">if</span> (unlink(FIFO_NAME) == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;unlink FIFO failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="共享内存（Shared-Memory）"><a href="#共享内存（Shared-Memory）" class="headerlink" title="共享内存（Shared Memory）"></a>共享内存（Shared Memory）</h1><p>共享内存通信简单来说，就是让多个进程看到同一个内存块。当进程被创建，可以认为天然的就具备了虚拟地址空间，虚拟地址与物理地址的一一对应需要借助页表的帮助。当进程申请一块共享内存，在该进程的共享区就会划出与该共享内存大小相等的地址空间，同样的，需要页表来记录映射关系。当另一个进程也通过页表建立与该共享内存的映射关系后，两个进程就能在自己的虚拟地址空间对同一块共享内存进行访问，当<code>两个进程看到了同一份资源</code>，也就认为实现了进程通信。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src='https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/1735118749181.png'><br>共享内存是<code>最快</code>的 IPC 形式。一旦内存映射到共享它的进程的地址空间，进程间数据传递不再涉及内核，即进程无需通过系统调用来传递数据。而诸如管道通信这样的方式，需要进行多次拷贝，速度会受到影响。</p>
+<p>共享内存的数据结构为 <code>struct shmid_ds</code>，其中包含了共享内存的各种属性信息，如操作权限、大小、创建时间、最后操作时间、连接的进程数等。</p>
+<p>相关函数如下：</p>
+<ul>
+<li><code>shmget</code> 函数用于创建共享内存，原型为 <code>int shmget(key_t key, size_t size, int shmflg);</code>，其中 <code>key</code> 是共享内存段名字，<code>size</code> 是共享内存大小，成功返回标识码，失败返回 -1。</li>
+<li><code>shmat</code> 函数将共享内存段连接到进程地址空间，原型为 <code>void *shmat(int shmid, const void *shmaddr, int shmflg);</code>，<code>shmid</code> 是共享内存标识，<code>shmaddr</code> 指定连接地址，<code>shmflg</code> 有不同取值，成功返回指向共享内存第一个节的指针，失败返回 -1。</li>
+<li><code>shmdt</code> 函数将共享内存段与当前进程脱离，原型为 <code>int shmdt(void *shmaddr);</code>，<code>shmaddr</code> 是 <code>shmat</code> 返回的指针，成功返回 0，失败返回 -1。注意脱离不等于删除共享内存段。</li>
+<li><code>shmctl</code> 函数用于控制共享内存，原型为 <code>int shmctl(int shmid, int cmd, struct shmid_ds *buf);</code>，<code>shmid</code> 是标识码，<code>cmd</code> 有不同操作命令（如 <code>IPC_STAT</code>、<code>IPC_SET</code>、<code>IPC_RMID</code>），<code>buf</code> 指向保存共享内存状态和权限的数据结构，成功返回 0，失败返回 -1。</li>
+</ul>
+<p>共享内存示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/ipc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/shm.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> MEMORY_SIZE 1024</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">key_t</span> key = ftok(<span class="string">&quot;.&quot;</span>, <span class="string">&#x27;a&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (key == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;ftok failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> shmid = shmget(key, MEMORY_SIZE, IPC_CREAT | <span class="number">0666</span>);</span><br><span class="line">    <span class="keyword">if</span> (shmid == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;shmget failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> *addr = shmat(shmid, <span class="literal">NULL</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (addr == (<span class="type">void</span> *)<span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;shmat failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 父进程向共享内存写入数据</span></span><br><span class="line">    <span class="type">char</span> *data = <span class="string">&quot;This is shared memory data!&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(data); i++) &#123;</span><br><span class="line">        ((<span class="type">char</span> *)addr)[i] = data[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">pid_t</span> pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span>) &#123;</span><br><span class="line">        perror(<span class="string">&quot;fork failed&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;  <span class="comment">// 子进程</span></span><br><span class="line">        <span class="comment">// 子进程从共享内存读取数据并输出</span></span><br><span class="line">        <span class="type">char</span> buffer[MEMORY_SIZE];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; MEMORY_SIZE; i++) &#123;</span><br><span class="line">            buffer[i] = ((<span class="type">char</span> *)addr)[i];</span><br><span class="line">        &#125;</span><br><span class="line">        buffer[<span class="keyword">sizeof</span>(data)] = <span class="string">&#x27;\0&#x27;</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;Child read from shared memory: %s\n&quot;</span>, buffer);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 子进程脱离共享内存</span></span><br><span class="line">        <span class="keyword">if</span> (shmdt(addr) == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;shmdt in child failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;  <span class="comment">// 父进程</span></span><br><span class="line">        <span class="comment">// 父进程等待子进程结束</span></span><br><span class="line">        wait(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 父进程脱离共享内存并删除共享内存段</span></span><br><span class="line">        <span class="keyword">if</span> (shmdt(addr) == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;shmdt in parent failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (shmctl(shmid, IPC_RMID, <span class="literal">NULL</span>) == <span class="number">-1</span>) &#123;</span><br><span class="line">            perror(<span class="string">&quot;shmctl failed&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，共享内存没有进行同步与互斥，在使用时需要开发者自行处理，否则可能会出现数据不一致等问题。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/IMG_1561-VEED.gif" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/IMG_1561-VEED.gif" title="头像" alt="头像"></a><div class="post-copyright__author_name">chengzi</div><div class="post-copyright__author_desc">个人博客</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/12/25/post/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/12/25/post/')">基于Linux的进程通信</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2024/12/25/post/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=基于Linux的进程通信&amp;url=http://example.com/2024/12/25/post/&amp;pic=https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=1f205f5f-8dfa-3aa3-d4c2-913d49d178f9" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"></div></div></div><div class="post_share"><div class="social-share" data-image="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=b02d81f0-1448-1884-23bb-96a2e894bda0" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/12/18/linux-file%20system/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734494164320.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">IO与文件系统</div></div></a></div><div class="next-post pull-right"><a href="/2025/02/22/test-blog/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=b02d81f0-1448-1884-23bb-96a2e894bda0" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">博客项目测试文档</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/IMG_1561-VEED.gif" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description"><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">本博客记载<b style="color:#fff">开发，算法等</b>相关内容，还有<b style="color:#fff">雅思学习</b>和<b style="color:#fff">分享</b>。</div><div style="line-height:1.38;margin:0.6rem 0;text-align:justify;color:rgba(255, 255, 255, 0.8);">希望你在这里能得到有用的<b style="color:#fff">知识</b>和<b style="color:#fff">教程</b>。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">chengzi</h1><div class="author-info__desc">个人博客</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/chengzi516" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">进程间通信概述</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%A1%E9%81%93%EF%BC%88Pipe%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">管道（Pipe）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%88%E4%B8%80%EF%BC%89%E5%8C%BF%E5%90%8D%E7%AE%A1%E9%81%93"><span class="toc-number">2.1.</span> <span class="toc-text">（一）匿名管道</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E7%AE%A1%E9%81%93"><span class="toc-number">2.2.</span> <span class="toc-text">命名管道</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%EF%BC%88Shared-Memory%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">共享内存（Shared Memory）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/22/test-blog/" title="博客项目测试文档"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=b02d81f0-1448-1884-23bb-96a2e894bda0" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博客项目测试文档"/></a><div class="content"><a class="title" href="/2025/02/22/test-blog/" title="博客项目测试文档">博客项目测试文档</a><time datetime="2025-02-22T07:41:10.000Z" title="Created 2025-02-22 15:41:10">2025-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/25/post/" title="基于Linux的进程通信"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/f9ae59d626015a2d731a4cef99d081c3718a0184.gif@1000w_540h.webp?_r_=1f205f5f-8dfa-3aa3-d4c2-913d49d178f9" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="基于Linux的进程通信"/></a><div class="content"><a class="title" href="/2024/12/25/post/" title="基于Linux的进程通信">基于Linux的进程通信</a><time datetime="2024-12-25T07:26:01.000Z" title="Created 2024-12-25 15:26:01">2024-12-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/18/linux-file%20system/" title="IO与文件系统"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734494164320.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="IO与文件系统"/></a><div class="content"><a class="title" href="/2024/12/18/linux-file%20system/" title="IO与文件系统">IO与文件系统</a><time datetime="2024-12-18T03:54:29.000Z" title="Created 2024-12-18 11:54:29">2024-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/15/cpp-priority_queue/" title="优先级队列的简单模拟实现"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734239881472.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="优先级队列的简单模拟实现"/></a><div class="content"><a class="title" href="/2024/12/15/cpp-priority_queue/" title="优先级队列的简单模拟实现">优先级队列的简单模拟实现</a><time datetime="2024-12-15T05:15:03.000Z" title="Created 2024-12-15 13:15:03">2024-12-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/12/15/cpp-list%20implement/" title="List的简单模拟实现"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/%5Blab.magiconch.com%5D%5B%E7%A6%8F%E9%9F%B3%E6%88%B0%E5%A3%AB%E6%A8%99%E9%A1%8C%E7%94%9F%E6%88%90%E5%99%A8%5D-1734227595729.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="List的简单模拟实现"/></a><div class="content"><a class="title" href="/2024/12/15/cpp-list%20implement/" title="List的简单模拟实现">List的简单模拟实现</a><time datetime="2024-12-15T00:41:28.000Z" title="Created 2024-12-15 08:41:28">2024-12-15</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="footer_deal"><a class="deal_link" href="mailto:p772307283@outlook.com" title="email"><i class="anzhiyufont anzhiyu-icon-envelope"></i></a><img class="footer_mini_logo" title="返回顶部" alt="返回顶部" onclick="anzhiyu.scrollToDest(0, 500)" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://tuchuang-1317757279.cos.ap-chengdu.myqcloud.com/IMG_1561-VEED.gif" size="50px"/><a class="deal_link" target="_blank" rel="noopener" href="https://github.com/chengzi516" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a></div><div class="copyright">&copy;2023 - 2025 By chengzi</div><div id="workboard"><div id="runtimeTextTip"></div></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v5.4.0" title="博客框架为Hexo_v5.4.0"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@2.1.5/img/badge/Frame-Hexo.svg" alt="博客框架为Hexo_v5.4.0"/></a><a class="github-badge" target="_blank" href="https://blog.anheyu.com/" style="margin-inline:5px" data-title="本站使用AnZhiYu主题" title="本站使用AnZhiYu主题"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.9/img/Theme-AnZhiYu-2E67D3.svg" alt="本站使用AnZhiYu主题"/></a></p></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">19</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">27</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">4</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" href="/null" title="demo"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="project" alt="demo"/><span class="back-menu-item-text">demo</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/IO/" style="font-size: 0.88rem;">IO<sup>1</sup></a><a href="/tags/c/" style="font-size: 0.88rem;">c<sup>1</sup></a><a href="/tags/c/" style="font-size: 0.88rem;">c++<sup>11</sup></a><a href="/tags/list/" style="font-size: 0.88rem;">list<sup>1</sup></a><a href="/tags/makefile/" style="font-size: 0.88rem;">makefile<sup>1</sup></a><a href="/tags/queue/" style="font-size: 0.88rem;">queue<sup>1</sup></a><a href="/tags/string/" style="font-size: 0.88rem;">string<sup>1</sup></a><a href="/tags/vector/" style="font-size: 0.88rem;">vector<sup>1</sup></a><a href="/tags/%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90/" style="font-size: 0.88rem;">内存对齐<sup>1</sup></a><a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" style="font-size: 0.88rem;">内存管理<sup>1</sup></a><a href="/tags/%E5%87%BD%E6%95%B0%E9%87%8D%E8%BD%BD/" style="font-size: 0.88rem;">函数重载<sup>1</sup></a><a href="/tags/%E5%88%9D%E5%A7%8B%E5%8C%96%E5%88%97%E8%A1%A8/" style="font-size: 0.88rem;">初始化列表<sup>1</sup></a><a href="/tags/%E5%8F%8B%E5%85%83/" style="font-size: 0.88rem;">友元<sup>1</sup></a><a href="/tags/%E5%A4%9A%E6%80%81/" style="font-size: 0.88rem;">多态<sup>1</sup></a><a href="/tags/%E5%A4%A7%E5%B0%8F%E7%AB%AF/" style="font-size: 0.88rem;">大小端<sup>1</sup></a><a href="/tags/%E5%AF%B9%E8%B1%A1/" style="font-size: 0.88rem;">对象<sup>2</sup></a><a href="/tags/%E5%BC%95%E7%94%A8/" style="font-size: 0.88rem;">引用<sup>1</sup></a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.88rem;">数据结构<sup>4</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/" style="font-size: 0.88rem;">文件系统<sup>1</sup></a><a href="/tags/%E6%98%93%E9%94%99%E7%82%B9/" style="font-size: 0.88rem;">易错点<sup>1</sup></a><a href="/tags/%E7%A2%8E%E7%A2%8E%E5%BF%B5/" style="font-size: 0.88rem;">碎碎念<sup>1</sup></a><a href="/tags/%E7%A7%91%E6%8A%80/" style="font-size: 0.88rem;">科技<sup>1</sup></a><a href="/tags/%E7%B1%BB/" style="font-size: 0.88rem;">类<sup>2</sup></a><a href="/tags/%E7%BB%8F%E6%B5%8E%E5%AD%A6%E4%BA%BA2024/" style="font-size: 0.88rem;">经济学人2024<sup>1</sup></a><a href="/tags/%E7%BB%A7%E6%89%BF/" style="font-size: 0.88rem;">继承<sup>1</sup></a><a href="/tags/%E7%BC%96%E8%AF%91/" style="font-size: 0.88rem;">编译<sup>2</sup></a><a href="/tags/%E8%BF%9B%E7%A8%8B/" style="font-size: 0.88rem;">进程<sup>2</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="5094069883" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="anzhiyufont anzhiyu-icon-xmark"></i></button></nav><div class="is-center" id="loading-database"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-pulse-icon"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/#/playlist?id=5094069883&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("10/26/2024 12:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2023 By 安知鱼 V1.6.14",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 chengzi 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><script async="async">(function () {
+  var grt = new Date("10/26/2024 12:00:00"); //设置网站上线时间
+  var now = new Date();
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var days = (now - grt) / 1000 / 60 / 60 / 24;
+    dnum = Math.floor(days);
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * dnum;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * dnum - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * dnum - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "";
+        img.title = "下班了就该开开心心的玩耍，嘿嘿~";
+        img.alt = "下班了就该开开心心的玩耍，嘿嘿~";
+      }
+
+      currentTimeHtml = `本站居然运行了 ${dnum} 天<span id='runtime'> ${hnum} 小时 ${mnum} 分 ${snum} 秒 </span><i class='anzhiyufont anzhiyu-icon-heartbeat' style='color:red'></i>`;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><script src="/js/search/local-search.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
